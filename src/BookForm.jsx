@@ -8,7 +8,7 @@ const BookForm = () => {
     fullName: '',
     mobile: '',
     email: '',
-    city: localStorage.getItem('selectedCity')?.toLowerCase() || '',
+    city: '',
     serviceType: '',
     propertyType: '',
     date: '',
@@ -16,15 +16,6 @@ const BookForm = () => {
     message: ''
   });
   const [showNotification, setShowNotification] = useState(false);
-
-  // Sync city selection from navigation header
-  React.useEffect(() => {
-    const handleCityChange = (e) => {
-      setFormData(prev => ({ ...prev, city: e.detail.toLowerCase() }));
-    };
-    window.addEventListener('cityChanged', handleCityChange);
-    return () => window.removeEventListener('cityChanged', handleCityChange);
-  }, []);
 
   const getPrettyService = (service) => {
     const services = {
@@ -123,14 +114,9 @@ const BookForm = () => {
                   <div className="bform-select-wrapper">
                     <select id="city" name="city" required value={formData.city} onChange={handleChange} className={formData.city === '' ? 'placeholder' : ''}>
                       <option value="" disabled hidden>Select your city</option>
-                      <option value="mumbai">Mumbai</option>
-                      <option value="delhi ncr">Delhi NCR</option>
+                      <option value="chennai">Chennai</option>
                       <option value="bangalore">Bangalore</option>
                       <option value="hyderabad">Hyderabad</option>
-                      <option value="pune">Pune</option>
-                      <option value="chennai">Chennai</option>
-                      <option value="kolkata">Kolkata</option>
-                      <option value="ahmedabad">Ahmedabad</option>
                     </select>
                   </div>
                 </div>

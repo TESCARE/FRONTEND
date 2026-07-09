@@ -1,33 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import logo from './assets/logo.png';
 
 const Navbar = () => {
-  const [selectedCity, setSelectedCity] = useState(() => {
-    return localStorage.getItem('selectedCity') || 'Mumbai';
-  });
-  const [showLocationDropdown, setShowLocationDropdown] = useState(false);
-  const locationRef = useRef(null);
-
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (locationRef.current && !locationRef.current.contains(event.target)) {
-        setShowLocationDropdown(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  const handleCityChange = (city) => {
-    setSelectedCity(city);
-    localStorage.setItem('selectedCity', city);
-    setShowLocationDropdown(false);
-    
-    // Dispatch a custom event so other components (like booking forms) can update!
-    window.dispatchEvent(new CustomEvent('cityChanged', { detail: city }));
-  };
-
   return (
     <nav className="navbar">
       <div className="logo-container">
@@ -107,41 +81,7 @@ const Navbar = () => {
         <li><a href="#contact">Contact</a></li>
       </ul>
       
-      <div className="nav-actions">
-        {/* Location Selector */}
-        <div className="nav-location-selector" ref={locationRef}>
-          <button className="location-trigger-btn" onClick={() => setShowLocationDropdown(!showLocationDropdown)}>
-            <svg className="location-pin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-              <circle cx="12" cy="10" r="3" />
-            </svg>
-            <span className="location-current-city">{selectedCity}</span>
-            <svg className={`location-chevron-icon ${showLocationDropdown ? 'open' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M6 9l6 6 6-6" />
-            </svg>
-          </button>
-          
-          {showLocationDropdown && (
-            <div className="location-dropdown-menu">
-              <div className="location-dropdown-header">Select Your City</div>
-              <ul className="location-cities-list">
-                {['Mumbai', 'Delhi NCR', 'Bangalore', 'Hyderabad', 'Pune', 'Chennai', 'Kolkata', 'Ahmedabad'].map(city => (
-                  <li key={city} onClick={() => handleCityChange(city)}>
-                    <span className={`city-name ${selectedCity === city ? 'active' : ''}`}>{city}</span>
-                    {selectedCity === city && (
-                      <svg className="city-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12" />
-                      </svg>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
-
-        <button onClick={() => window.location.hash = '#book'} className="btn-primary">Book Inspection</button>
-      </div>
+      <button onClick={() => window.location.hash = '#book'} className="btn-primary">Book Inspection</button>
     </nav>
   );
 };
