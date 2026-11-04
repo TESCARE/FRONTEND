@@ -4,7 +4,7 @@
 
 .offers__grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.75rem;
   align-items: stretch;
 }
@@ -223,7 +223,7 @@
 
 @media (max-width: 1024px) {
   .offers__grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     max-width: 540px;
     margin: 0 auto;
   }

@@ -29,6 +29,10 @@
   align-items: center;
   justify-content: space-between;
   gap: 1.25rem;
+  /* Without min-width: 0 a flex child never shrinks below its content, so
+     a long CTA pushed the burger past the right edge — and html has
+     overflow-x: hidden, so it was clipped rather than reachable. */
+  min-width: 0;
 }
 
 /* Brand Logo */
@@ -189,7 +193,7 @@
 
 .nav__dd-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 0.45rem;
 }
 
@@ -285,6 +289,13 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+/* The burger is the one control that must never be squeezed out — it is
+   the only way to reach the menu once the inline links are hidden. */
+.nav__burger {
   flex-shrink: 0;
 }
 
@@ -515,7 +526,7 @@
 
 .nav__m-contact-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 0.65rem;
 }
 
@@ -556,15 +567,27 @@
   }
 }
 
-@media (max-width: 520px) {
-  .nav__cta {
+@media (max-width: 680px) {
+  /* "Book Free Inspection" is the first item in the mobile menu, so
+     dropping the inline CTA here costs nothing and gives the logo and
+     burger room at every width.
+
+     Scoped to .nav__actions deliberately: .btn { display: inline-flex }
+     lives in index.css, which the bundle loads after this file, so a bare
+     .nav__cta selector ties on specificity and loses on source order —
+     which is why the button stayed on screen at every phone width and
+     pushed the burger past the right edge. */
+  .nav__actions .nav__cta {
     display: none;
   }
+}
+
+@media (max-width: 520px) {
   .nav__logo img {
     height: 38px;
   }
   .nav__m-contact-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 

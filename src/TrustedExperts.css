@@ -10,7 +10,7 @@
 
 .te__block {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: clamp(3rem, 6vw, 5.5rem);
   align-items: center;
 }
@@ -98,7 +98,7 @@
 /* 4-Cell Bird Netting Showcase */
 .te__grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 1.15rem;
 }
 
@@ -156,7 +156,7 @@
 /* Responsive */
 @media (max-width: 960px) {
   .te__block {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 2.5rem;
   }
   .te__block--reverse .te__content {
@@ -177,7 +177,7 @@
 
 @media (max-width: 540px) {
   .te__grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
   .te__action-group .btn {
     width: 100%;

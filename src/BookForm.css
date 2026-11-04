@@ -4,7 +4,7 @@
 
 .bform__inner {
   display: grid;
-  grid-template-columns: 1.6fr 0.95fr;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 0.95fr);
   gap: 2rem;
   align-items: start;
 }
@@ -59,7 +59,7 @@
 
 .bform__row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 1.25rem;
 }
 
@@ -216,7 +216,7 @@
 
 @media (max-width: 1024px) {
   .bform__inner {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
   .bform__aside {
     position: static;
@@ -225,7 +225,7 @@
 
 @media (max-width: 640px) {
   .bform__row {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 1rem;
   }
   .bform__main {

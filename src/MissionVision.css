@@ -10,7 +10,7 @@
 
 .mv__grid {
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   gap: 2.5rem;
   align-items: center;
 }
@@ -88,7 +88,7 @@
 
 @media (max-width: 860px) {
   .mv__grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 1.5rem;
   }
   .mv__media {

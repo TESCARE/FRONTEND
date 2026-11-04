@@ -4,7 +4,7 @@
 
 .ib__panel {
   display: grid;
-  grid-template-columns: 0.9fr 1.3fr;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.3fr);
   background: #FFFFFF;
   border: 1px solid var(--line);
   border-radius: var(--r-2xl);
@@ -70,7 +70,7 @@
 
 .ib__grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 1.25rem;
 }
 
@@ -136,7 +136,7 @@
 
 @media (max-width: 960px) {
   .ib__panel {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
   .ib__media {
     min-height: 280px;
@@ -148,7 +148,7 @@
     padding: 1.5rem;
   }
   .ib__grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 1rem;
   }
   .ib__actions .btn {

@@ -79,7 +79,7 @@
 /* 4-Column Grid */
 .footer__grid {
   display: grid;
-  grid-template-columns: 1.5fr 1fr 1.2fr 1.4fr;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, 1.4fr);
   gap: 2.5rem;
   padding-bottom: 3.5rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -229,7 +229,7 @@
 /* Responsive */
 @media (max-width: 1024px) {
   .footer__grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 2.5rem;
   }
 }
@@ -251,7 +251,7 @@
 
 @media (max-width: 580px) {
   .footer__grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 2rem;
   }
   .footer__bottom {
@@ -307,4 +307,15 @@
   background: #FF0000;
   border-color: #FF0000;
   box-shadow: 0 6px 18px -4px rgba(255, 0, 0, 0.5);
+}
+
+
+/* The email address has no natural break point and overflowed the column
+   once the text size went up. */
+.footer__ci > div {
+  min-width: 0;
+}
+
+.footer__ci strong {
+  overflow-wrap: anywhere;
 }

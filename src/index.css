@@ -117,6 +117,13 @@ img, video, svg {
   max-width: 100%;
 }
 
+/* Long unbroken strings (phone numbers, emails, product codes like
+   "SS 316") have no wrap opportunity and can push a narrow column wider
+   than the screen. */
+h1, h2, h3, h4, p, li, a, span, strong {
+  overflow-wrap: break-word;
+}
+
 button, input, select, textarea {
   font: inherit;
   color: inherit;
@@ -724,7 +731,7 @@ p {
 /* Segmented Control */
 .segmented {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   background: var(--bg-soft-2);
   padding: 5px;
   border-radius: var(--r-md);
@@ -882,6 +889,10 @@ p {
   filter: blur(80px);
   pointer-events: none;
   z-index: -1;
+  /* These sit 180-220px outside their section. On a phone that is wider
+     than the viewport, so they are clamped rather than left to widen the
+     page behind overflow-x: hidden. */
+  max-width: 100vw;
 }
 
 .hero-glow--a {
@@ -1008,23 +1019,23 @@ main {
 }
 
 .grid--2 {
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .grid--3 {
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .grid--4 {
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 @media (max-width: 1024px) {
   .grid--4 {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .grid--3 {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -1032,7 +1043,7 @@ main {
   .grid--4,
   .grid--3,
   .grid--2 {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 1.1rem;
   }
 }
@@ -1185,4 +1196,22 @@ main {
 
 @media (prefers-reduced-motion: reduce) {
   .btn__spin { animation-duration: 2.4s; }
+}
+
+
+/* A button sized by its label can outgrow its column once the reader's
+   text scaling goes up; cap it and let the label and its icon wrap onto a
+   second line rather than pushing the icon off the screen. The base .btn
+   rule sets white-space: nowrap, which is right on a desktop-width button
+   but is what stopped a long label wrapping on a narrow phone. */
+.btn {
+  max-width: 100%;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 680px) {
+  .btn,
+  .btn > span {
+    white-space: normal;
+  }
 }

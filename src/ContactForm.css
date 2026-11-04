@@ -4,7 +4,7 @@
 
 .cform__inner {
   display: grid;
-  grid-template-columns: 0.95fr 1.25fr;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.25fr);
   gap: clamp(2.5rem, 5vw, 4.5rem);
   align-items: start;
 }
@@ -120,19 +120,19 @@
 
 .cform__row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 1.25rem;
 }
 
 @media (max-width: 960px) {
   .cform__inner {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
 @media (max-width: 600px) {
   .cform__row {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 1rem;
   }
   .cform__card {

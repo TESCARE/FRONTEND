@@ -4,7 +4,7 @@
 
 .combo__grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 2rem;
   max-width: 1040px;
   margin: 0 auto;
@@ -137,7 +137,7 @@
 
 @media (max-width: 860px) {
   .combo__grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     max-width: 520px;
   }
 }
