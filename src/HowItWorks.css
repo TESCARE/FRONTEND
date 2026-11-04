@@ -1,543 +1,154 @@
-/* ═══════════════════════════════════════════════
-   HOW IT WORKS  –  Cinematic Edition
-   ═══════════════════════════════════════════════ */
+/* =========================================================
+   TESCARE — How It Works (Process Roadmap)
+   ========================================================= */
 
-.hiw-section {
-  background-color: #000000;
-  padding: 6rem 2rem 5rem;
+.hiw__track {
   position: relative;
-  overflow: hidden;
-  font-family: 'Inter', sans-serif;
-  color: #fff;
-  transition: background-color 0.5s ease;
+  height: 3px;
+  margin: 0 12% 0;
+  display: none;
 }
 
-/* ── Glows ── */
-.hiw-glow {
-  position: absolute;
-  width: 800px;
-  height: 800px;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 0;
-  filter: blur(80px);
-}
-.hiw-glow--left {
-  left: -200px;
-  top: -100px;
-  background: radial-gradient(circle, rgba(var(--primary-rgb),0.25) 0%, transparent 70%);
-}
-.hiw-glow--right {
-  right: -200px;
-  bottom: -100px;
-  background: radial-gradient(circle, rgba(var(--primary-rgb),0.2) 0%, transparent 70%);
-}
-
-.hiw-ambient-glow {
+.hiw__line {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at center, rgba(var(--primary-rgb),0.5) 0%, transparent 80%);
-  z-index: 0;
-  pointer-events: none;
-  mix-blend-mode: screen;
-}
-
-/* Grid bg removed */
-
-/* ── Volumetric Fog ── */
-.hiw-fog-container {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  overflow: hidden;
-  mix-blend-mode: screen;
-}
-.hiw-fog {
-  position: absolute;
-  width: 200%;
-  height: 100%;
-  background: transparent;
-  opacity: 0.15;
-}
-.hiw-fog-1 {
-  background-image: radial-gradient(ellipse at center, rgba(var(--primary-rgb),0.4) 0%, transparent 60%);
-  background-size: 800px 400px;
-  background-repeat: repeat-x;
-  animation: fogFloat 25s linear infinite;
-  bottom: 10%;
-}
-.hiw-fog-2 {
-  background-image: radial-gradient(ellipse at center, rgba(52,152,219,0.3) 0%, transparent 60%);
-  background-size: 600px 300px;
-  background-repeat: repeat-x;
-  animation: fogFloat 18s linear infinite reverse;
-  bottom: 25%;
-}
-@keyframes fogFloat {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-/* ── Layout ── */
-.hiw-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 4rem;
-}
-
-/* ── Heading ── */
-.hiw-heading {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  transform-style: preserve-3d;
-}
-
-.hiw-badge {
-  display: inline-block;
-  padding: 0.35rem 1.1rem;
-  border: 1px solid rgba(var(--primary-rgb),0.45);
-  border-radius: 50px;
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  color: #7ed957;
-  background: rgba(var(--primary-rgb),0.1);
-  margin-bottom: 1.2rem;
-  box-shadow: 0 0 16px rgba(var(--primary-rgb),0.15);
-}
-
-.hiw-title {
-  font-size: clamp(2.2rem, 4.5vw, 3.4rem);
-  font-weight: 800;
-  margin: 0 0 1rem;
-  background: linear-gradient(130deg, #ffffff 25%, #a8f569 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.hiw-subtitle {
-  font-size: 1rem;
-  color: #888;
-  max-width: 480px;
-}
-
-/* ══════════════════════════════════════
-   TIMELINE TRACK
-══════════════════════════════════════ */
-.hiw-timeline-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 2.5rem;
-}
-
-.hiw-timeline-track {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 4%;
-  height: 90px;
-}
-
-/* ── Line ── */
-.hiw-line-bg,
-.hiw-line-fill,
-.hiw-line-trail {
-  position: absolute;
-  left: 4%;
-  right: 4%;
-  top: 50%;
-  transform: translateY(-50%);
-  height: 4px;
+  background: var(--line-strong);
   border-radius: 2px;
 }
-.hiw-line-bg {
-  background: rgba(255,255,255,0.08);
-  z-index: 0;
-}
-.hiw-line-fill {
-  background: linear-gradient(90deg, var(--primary), #1abc9c, #3498db);
-  z-index: 1;
-  transform-origin: left center;
-  box-shadow: 0 0 12px rgba(var(--primary-rgb),0.5);
-}
-.hiw-line-trail {
-  background: transparent;
-  z-index: 0;
-  transform-origin: left center;
-  box-shadow: 0 0 25px 8px rgba(var(--primary-rgb),0.4);
-}
 
-/* ── Step bubbles ── */
-.hiw-step-bubble {
-  position: relative;
-  z-index: 3;
-  width: 62px;
-  height: 62px;
-  border-radius: 50%;
-  background: radial-gradient(135deg, var(--step-color) 0%, color-mix(in srgb, var(--step-color) 60%, #000) 100%);
-  border: 2px solid var(--step-color);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: #fff;
-  cursor: default;
-  box-shadow:
-    0 0 0 6px color-mix(in srgb, var(--step-color) 18%, transparent),
-    0 6px 24px rgba(0,0,0,0.4);
-  flex-shrink: 0;
-  transition: all 0.4s ease;
-}
-
-/* Active State Pulse */
-.hiw-step-bubble.is-active {
-  animation: pulseNeon 2s infinite alternate;
-  box-shadow: 0 0 20px var(--step-color), 0 0 40px rgba(var(--primary-rgb),0.5);
-  border-color: #fff;
-}
-@keyframes pulseNeon {
-  0% { transform: scale(1); box-shadow: 0 0 20px var(--step-color), 0 0 40px rgba(var(--primary-rgb),0.5); }
-  100% { transform: scale(1.05); box-shadow: 0 0 35px var(--step-color), 0 0 60px rgba(var(--primary-rgb),0.8); }
-}
-
-/* Step 3 Flashes green aggressively when cockroach dies (act >= 4) */
-.act-mode-4 .step-circle-3, .act-mode-5 .step-circle-3 {
-  animation: flashKill 0.8s ease-out forwards;
-}
-@keyframes flashKill {
-  0% { filter: brightness(1); }
-  20% { filter: brightness(2.5); box-shadow: 0 0 50px var(--primary), 0 0 100px #a8f569; border-color: #a8f569; }
-  100% { filter: brightness(1.2); box-shadow: 0 0 20px var(--step-color); border-color: #fff; }
-}
-
-/* Step 4 Protection Shield */
-.shield-pulse {
-  position: absolute;
-  inset: -15px;
-  border-radius: 50%;
-  border: 2px solid #3498db;
-  animation: shieldExpand 1.5s infinite ease-out;
-  pointer-events: none;
-}
-@keyframes shieldExpand {
-  0% { transform: scale(0.8); opacity: 1; border-width: 4px; box-shadow: inset 0 0 20px rgba(52,152,219,0.8); }
-  100% { transform: scale(2.2); opacity: 0; border-width: 1px; box-shadow: inset 0 0 0px rgba(52,152,219,0); }
-}
-
-/* ══════════════════════════════════════
-   COCKROACH  &  EXTERMINATOR KINEMATICS
-══════════════════════════════════════ */
-.hiw-roach-wrapper, .hiw-ext-wrapper {
-  position: absolute;
-  top: 50%;
-  z-index: 12;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  pointer-events: none;
-  /* Deep layered drop-shadow for intense 3D realism */
-  filter: drop-shadow(0 15px 25px rgba(0,0,0,0.6)) drop-shadow(0 5px 10px rgba(0,0,0,0.4));
-}
-
-.hiw-roach-wrapper { transform: translateX(-50%) translateY(-90%); }
-.hiw-ext-wrapper { transform: translateX(-50%) translateY(-92%); z-index: 11; }
-
-/* Enhanced ground shadows */
-.hiw-roach-shadow, .hiw-ext-shadow {
-  background: radial-gradient(ellipse, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 30%, transparent 80%);
-  border-radius: 50%;
-  transition: all 0.3s ease;
-  filter: blur(2px);
-}
-.hiw-roach-shadow { width: 90px; height: 12px; margin-top: -6px; }
-.hiw-ext-shadow { width: 60px; height: 10px; margin-top: -5px; }
-
-/* Dead shadow vanishes */
-.hiw-roach-shadow.act-4, .hiw-roach-shadow.act-5 {
-  width: 40px; height: 4px; opacity: 0.3;
-}
-
-/* ── EXTERMINATOR ANIMATION ACTS ── */
-/* Base (Standing still) */
-.ex-master .ex-la { transform: rotate(0deg); }
-.ex-master .ex-ra { transform: rotate(0deg); }
-.ex-master .ex-ll { transform: rotate(0deg); }
-.ex-master .ex-rl { transform: rotate(0deg); }
-.ex-master .ex-mist { opacity: 0; transition: opacity 0.2s; }
-
-/* Act 2: Walking Approach */
-.ex-master.act-2 { animation: exBob 0.35s ease-in-out infinite alternate; }
-.ex-master.act-2 .ex-ll { animation: exLL 0.35s ease-in-out infinite alternate; }
-.ex-master.act-2 .ex-rl { animation: exRL 0.35s ease-in-out infinite alternate; }
-.ex-master.act-2 .ex-la { animation: exLA 0.35s ease-in-out infinite alternate; }
-.ex-master.act-2 .ex-ra { animation: exRA 0.35s ease-in-out infinite alternate; }
-
-/* Act 3: Attack (Spraying) */
-.ex-master.act-3 { transform: rotate(-5deg); transition: transform 0.2s; }
-.ex-master.act-3 .ex-la { transform: rotate(15deg); }
-.ex-master.act-3 .ex-ll { transform: rotate(-10deg); }
-.ex-master.act-3 .ex-rl { transform: rotate(20deg); }
-.ex-master.act-3 .ex-mist { opacity: 1; }
-.ex-master.act-3 .mist-cloud { animation: blastCloud 0.6s infinite alternate; transform-origin: 90px 65px; }
-.ex-master.act-3 .mist-p1 { animation: blastP 0.4s infinite linear; }
-.ex-master.act-3 .mist-p2 { animation: blastP 0.5s infinite linear 0.1s; }
-.ex-master.act-3 .mist-p3 { animation: blastP 0.3s infinite linear 0.2s; }
-.ex-master.act-3 .mist-p4 { animation: blastP 0.4s infinite linear 0.15s; }
-.ex-master.act-3 .mist-p5 { animation: blastP 0.6s infinite linear 0.05s; }
-
-/* Act 4 & 5: Victory Pose */
-.ex-master.act-4, .ex-master.act-5 { transform: rotate(0deg); }
-.ex-master.act-4 .ex-la, .ex-master.act-5 .ex-la { transform: rotate(-10deg); }
-
-
-/* ── COCKROACH ANIMATION ACTS ── */
-/* Base (Idle/Waiting) */
-.cr-master .cr-a1, .cr-master .cr-a2 { animation: crAnt 0.6s ease-in-out infinite alternate; }
-
-/* Act 2: Fear / Backing away */
-.cr-master.act-2 { animation: fearTremble 0.1s infinite alternate; }
-.cr-master.act-2 .cr-la { animation: crLegB 0.2s ease-in-out infinite alternate; }
-.cr-master.act-2 .cr-lb { animation: crLegA 0.2s ease-in-out infinite alternate; }
-.cr-master.act-2 .cr-eyes circle[fill="#fff"] { transform: translateX(2px); } /* Looks right */
-
-/* Act 3: Dying / Flipping */
-.cr-master.act-3 {
-  animation: flipDie 0.6s ease-out forwards;
-}
-.cr-master.act-3 .cr-la, .cr-master.act-3 .cr-lb { animation: none; }
-
-/* Act 4 & 5: Dead (Upside down, twitching) */
-.cr-master.act-4, .cr-master.act-5 {
-  transform: rotate(180deg) translateY(20px);
-  filter: grayscale(0.5);
-}
-.cr-master.act-4 .cr-la, .cr-master.act-4 .cr-lb {
-  animation: deathTwitch 0.4s ease-out 3 forwards; /* Twitches 3 times then stops */
-}
-.cr-master.act-5 .cr-la, .cr-master.act-5 .cr-lb {
-  animation: none;
-  transform: rotate(-30deg); /* Curled up dead legs */
-}
-
-/* Dust particles on death */
-.hiw-dust-particles { position: absolute; inset: 0; pointer-events: none; z-index: -1; }
-.hiw-dust-particles.act-4::before {
-  content: '';
-  position: absolute;
-  top: 50%; left: 50%;
-  width: 40px; height: 40px;
-  background: radial-gradient(circle, rgba(200,200,200,0.8) 0%, transparent 70%);
-  border-radius: 50%;
-  transform: translate(-50%, -50%) scale(0);
-  animation: dustBurst 0.6s ease-out forwards;
-}
-
-/* ── KEYFRAMES ── */
-@keyframes exBob { from { transform: translateY(0px) rotate(-1deg); } to { transform: translateY(-3px) rotate(1deg); } }
-@keyframes exLL { from { transform: rotate(-25deg); } to { transform: rotate(25deg); } }
-@keyframes exRL { from { transform: rotate(25deg); } to { transform: rotate(-25deg); } }
-@keyframes exLA { from { transform: rotate(-10deg); } to { transform: rotate(15deg); } }
-@keyframes exRA { from { transform: rotate(15deg); } to { transform: rotate(-15deg); } }
-
-@keyframes blastCloud {
-  0% { transform: scale(0.8); opacity: 0.5; filter: blur(2px); }
-  100% { transform: scale(1.3); opacity: 0.9; filter: blur(4px); }
-}
-@keyframes blastP {
-  0% { transform: translateX(0) translateY(0) scale(1); opacity: 1; }
-  100% { transform: translateX(40px) translateY(calc(-10px + (Math.random() * 20px))) scale(0); opacity: 0; }
-}
-
-@keyframes crAnt { from { transform: rotate(-10deg); } to { transform: rotate(10deg); } }
-@keyframes fearTremble {
-  0% { transform: translateX(0px) rotate(0deg); }
-  100% { transform: translateX(-3px) rotate(-2deg); }
-}
-@keyframes crLegA { from { transform: rotate(-20deg); } to { transform: rotate(20deg); } }
-@keyframes crLegB { from { transform: rotate(20deg); } to { transform: rotate(-20deg); } }
-@keyframes flipDie {
-  0% { transform: rotate(0deg) translateY(0) scale(1); filter: brightness(1); }
-  50% { transform: rotate(90deg) translateY(-30px) scale(1.1); filter: brightness(2) hue-rotate(90deg); }
-  100% { transform: rotate(180deg) translateY(20px) scale(1); filter: brightness(0.8) grayscale(0.5); }
-}
-@keyframes deathTwitch {
-  0% { transform: rotate(-10deg); }
-  50% { transform: rotate(20deg); }
-  100% { transform: rotate(-10deg); }
-}
-@keyframes dustBurst {
-  0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
-  100% { transform: translate(-50%, -50%) scale(3); opacity: 0; }
-}
-
-
-/* ══════════════════════════════════════
-   3D STEP CARDS
-══════════════════════════════════════ */
-.hiw-cards-row {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.4rem;
-}
-
-.hiw-card {
-  perspective: 900px;
-  transform-style: preserve-3d;
-  will-change: transform;
-  cursor: pointer;
-  transition: transform 0.4s ease;
-}
-
-.hiw-card-face {
-  position: relative;
-  height: 100%;
-  box-sizing: border-box;
-  background: linear-gradient(145deg, rgba(255,255,255,0.055) 0%, rgba(255,255,255,0.018) 100%);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 22px;
-  padding: 2rem 1.6rem 1.8rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 1rem;
-  overflow: hidden;
-  backdrop-filter: blur(8px);
-  transition: border-color 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-  transform-style: preserve-3d;
-}
-
-.hiw-card.is-active .hiw-card-face {
-  border-color: color-mix(in srgb, var(--step-color) 40%, transparent);
-  background: linear-gradient(145deg, color-mix(in srgb, var(--step-color) 12%, transparent) 0%, rgba(255,255,255,0.02) 100%);
-  box-shadow: 0 10px 40px rgba(0,0,0,0.4), 0 0 20px color-mix(in srgb, var(--step-color) 10%, transparent);
-}
-
-.hiw-card:hover .hiw-card-face {
-  border-color: color-mix(in srgb, var(--step-color) 70%, transparent);
-  box-shadow:
-    0 20px 60px rgba(0,0,0,0.5),
-    0 0 50px color-mix(in srgb, var(--step-color) 30%, transparent);
-}
-
-/* Shimmer */
-.hiw-shimmer {
+.hiw__line-fill {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 20%, rgba(255,255,255,0.1) 0%, transparent 60%);
-  pointer-events: none;
-  border-radius: inherit;
-  animation: shimmerPulse 2s ease-in-out infinite;
-}
-@keyframes shimmerPulse {
-  0%,100% { opacity: 0.4; }
-  50% { opacity: 1; }
+  background: linear-gradient(90deg, #16A34A, #4ADE80);
+  border-radius: 2px;
+  transform-origin: 0 50%;
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.6);
 }
 
-/* Icon ring */
-.hiw-icon-ring {
-  width: 70px;
-  height: 70px;
+.hiw__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  position: relative;
+}
+
+.hiw__step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hiw__marker {
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  background: radial-gradient(135deg, var(--step-color) 0%, color-mix(in srgb, var(--step-color) 55%, #000) 100%);
+  background: #FFFFFF;
+  border: 3px solid var(--primary);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
-  box-shadow:
-    0 0 0 8px color-mix(in srgb, var(--step-color) 15%, transparent),
-    0 8px 24px rgba(0,0,0,0.4);
-  flex-shrink: 0;
-  transform: translateZ(20px);
-  transition: all 0.4s ease;
+  margin-top: -24px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 0 0 7px var(--bg-soft), var(--shadow-sm);
+  position: relative;
+  z-index: 2;
+  transition: transform var(--dur) var(--ease);
 }
 
-.hiw-card.is-active .hiw-icon-ring {
-  box-shadow:
-    0 0 0 8px color-mix(in srgb, var(--step-color) 30%, transparent),
-    0 8px 24px rgba(0,0,0,0.6),
-    0 0 30px var(--step-color);
+.hiw__step:hover .hiw__marker {
+  transform: scale(1.12);
+  border-color: var(--primary-light);
 }
 
-.hiw-card-title {
-  font-size: 1.1rem;
+.hiw__num {
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 0.92rem;
+  color: var(--primary-700);
+}
+
+.hiw__card {
+  width: 100%;
+  padding: 1.85rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  text-align: left;
+  height: 100%;
+  border-radius: var(--r-xl);
+}
+
+.hiw__card-top {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.hiw__highlight {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
   font-weight: 700;
-  color: #fff;
-  margin: 0;
-  transform: translateZ(14px);
+  color: var(--primary-700);
+  background: var(--primary-soft);
+  border: 1px solid var(--primary-border);
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--r-pill);
 }
 
-.hiw-card-desc {
-  font-size: 0.85rem;
-  color: #aaa;
-  line-height: 1.5;
-  margin: 0;
-  transform: translateZ(10px);
+.hiw__card h3 {
+  font-size: 1.15rem;
+  color: var(--ink);
+  font-weight: 700;
+  line-height: 1.25;
 }
 
-/* Bottom accent line */
-.hiw-card-line {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: var(--step-color);
-  border-radius: 0 0 22px 22px;
-  box-shadow: 0 0 12px var(--step-color);
-  transform-origin: left;
+.hiw__card p {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
 }
 
-/* ══════════════════════════════════════
-   RESPONSIVE
-══════════════════════════════════════ */
-@media (max-width: 900px) {
-  .hiw-cards-row {
+.hiw__card:hover .icon-box {
+  background: var(--primary);
+  color: #FFFFFF;
+  transform: rotate(-6deg) scale(1.06);
+  border-color: var(--primary);
+}
+
+@media (min-width: 1025px) {
+  .hiw__track {
+    display: block;
+  }
+}
+
+@media (max-width: 1024px) {
+  .hiw__grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  .hiw-timeline-track {
-    padding: 0 2%;
-  }
-  .hiw-line-bg, .hiw-line-fill, .hiw-line-trail {
-    left: 2%; right: 2%;
-  }
-  .hiw-step-bubble {
-    width: 50px;
-    height: 50px;
-    font-size: 1.2rem;
+  .hiw__marker {
+    margin-top: 0;
   }
 }
 
-@media (max-width: 600px) {
-  .hiw-section {
-    padding: 4rem 1.2rem;
-  }
-  .hiw-cards-row {
+@media (max-width: 640px) {
+  .hiw__grid {
     grid-template-columns: 1fr;
+    gap: 1.25rem;
   }
-  .hiw-timeline-track {
-    padding: 0;
+  .hiw__step {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1.15rem;
   }
-  .hiw-line-bg, .hiw-line-fill, .hiw-line-trail {
-    left: 0; right: 0;
+  .hiw__marker {
+    margin: 0;
+    flex-shrink: 0;
+    box-shadow: none;
   }
-  .hiw-step-bubble {
-    width: 44px;
-    height: 44px;
-    font-size: 1rem;
-  }
-  .hiw-roach {
-    width: 60px;
+  .hiw__card {
+    padding: 1.35rem 1.25rem;
   }
 }

@@ -1,7 +1,7 @@
 import React from 'react';
-import { Phone, CheckCircle2 } from 'lucide-react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import Navbar from './Navbar.jsx';
+import { Phone, ArrowRight, ShieldCheck, Clock, Award, Sparkles } from 'lucide-react';
+import { motion } from 'framer-motion';
+import PageLayout from './components/PageLayout.jsx';
 import BookingSection from './BookingSection.jsx';
 import ServicesSection from './ServicesSection.jsx';
 import HowItWorks from './HowItWorks.jsx';
@@ -9,83 +9,109 @@ import WhyChooseUs from './WhyChooseUs.jsx';
 import TrustedExperts from './TrustedExperts.jsx';
 import OurFootprints from './OurFootprints.jsx';
 import PestControlTips from './PestControlTips.jsx';
-import Footer from './Footer.jsx';
-import heroVideo from '../Video/contact page video.mp4';
+import homeHeroBg from './assets/home_hero_bg.jpg';
+import './HomePage.css';
+import navigate from './navigate.js';
 
-const HomePage = () => {
-  const { scrollY } = useScroll();
-  
-  // Background video moves slower (parallax offset) and scales slightly to cover viewport
-  const yBg = useTransform(scrollY, [0, 800], [0, 240]);
-  const scaleBg = useTransform(scrollY, [0, 800], [1, 1.15]);
-  
-  // Title content translates upward slightly faster and fades out beautifully
-  const yText = useTransform(scrollY, [0, 800], [0, -100]);
-  const opacityText = useTransform(scrollY, [0, 600], [1, 0]);
-  
-  // Glowing ambient backdrops translate down slowly to fill the transition
-  const yGlow = useTransform(scrollY, [0, 800], [0, 280]);
+const fadeUp = (delay = 0) => ({
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] },
+});
 
+const HomeHero = () => {
   return (
-    <div className="home-page-wrapper">
-      <div className="hero-wrapper" style={{ overflow: 'hidden', position: 'relative' }}>
-        {/* Parallax Background Container */}
-        <motion.div 
-          className="hero-video-container" 
-          style={{ y: yBg, scale: scaleBg, position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: -2 }}
-        >
-          <video 
-            className="hero-video-bg" 
-            autoPlay 
-            loop 
-            muted 
-            playsInline
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-          >
-            <source src={heroVideo} type="video/mp4" />
-          </video>
-        </motion.div>
-        <div className="hero-overlay"></div>
-        <Navbar />
-
-        {/* Hero Content */}
-        <motion.main className="hero-content" style={{ y: yText, opacity: opacityText }}>
-          <h1 className="hero-title">
-            Protect Your Home from <span className="highlight-green">Pests & Birds</span>
-          </h1>
-          <p className="hero-subtitle">
-            Professional pest control and bird netting services<br/>
-            for homes, apartments, and commercial spaces.
-          </p>
-
-          <ul className="hero-checklist">
-            <li><CheckCircle2 className="check-icon" /> Safe Pest Treatments</li>
-            <li><CheckCircle2 className="check-icon" /> Expert Technicians</li>
-            <li><CheckCircle2 className="check-icon" /> Affordable Service Packages</li>
-          </ul>
-
-          <div className="hero-actions">
-            <button className="btn-primary large" onClick={() => window.location.hash = '#book'}>Book Free Inspection</button>
-            <button className="btn-secondary large" onClick={() => window.location.hash = '#contact'}>
-              <Phone className="btn-icon" size={18} /> Call Now
-            </button>
-          </div>
-        </motion.main>
-
-        {/* Background Glows */}
-        <motion.div className="bg-glow-left" style={{ y: yGlow }}></motion.div>
-        <motion.div className="bg-glow-right" style={{ y: yGlow }}></motion.div>
+    <section className="hero-dark home-hero hero-wrapper">
+      {/* Background Image with Cinematic Radial Vignette */}
+      <div className="home-hero__media" aria-hidden="true">
+        <img
+          src={homeHeroBg}
+          alt="Tescare Professional Residential Pest Defence Inspection"
+          className="home-hero__bg-img"
+        />
+        <div className="home-hero__overlay" />
+        <div className="home-hero__glow" />
       </div>
 
-    <BookingSection />
-    <ServicesSection />
-    <HowItWorks />
-    <WhyChooseUs />
-    <TrustedExperts />
-    <OurFootprints />
-    <PestControlTips />
-    <Footer />
-  </div>
+      <div className="container home-hero__inner">
+        <div className="home-hero__content">
+          <motion.h1 className="hero-title" {...fadeUp(0.08)}>
+            Protect Your Living Space With <span className="highlight-green">Scientific Pest Defence</span>
+          </motion.h1>
+
+          <motion.p className="hero-subtitle" {...fadeUp(0.15)}>
+            Effective, long-lasting pest control and invisible bird netting for homes and businesses across Chennai.
+          </motion.p>
+
+          <motion.div className="home-hero__actions hero-actions" {...fadeUp(0.3)}>
+            <button
+              type="button"
+              className="btn btn--primary btn--lg"
+              onClick={() => navigate('#book')}
+            >
+              <span>Book Free Inspection</span>
+              <ArrowRight />
+            </button>
+            <a
+              href="tel:+918754574229"
+              className="btn btn--outline-light btn--lg"
+            >
+              <Phone />
+              <span>+91 87545 74229</span>
+            </a>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Trust Banner Ribbon */}
+      <div className="home-hero__ribbon">
+        <div className="container home-hero__ribbon-inner">
+          <div className="home-hero__ribbon-item">
+            <ShieldCheck size={20} />
+            <div>
+              <strong>Govt. Approved Chemicals</strong>
+              <span>100% CIB &amp; RC Certified</span>
+            </div>
+          </div>
+          <div className="home-hero__ribbon-item">
+            <Award size={20} />
+            <div>
+              <strong>100% Re-treatment Guarantee</strong>
+              <span>Free follow-up if pests return</span>
+            </div>
+          </div>
+          <div className="home-hero__ribbon-item">
+            <Clock size={20} />
+            <div>
+              <strong>Rapid 45-Min Response</strong>
+              <span>Emergency slots available</span>
+            </div>
+          </div>
+          <div className="home-hero__ribbon-item">
+            <Sparkles size={20} />
+            <div>
+              <strong>Hassle-Free Booking</strong>
+              <span>Instant price calculation</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const HomePage = () => {
+  return (
+    <PageLayout className="home-page-wrapper">
+      <HomeHero />
+      <BookingSection />
+      <ServicesSection />
+      <HowItWorks />
+      <WhyChooseUs />
+      <TrustedExperts />
+      <OurFootprints />
+      <PestControlTips />
+    </PageLayout>
   );
 };
 

@@ -1,44 +1,57 @@
 import React from 'react';
-import { CheckCircle2 } from 'lucide-react';
-import { motion } from 'framer-motion';
-import './OurStory.css';
+import { CheckCircle2, BookOpen, ShieldCheck, Award, Users, HeartHandshake } from 'lucide-react';
+import Reveal from './components/Reveal.jsx';
 import ourStoryImg from './assets/OS.png';
+import './OurStory.css';
 
-const OurStory = () => {
-  return (
-    <section className="our-story-section">
-      <motion.div 
-        className="our-story-container"
-        initial={{ opacity: 0, scale: 1.1 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-      >
-        <div className="our-story-image-col">
-          <img 
-            src={ourStoryImg} 
-            alt="PROCARE Team Story" 
-            className="our-story-main-img" 
-          />
+const highlights = [
+  'Certified entomology & pest science team',
+  '100% CIB registered safe chemical formulas',
+  'Commercial-grade HDPE UV-resistant bird netting',
+  'Transparent digital invoicing & warranty cards',
+];
+
+const OurStory = () => (
+  <section className="section section--white story">
+    <div className="container story__inner">
+      {/* Media with floating badge */}
+      <Reveal className="story__media" y={32}>
+        <div className="story__img-wrap">
+          <img src={ourStoryImg} alt="Tescare leadership and technician team" loading="lazy" />
         </div>
-        <div className="our-story-content-col">
-          <h2 className="our-story-title">Our Story</h2>
-          <p className="our-story-text">
-            PROCARE was founded with the mission to provide safe pest control and bird protection services with modern techniques and eco-friendly solutions. We understand the importance of maintaining a healthy, pest-free environment for families and businesses alike.
-          </p>
-          <p className="our-story-text">
-            Over the years, we've grown to become one of India's most trusted names in pest management, serving thousands of satisfied customers with our commitment to excellence and safety.
-          </p>
-          <ul className="our-story-list">
-            <li><CheckCircle2 className="story-check" size={20} /> Professional technicians</li>
-            <li><CheckCircle2 className="story-check" size={20} /> Affordable service packages</li>
-            <li><CheckCircle2 className="story-check" size={20} /> Safe pest treatments</li>
-            <li><CheckCircle2 className="story-check" size={20} /> Long-lasting bird net installations</li>
-          </ul>
+        <div className="story__card">
+          <div className="story__card-icon"><Award size={22} /></div>
+          <div>
+            <strong>10,000+ Protected Clients</strong>
+            <span>Serving families &amp; commercial towers across India</span>
+          </div>
         </div>
-      </motion.div>
-    </section>
-  );
-};
+      </Reveal>
+
+      {/* Narrative & Highlights */}
+      <div className="story__content">
+        <Reveal>
+          <span className="eyebrow"><BookOpen size={14} /> Our Heritage</span>
+          <h2>Built On Science, Clinical Safety &amp; Unshakable Trust</h2>
+          <p className="story__p">
+            TESCARE was established with a singular mission: to liberate homeowners and property managers from invasive pests using safe, eco-conscious methods rather than hazardous, smelly fumigants.
+          </p>
+          <p className="story__p">
+            Over a decade of hands-on expertise in the field, we have engineered specialized treatment protocols for Indian climate conditions — from moisture-loving subterranean termites to resilient cockroach colonies and balcony bird intrusions.
+          </p>
+        </Reveal>
+
+        <ul className="story__list">
+          {highlights.map((h, i) => (
+            <Reveal as="li" key={i} delay={0.1 + i * 0.06} y={10}>
+              <CheckCircle2 size={19} />
+              <span>{h}</span>
+            </Reveal>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+);
 
 export default OurStory;

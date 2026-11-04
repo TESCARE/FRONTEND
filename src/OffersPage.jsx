@@ -1,26 +1,19 @@
-import React, { useEffect } from 'react';
-import Navbar from './Navbar.jsx';
+import React from 'react';
+import PageLayout from './components/PageLayout.jsx';
 import OfferHero from './OfferHero.jsx';
 import OfferCards from './OfferCards.jsx';
 import ComboPackages from './ComboPackages.jsx';
+import SeasonalOffers from './SeasonalOffers.jsx';
 import PestCTA from './PestCTA.jsx';
-import Footer from './Footer.jsx';
 
-const OffersPage = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  return (
-    <div className="offers-page-wrapper">
-      <Navbar />
-      <OfferHero />
-      <OfferCards />
-      <ComboPackages />
-      <PestCTA />
-      <Footer />
-    </div>
-  );
-};
+const OffersPage = () => (
+  <PageLayout footerCta={false} className="offers-page-wrapper">
+    <OfferHero />
+    <OfferCards />
+    <ComboPackages />
+    <SeasonalOffers />
+    <PestCTA />
+  </PageLayout>
+);
 
 export default OffersPage;

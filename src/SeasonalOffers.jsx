@@ -1,72 +1,72 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Gift, Droplet } from 'lucide-react';
+import { Gift, Droplet, Sparkles, ArrowRight, ShieldCheck } from 'lucide-react';
+import Reveal from './components/Reveal.jsx';
+import SectionHead from './components/SectionHead.jsx';
 import './SeasonalOffers.css';
 
-const SeasonalOffers = () => {
-  return (
-    <section className="seasonal-section">
-      <div className="seasonal-container">
-        
-        <motion.div 
-          className="seasonal-header"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.6 }}
-        >
-          <h2>Seasonal Offers</h2>
-          <p>Special discounts for different seasons</p>
-        </motion.div>
+const seasonal = [
+  {
+    icon: Gift,
+    tone: 'emerald',
+    title: 'Festive Season Pest Shield',
+    desc: 'Prepare your home for guests, family dinners, and festivities. Comprehensive whole-house cockroach, ant, and fly treatment with guaranteed odourless chemistry.',
+    badge: 'Up to 35% OFF',
+    highlight: 'Includes 90-Day Holiday Warranty',
+  },
+  {
+    icon: Droplet,
+    tone: 'blue',
+    title: 'Summer & Monsoon Mosquito Defense',
+    desc: 'Beat the heat and humidity! Specialized larval breeding disruption, drain treatment, and fine garden misting with zero harm to beneficial pollinators.',
+    badge: 'Up to 40% OFF',
+    highlight: 'Free Re-Misting If Rain Persists',
+  },
+];
 
-        <div className="seasonal-grid">
-          
-          {/* Card 1: Festival */}
-          <motion.div 
-            className="seasonal-card festival-card"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
-            <div className="seasonal-icon-wrapper">
-              <Gift size={32} className="seasonal-icon" strokeWidth={1.5} />
-            </div>
-            <h3 className="seasonal-title">Festival Pest Control</h3>
-            <p className="seasonal-desc">
-              Get your home pest-free before the festive season. Special discounts on all pest control services.
-            </p>
-            <div className="seasonal-actions">
-              <button className="seasonal-btn primary-btn red-btn" onClick={() => window.location.hash = '#book'}>Up to 35% OFF</button>
-              <button className="seasonal-btn outline-btn" onClick={() => window.location.hash = '#book'}>View Details</button>
-            </div>
-          </motion.div>
-
-          {/* Card 2: Summer */}
-          <motion.div 
-            className="seasonal-card summer-card"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.6, delay: 0.25 }}
-          >
-            <div className="seasonal-icon-wrapper">
-              <Droplet size={32} className="seasonal-icon" strokeWidth={1.5} />
-            </div>
-            <h3 className="seasonal-title">Summer Mosquito Control</h3>
-            <p className="seasonal-desc">
-              Beat the heat and mosquitoes! Special summer packages for mosquito control with extended warranty.
-            </p>
-            <div className="seasonal-actions">
-              <button className="seasonal-btn primary-btn blue-btn" onClick={() => window.location.hash = '#book'}>Up to 40% OFF</button>
-              <button className="seasonal-btn outline-btn" onClick={() => window.location.hash = '#book'}>View Details</button>
-            </div>
-          </motion.div>
-
-        </div>
+const SeasonalOffers = () => (
+  <section className="section section--white seasonal">
+    <div className="container">
+      <SectionHead
+        eyebrow="Seasonal Campaigns"
+        icon={Sparkles}
+        center={true}
+        title="Timely Seasonal Protection Offers"
+        text="Targeted treatments aligned with seasonal breeding spikes — book ahead to secure priority technician slots."
+      />
+      <div className="seasonal__grid">
+        {seasonal.map((s, i) => {
+          const Icon = s.icon;
+          return (
+            <Reveal
+              key={i}
+              delay={i * 0.1}
+              className={`seasonal__card seasonal__card--${s.tone}`}
+            >
+              <div className="seasonal__top">
+                <span className="seasonal__icon"><Icon /></span>
+                <span className="seasonal__badge">{s.badge}</span>
+              </div>
+              <h3>{s.title}</h3>
+              <p>{s.desc}</p>
+              <div className="seasonal__highlight">
+                <ShieldCheck size={16} /> {s.highlight}
+              </div>
+              <div className="seasonal__actions">
+                <button
+                  type="button"
+                  className="btn btn--white btn--sq btn--lg"
+                  onClick={() => (window.location.hash = '#book')}
+                >
+                  <span>Claim Seasonal Discount</span>
+                  <ArrowRight />
+                </button>
+              </div>
+            </Reveal>
+          );
+        })}
       </div>
-    </section>
-  );
-};
+    </div>
+  </section>
+);
 
 export default SeasonalOffers;

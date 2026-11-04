@@ -1,49 +1,23 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { CheckCircle } from 'lucide-react';
-import './CockroachWhyChoose.css';
+import { Bug, CalendarCheck, UtensilsCrossed, Wind } from 'lucide-react';
+import BenefitGrid from './components/BenefitGrid.jsx';
+import heroImage from './assets/heroes/cockroach.webp';
 
-const reasons = [
-  "Advanced German cockroach control",
-  "Safe for food areas",
-  "Odorless treatment",
-  "Long-term prevention"
+const items = [
+  { title: 'Advanced German cockroach control', icon: Bug },
+  { title: 'Safe for food areas', icon: UtensilsCrossed },
+  { title: 'Odorless treatment', icon: Wind },
+  { title: 'Long-term prevention', icon: CalendarCheck },
 ];
 
-const CockroachWhyChoose = () => {
-  return (
-    <section className="cwhy-section">
-      <div className="cwhy-container">
-        <motion.h2 
-          className="cwhy-title"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-        >
-          Why Choose PROCARE
-        </motion.h2>
-
-        <div className="cwhy-grid">
-          {reasons.map((reason, index) => (
-            <motion.div 
-              key={index} 
-              className="cwhy-item"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, delay: index * 0.15 }}
-            >
-              <div className="cwhy-icon-wrapper">
-                <CheckCircle size={36} strokeWidth={1.5} className="cwhy-icon" />
-              </div>
-              <p className="cwhy-text">{reason}</p>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
+const CockroachWhyChoose = () => (
+  <BenefitGrid
+    eyebrow="Why Tescare"
+    title="Why Choose TESCARE"
+    items={items}
+    image={heroImage}
+    imageAlt="Tescare technician at work"
+  />
+);
 
 export default CockroachWhyChoose;

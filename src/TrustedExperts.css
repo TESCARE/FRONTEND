@@ -1,337 +1,185 @@
-/* ═══════════════════════════════════════════════
-   TRUSTED EXPERTS  –  2-block section
-   ═══════════════════════════════════════════════ */
+/* =========================================================
+   TESCARE — Trusted Experts & Bird Net Showcase (Dark)
+   ========================================================= */
 
-.te-section {
-  background-color: var(--dark-bg, #060a05);
-  padding: 6rem 2rem;
-  position: relative;
+.te {
   overflow: hidden;
-  font-family: 'Inter', sans-serif;
-  color: #fff;
+  isolation: isolate;
+  background: var(--forest);
 }
 
-/* ── Glows ── */
-.te-glow {
-  position: absolute;
-  width: 650px;
-  height: 750px;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 0;
-}
-.te-glow--left {
-  left: -220px;
-  top: 5%;
-  background: radial-gradient(circle, rgba(var(--primary-rgb),0.14) 0%, transparent 65%);
-}
-.te-glow--right {
-  right: -220px;
-  bottom: 5%;
-  background: radial-gradient(circle, rgba(52,152,219,0.11) 0%, transparent 65%);
-}
-
-/* ── Container ── */
-.te-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
-/* ════════════════════════════════════════
-   BLOCK  (shared)
-════════════════════════════════════════ */
-.te-block {
+.te__block {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 4rem;
+  gap: clamp(3rem, 6vw, 5.5rem);
   align-items: center;
-  padding: 5rem 0;
 }
 
-/* Bird block reverses column order */
-.te-block--bird {
-  direction: ltr; /* reset */
+.te__block--reverse .te__content {
+  order: 1;
 }
 
-/* ── Divider ── */
-.te-divider {
-  display: flex;
-  justify-content: center;
-}
-.te-divider span {
-  display: block;
-  width: 100%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(var(--primary-rgb),0.35), transparent);
+.te__block--reverse .te__grid {
+  order: 2;
 }
 
-/* ════════════════════════════════════════
-   MEDIA  (left image – block 1)
-════════════════════════════════════════ */
-.te-media {
+.te__media {
   position: relative;
-  display: flex;
-  justify-content: center;
 }
 
-/* 3-D tilt wrapper */
-.te-tilt-wrap {
-  position: relative;
-  border-radius: 24px;
+.te__img {
+  border-radius: var(--r-2xl);
   overflow: hidden;
-  cursor: default;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.55);
-  will-change: transform;
+  aspect-ratio: 4 / 3.6;
+  box-shadow: var(--shadow-xl);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--forest-2);
 }
-.te-tilt-wrap img {
+
+.te__img img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
-  border-radius: inherit;
 }
 
-/* Glossy sheen layer */
-.te-tilt-gloss {
+.te__badge {
   position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: linear-gradient(135deg, rgba(255,255,255,0.07) 0%, transparent 55%);
-  pointer-events: none;
-}
-
-.te-pest-img {
-  width: 100%;
-  max-width: 480px;
-  aspect-ratio: 4 / 3;
-}
-
-/* Floating badge */
-.te-floating-badge {
-  position: absolute;
-  bottom: -18px;
-  right: -18px;
-  background: linear-gradient(135deg, var(--primary), #2e7a0e);
-  border-radius: 18px;
-  padding: 1rem 1.4rem;
+  right: -16px;
+  bottom: -16px;
+  background: linear-gradient(135deg, #16A34A 0%, #15803D 100%);
+  color: #FFFFFF;
+  border-radius: var(--r-lg);
+  padding: 1.15rem 1.45rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  box-shadow: 0 12px 32px rgba(var(--primary-rgb),0.45);
-  border: 2px solid rgba(255,255,255,0.12);
+  line-height: 1.15;
+  box-shadow: var(--shadow-glow);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
-.te-badge-num {
-  font-size: 1.9rem;
+
+.te__badge strong {
+  font-family: var(--font-head);
+  font-size: 2rem;
   font-weight: 800;
-  line-height: 1;
-  color: #fff;
-}
-.te-badge-label {
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: rgba(255,255,255,0.85);
-  letter-spacing: 0.04em;
-  margin-top: 2px;
-  white-space: nowrap;
 }
 
-/* ════════════════════════════════════════
-   CONTENT  (text side)
-════════════════════════════════════════ */
-.te-content {
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
+.te__badge span {
+  font-size: 0.8rem;
+  opacity: 0.95;
 }
 
-/* Left-aligned content for block 2 */
-.te-content--left {
-  align-items: flex-start;
+.te__content h2 {
+  color: #FFFFFF;
+  margin-bottom: 1rem;
 }
 
-.te-eyebrow {
-  display: inline-block;
-  padding: 0.35rem 1rem;
-  border: 1px solid rgba(var(--primary-rgb),0.45);
-  border-radius: 50px;
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  color: #7ed957;
-  background: rgba(var(--primary-rgb),0.1);
-  box-shadow: 0 0 14px rgba(var(--primary-rgb),0.15);
-  width: fit-content;
-}
-
-.te-content h2 {
-  font-size: clamp(2rem, 3.5vw, 2.8rem);
-  font-weight: 800;
-  line-height: 1.18;
-  margin: 0;
-  color: #fff;
-}
-.te-green {
-  color: #7ed957;
-}
-
-.te-desc {
-  font-size: 1rem;
-  color: #aaa;
+.te__content > div > p {
+  font-size: 1.05rem;
   line-height: 1.7;
-  margin: 0;
-  max-width: 480px;
+  margin-bottom: 1.75rem;
+  color: rgba(255, 255, 255, 0.82);
 }
 
-/* ── Check list ── */
-.te-checklist {
-  list-style: none;
-  padding: 0;
-  margin: 0.4rem 0;
+.te__list {
+  margin-bottom: 2rem;
+}
+
+.te__action-group {
   display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
-}
-.te-checklist li {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-  font-size: 0.95rem;
-  color: #ddd;
-  font-weight: 500;
-}
-.te-check-icon {
-  color: var(--primary);
-  flex-shrink: 0;
+  gap: 1rem;
 }
 
-/* ── Buttons ── */
-.te-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.8rem;
-  background: linear-gradient(135deg, var(--primary), #2e7a0e);
-  color: #fff;
-  border: none;
-  border-radius: 50px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 8px 24px rgba(var(--primary-rgb),0.38);
-  transition: box-shadow 0.3s ease;
-  width: fit-content;
-  margin-top: 0.4rem;
-}
-.te-btn:hover {
-  box-shadow: 0 12px 32px rgba(var(--primary-rgb),0.55);
+.te__divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+  margin: clamp(4rem, 7vw, 6rem) 0;
 }
 
-.te-btn--outline {
-  background: transparent;
-  border: 2px solid var(--primary);
-  color: #7ed957;
-  box-shadow: 0 0 18px rgba(var(--primary-rgb),0.15);
-}
-.te-btn--outline:hover {
-  background: rgba(var(--primary-rgb),0.1);
-  box-shadow: 0 0 28px rgba(var(--primary-rgb),0.35);
-}
-
-/* ════════════════════════════════════════
-   BIRD NET 2×2 GRID
-════════════════════════════════════════ */
-.te-bird-grid {
+/* 4-Cell Bird Netting Showcase */
+.te__grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  border-radius: 20px;
-  overflow: visible;
-  position: relative;
+  gap: 1.15rem;
 }
 
-.te-bird-cell {
+.te__cell {
   position: relative;
-  border-radius: 14px;
+  border-radius: var(--r-xl);
   overflow: hidden;
-  aspect-ratio: 4 / 3;
-  cursor: default;
-  box-shadow: 0 8px 28px rgba(0,0,0,0.45);
-  transform-style: preserve-3d;
-  will-change: transform;
+  aspect-ratio: 1;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: var(--shadow-md);
+  transition: transform var(--dur) var(--ease), border-color var(--dur);
 }
-.te-bird-cell img {
+
+.te__cell:hover {
+  transform: translateY(-5px);
+  border-color: rgba(74, 222, 128, 0.4);
+}
+
+.te__cell img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
-  transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
-}
-.te-bird-cell:hover img {
-  transform: scale(1.07);
+  transition: transform 0.7s var(--ease);
 }
 
-.te-bird-cell-overlay {
+.te__cell:hover img {
+  transform: scale(1.08);
+}
+
+.te__cell-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.45) 100%);
-  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.15rem;
+  background: linear-gradient(180deg, rgba(8, 20, 14, 0) 35%, rgba(8, 20, 14, 0.9) 100%);
+  color: #FFFFFF;
+  transition: background var(--dur);
 }
 
-/* Corner accent dots */
-.te-grid-dot {
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: var(--primary);
-  box-shadow: 0 0 14px rgba(var(--primary-rgb),0.7);
-  z-index: 5;
+.te__cell-overlay strong {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 1.2;
 }
-.te-grid-dot--tl { top: -6px;  left: -6px; }
-.te-grid-dot--br { bottom: -6px; right: -6px; }
 
-/* ════════════════════════════════════════
-   RESPONSIVE
-════════════════════════════════════════ */
-@media (max-width: 900px) {
-  .te-block {
+.te__cell-overlay span {
+  font-size: 0.78rem;
+  color: #86EFAC;
+  margin-top: 0.2rem;
+}
+
+/* Responsive */
+@media (max-width: 960px) {
+  .te__block {
     grid-template-columns: 1fr;
-    gap: 3rem;
-    padding: 4rem 0;
+    gap: 2.5rem;
   }
-
-  .te-block--bird .te-content--left {
-    order: 0;
-  }
-  .te-block--bird .te-bird-grid {
+  .te__block--reverse .te__content {
     order: 1;
   }
-
-  .te-pest-img {
-    max-width: 100%;
+  .te__block--reverse .te__grid {
+    order: 2;
   }
-
-  .te-floating-badge {
-    right: 0;
-    bottom: -14px;
+  .te__media {
+    max-width: 540px;
+    margin: 0 auto;
+  }
+  .te__badge {
+    right: 8px;
+    bottom: 8px;
   }
 }
 
-@media (max-width: 600px) {
-  .te-section {
-    padding: 4rem 1.2rem;
+@media (max-width: 540px) {
+  .te__grid {
+    grid-template-columns: 1fr;
   }
-
-  .te-content h2 {
-    font-size: 1.8rem;
-  }
-
-  .te-bird-grid {
-    gap: 8px;
+  .te__action-group .btn {
+    width: 100%;
   }
 }

@@ -1,49 +1,23 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { CheckCircle } from 'lucide-react';
-import './RodentWhyChoose.css';
+import { BadgeCheck, ShieldCheck, UserCheck, Zap } from 'lucide-react';
+import BenefitGrid from './components/BenefitGrid.jsx';
+import heroImage from './assets/heroes/rodent.webp';
 
-const reasons = [
-  "Experienced technicians",
-  "Safe methods",
-  "Quick response",
-  "Guaranteed results"
+const items = [
+  { title: 'Experienced technicians', icon: UserCheck },
+  { title: 'Safe methods', icon: ShieldCheck },
+  { title: 'Quick response', icon: Zap },
+  { title: 'Guaranteed results', icon: BadgeCheck },
 ];
 
-const RodentWhyChoose = () => {
-  return (
-    <section className="rwhy-section">
-      <div className="rwhy-container">
-        <motion.h2 
-          className="rwhy-title"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-        >
-          Why Choose PROCARE
-        </motion.h2>
-
-        <div className="rwhy-grid">
-          {reasons.map((reason, index) => (
-            <motion.div 
-              key={index} 
-              className="rwhy-item"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, delay: index * 0.15 }}
-            >
-              <div className="rwhy-icon-wrapper">
-                <CheckCircle size={36} strokeWidth={1.5} className="rwhy-icon" />
-              </div>
-              <p className="rwhy-text">{reason}</p>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
+const RodentWhyChoose = () => (
+  <BenefitGrid
+    eyebrow="Why Tescare"
+    title="Why Choose TESCARE"
+    items={items}
+    image={heroImage}
+    imageAlt="Tescare technician at work"
+  />
+);
 
 export default RodentWhyChoose;

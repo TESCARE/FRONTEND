@@ -1,76 +1,157 @@
-.our-story-section {
-  background-color: #050806; /* Very dark green/black matching the theme */
-  color: #fff;
-  padding: 6rem 2rem;
-  font-family: 'Inter', sans-serif;
-}
+/* =========================================================
+   TESCARE — Our Story (About Page)
+   ========================================================= */
 
-.our-story-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
+.story__inner {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: clamp(3rem, 6vw, 5.5rem);
   align-items: center;
-  gap: 5rem;
 }
 
-.our-story-image-col {
-  flex: 1;
+.story__media {
   position: relative;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
 }
 
-.our-story-main-img {
+.story__img-wrap {
+  border-radius: var(--r-2xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-xl);
+  aspect-ratio: 1;
+  border: 1px solid var(--line);
+  background: var(--forest-2);
+}
+
+.story__img-wrap img {
   width: 100%;
   height: 100%;
-  display: block;
   object-fit: cover;
-  transform: scale(1.15); /* Zoom in to crop out the bottom-right icon */
-  transform-origin: center center;
 }
 
-.our-story-content-col {
-  flex: 1;
-}
-
-.our-story-title {
-  font-size: 2.2rem;
-  font-weight: 600;
-  margin-bottom: 2rem;
-  letter-spacing: -0.5px;
-}
-
-.our-story-text {
-  font-size: 1rem;
-  line-height: 1.7;
-  color: #d1d5db; /* Light gray */
-  margin-bottom: 1.5rem;
-}
-
-.our-story-list {
-  list-style: none;
-  padding: 0;
-  margin-top: 2.5rem;
-}
-
-.our-story-list li {
+.story__card {
+  position: absolute;
+  left: 1.5rem;
+  bottom: 1.5rem;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: var(--r-lg);
+  padding: 1rem 1.35rem;
+  box-shadow: var(--shadow-xl);
   display: flex;
   align-items: center;
+  gap: 0.9rem;
+  max-width: 340px;
+  border: 1px solid var(--primary-border);
+}
+
+.story__card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--primary-soft);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.story__card strong {
+  display: block;
+  font-family: var(--font-head);
+  font-size: 1.05rem;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.story__card span {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.story__content h2 {
+  margin-bottom: 1.25rem;
+}
+
+.story__p {
+  margin-bottom: 1.15rem;
+  font-size: 1.02rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+.story__list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem 1.5rem;
+  margin: 1.75rem 0;
+}
+
+.story__list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  font-weight: 600;
+  color: var(--ink);
+  font-size: 0.92rem;
+}
+
+.story__list svg {
+  color: var(--primary);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Milestones timeline */
+.story__timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+}
+
+.story__milestone {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.story__milestone-year {
+  font-family: var(--font-head);
+  font-weight: 800;
   font-size: 1rem;
-  margin-bottom: 1.2rem;
-  color: #e5e7eb;
+  color: var(--primary-700);
+  background: var(--primary-soft);
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--r-pill);
+  flex-shrink: 0;
 }
 
-.story-check {
-  color: var(--primary); /* Green check */
-  margin-right: 1rem;
-  min-width: 20px;
+.story__milestone-label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
 }
 
-@media (max-width: 992px) {
-  .our-story-container {
-    flex-direction: column;
-    gap: 3.5rem;
+@media (max-width: 960px) {
+  .story__inner {
+    grid-template-columns: 1fr;
+  }
+  .story__media {
+    max-width: 520px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .story__list {
+    grid-template-columns: 1fr;
+  }
+  .story__card {
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    max-width: none;
   }
 }

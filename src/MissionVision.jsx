@@ -1,71 +1,51 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Target, Eye } from 'lucide-react';
-import './MissionVision.css';
+import { Target, Eye, Compass, ShieldCheck, HeartHandshake, Sparkles } from 'lucide-react';
+import Reveal from './components/Reveal.jsx';
+import SectionHead from './components/SectionHead.jsx';
 import techImg from './assets/PCC.png';
+import './MissionVision.css';
 
-const MissionVision = () => {
-  return (
-    <section className="mission-vision-section">
-      {/* Background high-tech grid effect */}
-      <div className="mv-grid-bg"></div>
-      
-      {/* Center subtle glowing orb */}
-      <div className="mv-glow-center"></div>
-
-      <motion.div 
-        className="mv-container"
-        initial={{ opacity: 0, scale: 1.1 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-      >
-        
-        {/* Center Technician Image */}
-        <motion.img 
-          src={techImg} 
-          alt="PROCARE Technician" 
-          className="mv-tech-center"
-          initial={{ opacity: 0, y: 150, x: "-50%" }}
-          whileInView={{ opacity: 1, y: 0, x: "-50%" }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ type: "spring", stiffness: 60, damping: 15, delay: 0.3 }}
-        />
-
-        <motion.div 
-          className="mv-card"
-          initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-        >
-          <div className="mv-icon-wrapper">
-            <Target size={40} className="mv-icon" />
-          </div>
-          <h2 className="mv-title">Our Mission</h2>
-          <p className="mv-text">
-            Deliver safe, effective, and eco-friendly pest control solutions for homes and businesses, ensuring a healthy environment for everyone.
+const MissionVision = () => (
+  <section className="section section--dark mv">
+    <div className="hero-glow hero-glow--a" />
+    <div className="hero-glow hero-glow--b" />
+    <div className="container">
+      <SectionHead
+        eyebrow="Core Philosophy"
+        icon={Compass}
+        center={true}
+        title="Driven By Safety, Science &amp; Integrity"
+        text="What guides every home inspection, chemical formulation, and warranty support service we deliver."
+      />
+      <div className="mv__grid">
+        <Reveal className="mv__card">
+          <span className="icon-box icon-box--dark"><Target /></span>
+          <h3>Our Mission</h3>
+          <p>
+            To deliver medical-grade, non-hazardous pest control and bird netting services that safeguard residential families and commercial spaces, ensuring healthy living with zero environmental harm.
           </p>
-        </motion.div>
-
-        <motion.div 
-          className="mv-card"
-          initial={{ opacity: 0, x: 50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
-        >
-          <div className="mv-icon-wrapper">
-            <Eye size={40} className="mv-icon" />
+          <div className="mv__card-pill">
+            <ShieldCheck size={14} /> Zero Harm Chemistry
           </div>
-          <h2 className="mv-title">Our Vision</h2>
-          <p className="mv-text">
-            To become the most trusted and technologically advanced pest control brand in India, setting the highest standards for safety and reliability.
+        </Reveal>
+
+        <Reveal className="mv__media" delay={0.1} y={40}>
+          <img src={techImg} alt="Tescare certified specialist technician" loading="lazy" />
+        </Reveal>
+
+        <Reveal className="mv__card" delay={0.2}>
+          <span className="icon-box icon-box--dark"><Eye /></span>
+          <h3>Our Vision</h3>
+          <p>
+            To stand as India's most trusted pest defence ecosystem — renowned for uncompromised technician training, digitized client portals, transparent pricing, and 100% elimination guarantees.
           </p>
-        </motion.div>
-      </motion.div>
-    </section>
-  );
-};
+          <div className="mv__card-pill">
+            <Sparkles size={14} /> Technology-First Execution
+          </div>
+        </Reveal>
+      </div>
+    </div>
+  </section>
+);
 
 export default MissionVision;

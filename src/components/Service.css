@@ -1,0 +1,1003 @@
+/* =========================================================
+   TESCARE — Shared Service Pages & Modules
+   ========================================================= */
+
+/* Hero */
+.svc-hero {
+  position: relative;
+  min-height: max(600px, 80vh);
+  display: flex;
+  align-items: center;
+}
+
+/* min-height alone can't shrink this hero: the estimate card is ~620px and
+   .hero-pad adds nav height + up to 6.5rem on top, so the section grows past
+   any target. Trimming the padding is what actually makes it shorter. */
+@media (min-width: 1025px) {
+  .svc-hero .hero-pad {
+    padding-top: calc(var(--nav-h) + clamp(1.5rem, 3vw, 2.5rem));
+    padding-bottom: clamp(1.5rem, 3vw, 2.5rem);
+  }
+}
+
+.svc-hero__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.95fr);
+  gap: clamp(2.5rem, 5vw, 5rem);
+  align-items: center;
+  width: 100%;
+}
+
+.svc-hero__content {
+  max-width: 620px;
+}
+
+.svc-hero__content h1 {
+  font-size: clamp(2.35rem, 5vw, 3.75rem);
+  line-height: 1.15;
+  margin-bottom: 1.25rem;
+  color: #FFFFFF;
+}
+
+.svc-hero__sub {
+  font-size: clamp(1.05rem, 1.8vw, 1.22rem);
+  line-height: 1.65;
+  margin-bottom: 1.75rem;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 560px;
+}
+
+.svc-hero__benefits {
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.svc-hero__benefits li {
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.svc-hero__benefits li svg {
+  color: #4ADE80;
+  flex-shrink: 0;
+}
+
+.svc-hero__rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  padding: 0.6rem 1.15rem;
+  border-radius: var(--r-pill);
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+}
+
+.svc-hero__rating strong {
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+.svc-hero__stars {
+  display: flex;
+  gap: 2px;
+}
+
+.svc-hero__stars svg {
+  width: 15px;
+  height: 15px;
+  fill: #FBBF24;
+  color: #FBBF24;
+}
+
+.svc-hero__card {
+  width: 100%;
+  max-width: 480px;
+  justify-self: end;
+}
+
+@media (max-width: 1024px) {
+  .svc-hero {
+    min-height: auto;
+  }
+  .svc-hero__inner {
+    grid-template-columns: minmax(0, 1fr);
+    padding-top: calc(var(--nav-h) + 2rem);
+    padding-bottom: 4rem;
+  }
+  .svc-hero__card {
+    justify-self: stretch;
+    max-width: 580px;
+    margin: 0 auto;
+  }
+}
+
+/* Info Grid (Warning signs & detection) */
+.info-card {
+  padding: 1.75rem 1.5rem;
+  display: flex;
+  gap: 1.15rem;
+  align-items: flex-start;
+  border-radius: var(--r-xl);
+  background: #FFFFFF;
+  border: 1px solid var(--line);
+}
+
+.info-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.35rem;
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.info-card p {
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+.info-card:hover .icon-box {
+  transform: scale(1.08);
+}
+
+@media (max-width: 1024px) {
+  .info-grid.grid--4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .info-grid.grid--4 {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+/* Process Cards (Treatment phases) */
+.process-card {
+  position: relative;
+  min-height: 340px;
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  background: var(--forest-2);
+  color: #FFFFFF;
+  display: flex;
+  align-items: flex-end;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+  isolation: isolate;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.process-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-xl);
+  border-color: rgba(74, 222, 128, 0.4);
+}
+
+.process-card__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+  transition: transform 0.7s var(--ease);
+}
+
+.process-card:hover .process-card__bg {
+  transform: scale(1.08);
+}
+
+.process-card__shade {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg,
+    rgba(8, 20, 14, 0.1) 0%,
+    rgba(8, 20, 14, 0.5) 40%,
+    rgba(8, 20, 14, 0.96) 100%
+  );
+}
+
+.process-card__body {
+  padding: 1.65rem 1.5rem;
+  width: 100%;
+}
+
+.process-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.process-card__num {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #16A34A 0%, #15803D 100%);
+  color: #FFFFFF;
+  font-weight: 800;
+  font-family: var(--font-head);
+  font-size: 1.05rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-glow);
+}
+
+.process-card__icon {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--r-md);
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(8px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #86EFAC;
+}
+
+.process-card__icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.process-card h3 {
+  color: #FFFFFF;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.45rem;
+}
+
+.process-card p {
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.process-card--plain {
+  background: #FFFFFF;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  min-height: 0;
+  align-items: flex-start;
+  padding: 1.75rem 1.5rem;
+}
+
+.process-card--plain .process-card__body {
+  padding: 0;
+}
+
+.process-card--plain h3 {
+  color: var(--ink);
+}
+
+.process-card--plain p {
+  color: var(--text-secondary);
+}
+
+.process-card--plain .process-card__icon {
+  background: var(--primary-soft);
+  color: var(--primary-700);
+}
+
+@media (max-width: 1024px) {
+  .process-grid.grid--4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .process-grid.grid--4 {
+    grid-template-columns: 1fr;
+  }
+  .process-card {
+    min-height: 260px;
+  }
+}
+
+/* Benefit Grid */
+.benefit-dark {
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--forest);
+}
+
+.benefit-card {
+  padding: 2rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: flex-start;
+  border-radius: var(--r-xl);
+}
+
+.benefit-card h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.benefit-card p {
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.benefit-card--dark {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  transition: all var(--dur) var(--ease);
+}
+
+.benefit-card--dark:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(74, 222, 128, 0.4);
+  transform: translateY(-5px);
+}
+
+.benefit-card--dark h3 {
+  color: #FFFFFF;
+}
+
+.benefit-card--dark p {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.benefit-card:hover .icon-box {
+  background: var(--primary);
+  color: #FFFFFF;
+  border-color: var(--primary);
+}
+
+@media (max-width: 1024px) {
+  .benefit-grid.grid--4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .benefit-grid.grid--4 {
+    grid-template-columns: 1fr;
+    gap: 1.15rem;
+  }
+}
+
+/* =========================================================
+   SHARED PAGE DESIGN LAYER
+   Namespaced to .tes-page, applied by the seven service pages and the
+   About page, so Book / Contact keep their current styling even though
+   they share these components.
+   ========================================================= */
+
+.tes-page {
+  --svc-y: clamp(3.75rem, 6.5vw, 6rem);
+  --svc-r: 18px;
+  --svc-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --svc-lift: -4px;
+}
+
+/* ---- Rhythm: the old 7.5rem band left 240px between two sparse rows ---- */
+.tes-page .section {
+  padding: var(--svc-y) 0;
+}
+
+.tes-page .section-head {
+  margin-bottom: clamp(2.25rem, 3.5vw, 3rem);
+}
+
+.tes-page .section-head h2 {
+  font-size: clamp(1.9rem, 3.2vw, 2.6rem);
+  letter-spacing: -0.03em;
+  line-height: 1.16;
+  text-wrap: balance;
+  margin-bottom: 0.7rem;
+}
+
+.tes-page .section-head p {
+  font-size: clamp(1rem, 1.25vw, 1.08rem);
+  line-height: 1.65;
+  max-width: 60ch;
+  margin-inline: auto;
+  text-wrap: pretty;
+}
+
+.tes-page .section-head .eyebrow {
+  margin-bottom: 0.95rem;
+}
+
+.tes-page .grid {
+  gap: clamp(1rem, 1.6vw, 1.4rem);
+}
+
+/* ---- Warning signs / risks ---- */
+/* Icon beside the text leaves only ~170px of measure in a 4-up grid, so the
+   descriptions broke into 5-6 ragged lines. Stacking gives the full card width. */
+.tes-page .info-card {
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1.6rem 1.45rem;
+  gap: 0.95rem;
+  border-radius: var(--svc-r);
+  border-color: var(--line);
+  box-shadow: 0 1px 2px rgba(10, 24, 16, 0.03);
+  transition: transform 0.28s var(--svc-ease), box-shadow 0.28s var(--svc-ease),
+    border-color 0.28s var(--svc-ease);
+}
+
+.tes-page .info-card:hover {
+  transform: translateY(var(--svc-lift));
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary-border);
+}
+
+.tes-page .info-card .icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+}
+
+.tes-page .info-card .icon-box svg {
+  width: 21px;
+  height: 21px;
+}
+
+.tes-page .info-card h3 {
+  font-size: 1.04rem;
+  line-height: 1.35;
+  margin-bottom: 0.4rem;
+  letter-spacing: -0.012em;
+}
+
+.tes-page .info-card p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+/* ---- Treatment process ---- */
+.tes-page .process-card {
+  min-height: 316px;
+  border-radius: var(--svc-r);
+  transition: transform 0.28s var(--svc-ease), box-shadow 0.28s var(--svc-ease),
+    border-color 0.28s var(--svc-ease);
+}
+
+.tes-page .process-card:hover {
+  transform: translateY(var(--svc-lift));
+}
+
+.tes-page .process-card__shade {
+  background: linear-gradient(
+    180deg,
+    rgba(8, 20, 14, 0.12) 0%,
+    rgba(8, 20, 14, 0.58) 45%,
+    rgba(8, 20, 14, 0.97) 100%
+  );
+}
+
+.tes-page .process-card__body {
+  padding: 1.5rem 1.4rem;
+}
+
+.tes-page .process-card__top {
+  margin-bottom: 0.85rem;
+}
+
+/* flatter badge — the old one carried a full green glow shadow per card */
+.tes-page .process-card__num {
+  width: 38px;
+  height: 38px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  background: var(--primary);
+  box-shadow: none;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.tes-page .process-card h3 {
+  font-size: 1.16rem;
+  line-height: 1.3;
+  margin-bottom: 0.4rem;
+  letter-spacing: -0.015em;
+}
+
+.tes-page .process-card p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* ---- Why choose: title-only items read as hollow in a tall card, so they
+       get a horizontal layout instead ---- */
+.tes-page .benefit-card {
+  padding: 1.6rem 1.45rem;
+  border-radius: var(--svc-r);
+  gap: 0.9rem;
+}
+
+.tes-page .benefit-card--compact {
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 1.35rem;
+}
+
+.tes-page .benefit-card--compact .icon-box {
+  width: 42px;
+  height: 42px;
+}
+
+.tes-page .benefit-card--compact .icon-box svg {
+  width: 20px;
+  height: 20px;
+}
+
+.tes-page .benefit-card--compact h3 {
+  font-size: 1rem;
+  line-height: 1.35;
+  margin: 0;
+}
+
+.tes-page .benefit-card--dark {
+  background: rgba(255, 255, 255, 0.045);
+  border-color: rgba(255, 255, 255, 0.09);
+  transition: transform 0.28s var(--svc-ease), background 0.28s var(--svc-ease),
+    border-color 0.28s var(--svc-ease);
+}
+
+.tes-page .benefit-card--dark:hover {
+  transform: translateY(var(--svc-lift));
+  background: rgba(255, 255, 255, 0.075);
+  border-color: rgba(74, 222, 128, 0.38);
+}
+
+.tes-page .benefit-card h3 {
+  font-size: 1.04rem;
+  letter-spacing: -0.012em;
+}
+
+/* ---- FAQ ---- */
+.tes-page .faq {
+  gap: 0.7rem;
+}
+
+.tes-page .faq__item {
+  border-radius: var(--svc-r);
+  transition: border-color 0.28s var(--svc-ease), box-shadow 0.28s var(--svc-ease);
+}
+
+.tes-page .faq__q {
+  padding: 1.15rem 1.4rem;
+  font-size: 1.01rem;
+  line-height: 1.4;
+  letter-spacing: -0.012em;
+}
+
+.tes-page .faq__a {
+  padding: 0 1.4rem 1.3rem;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  max-width: 68ch;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 1024px) {
+  .tes-page .benefit-grid.grid--4,
+  .tes-page .info-grid.grid--4,
+  .tes-page .process-grid.grid--4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .tes-page .benefit-grid.grid--4,
+  .tes-page .info-grid.grid--4,
+  .tes-page .process-grid.grid--4 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .tes-page .section-head {
+    margin-bottom: 1.85rem;
+  }
+  .tes-page .info-card,
+  .tes-page .benefit-card {
+    padding: 1.3rem 1.2rem;
+  }
+  .tes-page .info-card {
+    flex-direction: row;
+    gap: 1rem;
+  }
+  .tes-page .process-card {
+    min-height: 268px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tes-page .info-card:hover,
+  .tes-page .process-card:hover,
+  .tes-page .benefit-card--dark:hover {
+    transform: none;
+  }
+}
+
+/* =========================================================
+   Installation / process timeline  (icon-only steps)
+   ========================================================= */
+
+.tes-page .svc-timeline {
+  --tl-gap: clamp(1rem, 2vw, 1.75rem);
+  --tl-node: 62px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--tl-gap);
+  list-style: none;
+}
+
+.tes-page .svc-timeline__step {
+  position: relative;
+  text-align: center;
+}
+
+/* Each step draws its own connector to the next, so the rail works for any
+   number of steps. The right edge has to clear the grid gap as well as half
+   the next node, or the line stops short of it. */
+.tes-page .svc-timeline__step::before {
+  content: '';
+  position: absolute;
+  top: calc(var(--tl-node) / 2 - 1px);
+  left: calc(50% + var(--tl-node) / 2 + 8px);
+  right: calc(8px + var(--tl-node) / 2 - 50% - var(--tl-gap));
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary-border), var(--line));
+}
+
+.tes-page .svc-timeline__step:last-child::before {
+  display: none;
+}
+
+.tes-page .svc-timeline__node {
+  position: relative;
+  z-index: 1;
+  margin-inline: auto;
+  width: var(--tl-node, 62px);
+  height: var(--tl-node, 62px);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FFFFFF;
+  border: 1.5px solid var(--primary-border);
+  color: var(--primary-700);
+  box-shadow: 0 2px 10px rgba(10, 24, 16, 0.05);
+  transition: background 0.3s var(--svc-ease), color 0.3s var(--svc-ease),
+    border-color 0.3s var(--svc-ease), transform 0.3s var(--svc-ease),
+    box-shadow 0.3s var(--svc-ease);
+}
+
+.tes-page .svc-timeline__node svg {
+  width: 26px;
+  height: 26px;
+}
+
+.tes-page .svc-timeline__node strong {
+  font-family: var(--font-head);
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+.tes-page .svc-timeline__step:hover .svc-timeline__node {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #FFFFFF;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px -8px rgba(22, 163, 74, 0.55);
+}
+
+.tes-page .svc-timeline__count {
+  display: block;
+  margin: 1.1rem 0 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--primary-700);
+}
+
+.tes-page .svc-timeline__step h3 {
+  font-size: 1.1rem;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  margin-bottom: 0.35rem;
+  color: var(--ink);
+}
+
+.tes-page .svc-timeline__step p {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  max-width: 30ch;
+  margin-inline: auto;
+}
+
+.tes-page .section--dark .svc-timeline__node {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.16);
+  color: #86EFAC;
+}
+
+.tes-page .section--dark .svc-timeline__step h3 {
+  color: #FFFFFF;
+}
+
+/* vertical rail on narrow screens */
+@media (max-width: 760px) {
+  .tes-page .svc-timeline {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+  .tes-page .svc-timeline__step {
+    display: grid;
+    grid-template-columns: var(--tl-node) minmax(0, 1fr);
+    column-gap: 1.1rem;
+    padding: 0 0 1.9rem 0;
+    text-align: left;
+  }
+  .tes-page .svc-timeline__step::before {
+    top: calc(var(--tl-node) + 8px);
+    bottom: 4px;
+    left: calc(var(--tl-node) / 2 - 1px);
+    right: auto;
+    width: 2px;
+    height: auto;
+    background: linear-gradient(180deg, var(--primary-border), var(--line));
+  }
+  .tes-page .svc-timeline__step p {
+    margin-inline: 0;
+  }
+  .tes-page .svc-timeline__step:last-child {
+    padding-bottom: 0;
+  }
+  .tes-page .svc-timeline__node {
+    grid-row: span 3;
+  }
+  .tes-page .svc-timeline__count {
+    margin: 0.35rem 0 0.3rem;
+  }
+  .tes-page .svc-timeline__step p {
+    max-width: none;
+  }
+}
+
+/* =========================================================
+   Why Choose — split layout (heading + photo | card grid)
+   ========================================================= */
+
+.tes-page .benefit-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.06fr);
+  column-gap: clamp(1.5rem, 3vw, 2.75rem);
+  row-gap: clamp(1.75rem, 3.2vw, 2.5rem);
+  align-items: stretch;
+}
+
+/* The heading spans both columns, so the photo and the cards start on the
+   same line and finish on the same line — no floating block, no dead
+   space under the shorter column. */
+.tes-page .benefit-split > .section-head {
+  grid-column: 1 / -1;
+  max-width: 54ch;
+  margin-bottom: 0;
+}
+
+.tes-page .benefit-split .section-head p {
+  margin-inline: 0;
+}
+
+.tes-page .benefit-split__media {
+  height: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 30px 60px -28px rgba(0, 0, 0, 0.75);
+  line-height: 0;
+}
+
+.tes-page .benefit-split__media img {
+  width: 100%;
+  height: 100%;
+  min-height: clamp(240px, 26vw, 330px);
+  object-fit: cover;
+  transition: transform 0.7s var(--svc-ease);
+}
+
+.tes-page .benefit-split__media:hover img {
+  transform: scale(1.04);
+}
+
+.tes-page .benefit-split__cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
+  gap: clamp(0.85rem, 1.4vw, 1.15rem);
+}
+
+.tes-page .benefit-split__cards .benefit-card {
+  height: 100%;
+}
+
+/* Cards in the split grow to match the photograph, so their contents are
+   centred rather than pinned to the top of a tall box. */
+.tes-page .benefit-split__cards .benefit-card--compact {
+  align-items: center;
+  padding: 1.35rem 1.4rem;
+}
+
+.tes-page .benefit-card__text h3 {
+  margin: 0;
+}
+
+.tes-page .benefit-card__text p {
+  margin-top: 0.3rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 1024px) {
+  .tes-page .benefit-split {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 2rem;
+  }
+  .tes-page .benefit-split > .section-head {
+    max-width: none;
+    text-align: center;
+    margin-inline: auto;
+  }
+  .tes-page .benefit-split .section-head p {
+    margin-inline: auto;
+  }
+  .tes-page .benefit-split__media img {
+    height: clamp(200px, 32vw, 280px);
+    min-height: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .tes-page .benefit-split__cards {
+    grid-template-columns: minmax(0, 1fr);
+    grid-auto-rows: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tes-page .svc-timeline__step:hover .svc-timeline__node,
+  .tes-page .benefit-split__media:hover img {
+    transform: none;
+  }
+}
+
+/* =========================================================
+   Service hero on phones and tablets
+   The 16:9 stills were being object-fit: cover'd into a ~1540px-tall
+   single column, so only ~15% of the image width survived the crop and
+   that sliver was magnified 1.43x — blurred, and the subject gone.
+   Below 1025px the photo becomes a banner above the copy instead, which
+   renders it close to its native aspect ratio with nothing overlapping.
+   Desktop (>=1025px) is untouched.
+   ========================================================= */
+
+@media (max-width: 1024px) {
+  .tes-page .svc-hero {
+    display: block;
+  }
+
+  .tes-page .svc-hero .hero-media {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: clamp(188px, 52vw, 300px);
+    margin-top: calc(var(--nav-h) + 1.25rem);
+    z-index: 0;
+    overflow: hidden;
+    /* the scroll parallax would slide a non-absolute banner out of place */
+    transform: none !important;
+  }
+
+  .tes-page .svc-hero .hero-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 42%;
+  }
+
+  /* soft hand-off from photo to the section's forest background */
+  .tes-page .svc-hero .hero-media::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 78px;
+    background: linear-gradient(180deg, rgba(8, 20, 14, 0) 0%, var(--forest) 100%);
+    pointer-events: none;
+  }
+
+  /* full-bleed scrim and glows only made sense behind the copy */
+  .tes-page .svc-hero .hero-overlay,
+  .tes-page .svc-hero .hero-glow {
+    display: none;
+  }
+
+  .tes-page .svc-hero__inner {
+    padding-top: 1.6rem;
+    padding-bottom: 2.75rem;
+  }
+
+  .tes-page .svc-hero__card {
+    margin-top: 0.5rem;
+  }
+}
+
+@media (max-width: 1024px) and (prefers-reduced-motion: reduce) {
+  .tes-page .svc-hero .hero-media {
+    transform: none !important;
+  }
+}
+
+/* =========================================================
+   About page — the bespoke sections here predate the shared layer and
+   run 950-1200px each, which reads as drift next to the service pages.
+   ========================================================= */
+
+.about-page-wrapper .story,
+.about-page-wrapper .mv,
+.about-page-wrapper .stats,
+.about-page-wrapper .ib {
+  padding-top: var(--svc-y);
+  padding-bottom: var(--svc-y);
+}
+
+.about-page-wrapper .section-head,
+.about-page-wrapper .story__head,
+.about-page-wrapper .mv__head {
+  margin-bottom: clamp(2rem, 3.2vw, 2.75rem);
+}
+
+.about-page-wrapper h2 {
+  font-size: clamp(1.9rem, 3.2vw, 2.6rem);
+  line-height: 1.16;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+.about-page-wrapper p {
+  text-wrap: pretty;
+}
+
+/* one hover language across the page, matching the service cards */
+.about-page-wrapper .card,
+.about-page-wrapper .stats__item {
+  transition: transform 0.28s var(--svc-ease), box-shadow 0.28s var(--svc-ease),
+    border-color 0.28s var(--svc-ease);
+}
+
+.about-page-wrapper .card:hover,
+.about-page-wrapper .stats__item:hover {
+  transform: translateY(var(--svc-lift));
+  border-color: var(--primary-border);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-page-wrapper .card:hover,
+  .about-page-wrapper .stats__item:hover {
+    transform: none;
+  }
+}

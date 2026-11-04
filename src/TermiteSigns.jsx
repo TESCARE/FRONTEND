@@ -1,50 +1,15 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { AlertCircle } from 'lucide-react';
-import './TermiteSigns.css';
+import InfoGrid from './components/InfoGrid.jsx';
 
-const signs = [
-  { text: "Mud tubes on walls" },
-  { text: "Hollow wood sounds" },
-  { text: "Damaged furniture" },
-  { text: "Small wings near windows" }
+const items = [
+  { title: "Mud tubes on walls", desc: "Pencil-width mud tunnels along skirting, foundations and masonry \u2014 the route termites use to reach timber." },
+  { title: "Hollow wood sounds", desc: "Tapped timber sounds papery or empty because the colony has eaten it from the inside out." },
+  { title: "Damaged furniture", desc: "Blistered surfaces, sagging joints and crumbling edges on skirting, door frames and cupboards." },
+  { title: "Small wings near windows", desc: "Discarded wings on sills and floors after a swarm \u2014 a sign a new colony is establishing nearby." },
 ];
 
-const TermiteSigns = () => {
-  return (
-    <section className="termite-signs-section">
-      <div className="ts-container">
-        
-        <motion.div 
-          className="ts-header"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-        >
-          <h2>Signs of Termite Infestation</h2>
-          <p>Early detection can save thousands in repair costs</p>
-        </motion.div>
-
-        <div className="ts-grid">
-          {signs.map((sign, index) => (
-            <motion.div 
-              key={index}
-              className="ts-card"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-            >
-              <AlertCircle size={24} className="ts-icon" />
-              <span className="ts-text">{sign.text}</span>
-            </motion.div>
-          ))}
-        </div>
-
-      </div>
-    </section>
-  );
-};
+const TermiteSigns = () => (
+  <InfoGrid eyebrow="Warning Signs" title="Signs of Termite Infestation" text="Early detection can save thousands in repair costs" items={items} />
+);
 
 export default TermiteSigns;

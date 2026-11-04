@@ -1,266 +1,298 @@
-.service-booking-card {
-  background-color: #ffffff;
-  border-radius: 16px;
-  padding: 2rem;
-  width: 100%;
-  max-width: 440px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.02);
-  border: 1px solid rgba(0, 0, 0, 0.04);
+/* =========================================================
+   TESCARE — Service Booking Floating Card
+   ========================================================= */
+
+.sbc {
   position: relative;
-  overflow: hidden;
-  font-family: 'Inter', sans-serif;
-  text-align: left;
-}
-
-.card-success-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.95);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 10;
-  text-align: center;
-}
-
-.success-content {
+  background: #FFFFFF;
+  color: var(--ink);
+  border-radius: var(--r-2xl);
+  padding: clamp(1.5rem, 2.5vw, 2rem);
+  box-shadow: var(--shadow-xl);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 0.75rem;
+  gap: 1.15rem;
+  overflow: hidden;
+  border: 1px solid var(--line);
 }
 
-.success-icon {
-  color: var(--primary-green, #4CAA17);
-  animation: scaleIn 0.3s ease;
+.sbc__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 1.15rem;
+  border-bottom: 1px solid var(--line);
 }
 
-@keyframes scaleIn {
-  from { transform: scale(0.5); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-
-.success-content h3 {
-  font-size: 1.5rem;
+.sbc__kicker {
+  font-size: 0.74rem;
   font-weight: 700;
-  color: #1f2937;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--primary-700);
 }
 
-.success-content p {
-  color: #6b7280;
-  font-size: 0.95rem;
+.sbc__head h3 {
+  font-size: 1.35rem;
+  margin-top: 0.2rem;
+  color: var(--ink);
+  font-weight: 700;
 }
 
-.card-field {
-  margin-bottom: 1.5rem;
+.sbc__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--primary-700);
+  background: var(--primary-soft);
+  border: 1px solid var(--primary-border);
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--r-pill);
+  white-space: nowrap;
 }
 
-.card-label {
-  display: block;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #1f2937;
-  margin-bottom: 0.5rem;
+.sbc__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
 }
 
-.card-input-wrapper,
-.card-select-wrapper {
-  position: relative;
+.sbc .field label {
+  color: var(--ink-2);
+  font-size: 0.84rem;
+}
+
+.sbc__price {
   display: flex;
   align-items: center;
-  width: 100%;
+  justify-content: space-between;
+  gap: 1rem;
+  background: var(--bg-soft);
+  border: 1.5px dashed var(--line-strong);
+  border-radius: var(--r-lg);
+  padding: 1rem 1.25rem;
 }
 
-.card-input {
-  width: 100%;
-  padding: 0.85rem 1rem;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: #1f2937;
-  outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  background-color: #ffffff;
+.sbc__price-label {
+  display: block;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.2rem;
 }
 
-.card-input-wrapper .card-input {
-  padding-left: 2.75rem;
+.sbc__price-value {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 1.85rem;
+  color: var(--ink);
+  line-height: 1;
 }
 
-.card-input:focus {
-  border-color: var(--primary-green, #4CAA17);
-  box-shadow: 0 0 0 3px rgba(76, 170, 23, 0.15);
+.sbc__cur {
+  font-size: 1.2rem;
+  color: var(--primary-700);
 }
 
-.card-input-icon {
-  position: absolute;
-  left: 1rem;
-  pointer-events: none;
+.sbc__price-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--primary-800);
+  background: var(--primary-soft);
+  border: 1px solid var(--primary-border);
+  padding: 0.3rem 0.65rem;
+  border-radius: var(--r-pill);
+  white-space: nowrap;
 }
 
-.icon-green {
-  color: var(--primary-green, #4CAA17);
-}
-
-/* Premise Type Toggle Buttons */
-.card-toggle-group {
+.sbc__actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.75rem;
 }
 
-.card-toggle-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.85rem 1rem;
-  border: 1.5px solid var(--primary-green, #4CAA17);
-  border-radius: 8px;
-  background-color: #ffffff;
-  color: var(--primary-green, #4CAA17);
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.card-toggle-btn.active {
-  background-color: var(--primary-green, #4CAA17);
-  color: #ffffff;
-}
-
-.card-toggle-btn:hover {
-  background-color: rgba(76, 170, 23, 0.05);
-}
-
-.card-toggle-btn.active:hover {
-  background-color: var(--primary-green-hover, #3E8D12);
-}
-
-/* Select Box */
-.card-select {
-  width: 100%;
-  padding: 0.85rem 1rem;
-  padding-right: 2.5rem;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: #1f2937;
-  outline: none;
-  background-color: #ffffff;
-  cursor: pointer;
-  appearance: none;
-  -webkit-appearance: none;
-  transition: border-color 0.2s ease;
-}
-
-.card-select:focus {
-  border-color: var(--primary-green, #4CAA17);
-}
-
-.card-chevron {
+.sbc__success {
   position: absolute;
-  right: 1rem;
-  pointer-events: none;
-  color: var(--primary-green, #4CAA17);
-}
-
-/* Price Section */
-.card-price-section {
-  margin: 1.5rem 0;
-  padding: 1rem 0;
-  border-top: 1px solid #f3f4f6;
-  border-bottom: 1px solid #f3f4f6;
-}
-
-.price-title {
-  display: block;
-  font-size: 0.85rem;
-  color: #4b5563;
-  margin-bottom: 0.25rem;
-  font-weight: 500;
-}
-
-.price-value {
-  display: flex;
-  align-items: baseline;
-  color: #111827;
-  font-family: 'Inter', sans-serif;
-}
-
-.price-currency {
-  font-size: 1.75rem;
-  font-weight: 700;
-  margin-right: 0.25rem;
-}
-
-.price-amount {
-  font-size: 2.25rem;
-  font-weight: 800;
-  letter-spacing: -1px;
-}
-
-.card-helper-text {
-  font-size: 0.9rem;
-  color: var(--primary-green, #4CAA17);
-  font-weight: 600;
-  margin-top: 0.5rem;
-}
-
-/* Actions */
-.card-actions {
+  inset: 0;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(8px);
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  margin-top: 1.5rem;
-}
-
-.card-btn {
-  width: 100%;
-  padding: 0.9rem 1rem;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: none;
-  display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  text-align: center;
+  gap: 0.75rem;
+  padding: 2rem;
 }
 
-.btn-book-now {
-  background-color: var(--primary-green, #4CAA17);
-  color: #ffffff;
+.sbc__success svg {
+  color: var(--primary);
 }
 
-.btn-book-now:hover {
-  background-color: var(--primary-green-hover, #3E8D12);
-  transform: translateY(-1px);
+.sbc__success h3 {
+  font-size: 1.35rem;
+  color: var(--ink);
 }
 
-.btn-talk-agent {
-  background-color: var(--primary-green, #4CAA17);
-  color: #ffffff;
+.sbc__success p {
+  font-size: 0.92rem;
+  color: var(--text-secondary);
 }
 
-.btn-talk-agent:hover {
-  background-color: var(--primary-green-hover, #3E8D12);
-  transform: translateY(-1px);
+@media (max-width: 520px) {
+  .sbc {
+    padding: 1.25rem;
+  }
+  .sbc__row,
+  .sbc__actions {
+    grid-template-columns: 1fr;
+  }
 }
 
-/* Chrome/Safari input spinners removal */
-.card-input[type="number"]::-webkit-inner-spin-button,
-.card-input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
+/* =========================================================
+   Pest-page refinements — scoped so other pages are untouched
+   ========================================================= */
+
+.tes-page .sbc {
+  gap: 1.05rem;
+  padding: clamp(1.4rem, 2.2vw, 1.85rem);
+  border-radius: 22px;
+  box-shadow: 0 28px 60px -22px rgba(6, 20, 13, 0.4), 0 2px 8px rgba(6, 20, 13, 0.06);
+}
+
+.tes-page .sbc__head {
+  padding-bottom: 1rem;
+  align-items: center;
+}
+
+.tes-page .sbc__head h3 {
+  font-size: 1.28rem;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+.tes-page .sbc__kicker {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+}
+
+.tes-page .sbc .field label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.005em;
+}
+
+.tes-page .sbc .field input,
+.tes-page .sbc .field select {
+  padding: 0.78rem 1.05rem;
+  font-size: 0.93rem;
+  border-radius: 12px;
+}
+
+.tes-page .sbc .field__control--icon input {
+  padding-left: 2.7rem;
+}
+
+.tes-page .sbc .segmented {
+  border-radius: 12px;
+}
+
+.tes-page .sbc .segmented button {
+  padding: 0.66rem 0.8rem;
+  font-size: 0.89rem;
+  border-radius: 9px;
+}
+
+/* the dashed outline read as a placeholder; a solid tinted panel with a
+   left accent reads as a result */
+.tes-page .sbc__price {
+  background: var(--primary-soft);
+  border: 1px solid var(--primary-border);
+  border-left: 3px solid var(--primary);
+  border-radius: 0 14px 14px 0;
+  padding: 0.95rem 1.15rem;
+}
+
+.tes-page .sbc__price-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: var(--primary-700);
+}
+
+.tes-page .sbc__price-value {
+  font-size: 1.95rem;
+  letter-spacing: -0.03em;
+  color: var(--primary-800);
+}
+
+.tes-page .sbc__cur {
+  font-size: 1.15rem;
+}
+
+.tes-page .sbc__price-tag {
+  background: #FFFFFF;
+  border-color: var(--primary-border);
+}
+
+.tes-page .sbc__actions {
+  grid-template-columns: 1.25fr 1fr;
+  gap: 0.65rem;
+}
+
+.tes-page .sbc__actions .btn {
+  border-radius: 12px;
+  padding: 0.88rem 1rem;
+  font-size: 0.93rem;
+  transition: transform 0.22s var(--svc-ease), box-shadow 0.22s var(--svc-ease),
+    background 0.22s var(--svc-ease), border-color 0.22s var(--svc-ease);
+}
+
+@media (max-width: 520px) {
+  .tes-page .sbc__actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Replaces the estimated-rate panel: no figure, just what happens next. */
+.sbc__quote {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  background: var(--primary-soft);
+  border: 1px solid var(--primary-border);
+  border-left: 3px solid var(--primary);
+  border-radius: 0 14px 14px 0;
+  padding: 0.95rem 1.15rem;
+}
+
+.sbc__quote-icon {
+  flex-shrink: 0;
+  color: var(--primary-700);
+  display: inline-flex;
+  margin-top: 1px;
+}
+
+/* .hero-dark p is (0,1,1) just like .sbc__quote p, so source order decided
+   and the copy came out white on a mint panel. Scoping to .sbc wins it. */
+.sbc .sbc__quote p {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--primary-800);
   margin: 0;
+}
+
+.sbc__quote strong {
+  font-weight: 700;
 }

@@ -1,220 +1,128 @@
-import React, { useRef, useState } from 'react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import { CheckCircle2 } from 'lucide-react';
-import workerImg   from './assets/trusted_expert.png';
-import bird1Img    from './assets/trusted/bird1.png';
-import bird2Img    from './assets/trusted/bird2.png';
-import bird3Img    from './assets/trusted/bird3.png';
-import bird4Img    from './assets/trusted/bird4.png';
+import React from 'react';
+import { motion } from 'framer-motion';
+import { CheckCircle2, ArrowRight, ShieldCheck, Award, Sparkles, Feather, Wrench, BadgeCheck } from 'lucide-react';
+import Reveal from './components/Reveal.jsx';
+import workerImg from './assets/trusted_expert.png';
+import bird1Img from './assets/trusted/bird1.png';
+import bird2Img from './assets/trusted/bird2.png';
+import bird3Img from './assets/trusted/bird3.png';
+import bird4Img from './assets/trusted/bird4.png';
 import './TrustedExperts.css';
+import navigate from './navigate.js';
 
-const pestFeatures  = ['Certified Professionals', 'Eco Friendly Solutions', 'Affordable Pricing', 'Fast Service'];
-const birdFeatures  = ['Durable nets', 'Invisible mesh', 'Long-lasting installation'];
-const birdGridImgs  = [bird1Img, bird2Img, bird3Img, bird4Img];
+const pestFeatures = [
+  'Govt. Certified & Background-Verified Specialists',
+  'Medical-Grade & Non-Toxic Formulations',
+  'Pre & Post Treatment Digital Inspection Reports',
+  'Zero Mess, Odourless & Rapid 45-Min Dispatch',
+];
 
-/* ── reusable green check list ── */
+const birdFeatures = [
+  'Garware 100% High-Density Polyethylene (HDPE)',
+  'Virtually Invisible Mesh — Uncompromised Balcony View',
+  'Rust-Proof SS 316 Marine Grade Wire Ropes & Anchors',
+  '3 to 5 Year Warranty with Free Re-tensioning',
+];
+
+const birdGallery = [
+  { img: bird1Img, title: 'Balcony Bird Netting', caption: 'High-rise residential protection' },
+  { img: bird2Img, title: 'Window Pigeon Netting', caption: 'Durable, weather-resistant mesh' },
+  { img: bird3Img, title: 'Duct & Shaft Netting', caption: 'Complete perimeter sealing' },
+  { img: bird4Img, title: 'Commercial Bird Spikes', caption: 'Permanent ledge & sign protection' },
+];
+
 const CheckList = ({ items }) => (
-  <ul className="te-checklist">
+  <ul className="check-list te__list">
     {items.map((item, i) => (
-      <motion.li
-        key={i}
-        initial={{ opacity: 0, x: -20 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.4, delay: i * 0.1 }}
-        viewport={{ once: true }}
-      >
-        <CheckCircle2 size={18} className="te-check-icon" />
+      <Reveal as="li" key={i} delay={i * 0.06} y={12}>
+        <CheckCircle2 size={19} />
         <span>{item}</span>
-      </motion.li>
+      </Reveal>
     ))}
   </ul>
 );
 
-/* ── 3-D tilt image card ── */
-const TiltImg = ({ src, alt, className }) => {
-  const ref = useRef(null);
-  const rx = useSpring(0, { stiffness: 260, damping: 22 });
-  const ry = useSpring(0, { stiffness: 260, damping: 22 });
-
-  const onMove = (e) => {
-    const el = ref.current;
-    if (!el) return;
-    const r = el.getBoundingClientRect();
-    rx.set(-(e.clientY - r.top  - r.height / 2) / (r.height / 2) * 12);
-    ry.set( (e.clientX - r.left - r.width  / 2) / (r.width  / 2) * 12);
-  };
-  const onLeave = () => { rx.set(0); ry.set(0); };
-
-  return (
-    <motion.div
-      ref={ref}
-      className={`te-tilt-wrap ${className || ''}`}
-      style={{ rotateX: rx, rotateY: ry, transformStyle: 'preserve-3d' }}
-      onMouseMove={onMove}
-      onMouseLeave={onLeave}
-      whileHover={{ scale: 1.025 }}
-      transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-    >
-      <img src={src} alt={alt} />
-      <div className="te-tilt-gloss" />
-    </motion.div>
-  );
-};
-
-/* ════════════════════════════════════════
-   MAIN COMPONENT
-════════════════════════════════════════ */
 const TrustedExperts = () => {
-  const sectionRef = useRef(null);
-  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] });
-
-  const glowY1 = useTransform(scrollYProgress, [0, 1], [-100, 160]);
-  const glowY2 = useTransform(scrollYProgress, [0, 1], [160, -100]);
-
   return (
-    <section className="te-section" ref={sectionRef}>
-      {/* Ambient glows */}
-      <motion.div className="te-glow te-glow--left"  style={{ y: glowY1 }} aria-hidden="true" />
-      <motion.div className="te-glow te-glow--right" style={{ y: glowY2 }} aria-hidden="true" />
-
-      <div className="te-container">
-
-        {/* ════════════════════════════════
-            BLOCK 1 – Trusted Pest Control Experts
-        ════════════════════════════════ */}
-        <motion.div
-          className="te-block te-block--pest"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          viewport={{ once: true, margin: '-60px' }}
-        >
-          {/* Left – image */}
-          <div className="te-media" style={{ perspective: '900px' }}>
-            <TiltImg src={workerImg} alt="Pest control technician" className="te-pest-img" />
-            {/* Floating badge */}
+    <section className="section section--dark te">
+      <div className="hero-glow hero-glow--a" />
+      <div className="hero-glow hero-glow--b" />
+      <div className="container">
+        {/* Block 1 — Pest Control Experts */}
+        <div className="te__block">
+          <Reveal className="te__media" y={32}>
+            <div className="te__img">
+              <img src={workerImg} alt="Tescare certified pest control technician" loading="lazy" />
+            </div>
             <motion.div
-              className="te-floating-badge"
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+              className="te__badge"
+              animate={{ y: [0, -6, 0] }}
+              transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
             >
-              <span className="te-badge-num">10+</span>
-              <span className="te-badge-label">Years Experience</span>
+              <strong>10+</strong>
+              <span>Years of Clinical Mastery</span>
             </motion.div>
-          </div>
+          </Reveal>
 
-          {/* Right – content */}
-          <div className="te-content">
-            <motion.div
-              className="te-eyebrow"
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5 }}
-              viewport={{ once: true }}
-            >
-              TRUSTED EXPERTS
-            </motion.div>
-
-            <motion.h2
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              viewport={{ once: true }}
-            >
-              Trusted Pest Control <span className="te-green">Experts</span>
-            </motion.h2>
-
-            <motion.p
-              className="te-desc"
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              PROCARE provides reliable pest control and bird netting solutions
-              using safe chemicals and modern equipment.
-            </motion.p>
+          <div className="te__content">
+            <Reveal>
+              <span className="eyebrow"><ShieldCheck size={14} /> Certified Team</span>
+              <h2>Trained Entomologists &amp; <span className="text-gradient">Certified Technicians</span></h2>
+              <p>Every TESCARE specialist completes rigorous training in targeted pest biology, safe chemical handling, and precision pest eradication.</p>
+            </Reveal>
 
             <CheckList items={pestFeatures} />
-          </div>
-        </motion.div>
 
-        {/* Divider */}
-        <div className="te-divider" aria-hidden="true">
-          <span />
+            <Reveal delay={0.25} className="te__action-group">
+              <button
+                type="button"
+                className="btn btn--primary btn--lg"
+                onClick={() => navigate('#book')}
+              >
+                <span>Book Certified Inspection</span>
+                <ArrowRight />
+              </button>
+            </Reveal>
+          </div>
         </div>
 
-        {/* ════════════════════════════════
-            BLOCK 2 – Professional Bird Net Installation
-        ════════════════════════════════ */}
-        <motion.div
-          className="te-block te-block--bird"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          viewport={{ once: true, margin: '-60px' }}
-        >
-          {/* Left – content */}
-          <div className="te-content te-content--left">
-            <motion.div
-              className="te-eyebrow"
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5 }}
-              viewport={{ once: true }}
-            >
-              BIRD NETTING
-            </motion.div>
+        <div className="te__divider" aria-hidden="true" />
 
-            <motion.h2
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              viewport={{ once: true }}
-            >
-              Professional Bird Net <span className="te-green">Installation</span>
-            </motion.h2>
-
-            <motion.p
-              className="te-desc"
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              Protect balconies, windows, and buildings from pigeons and birds
-              with high-quality bird netting solutions.
-            </motion.p>
+        {/* Block 2 — Bird Netting Showcase */}
+        <div className="te__block te__block--reverse">
+          <div className="te__content">
+            <Reveal>
+              <span className="eyebrow"><Feather size={14} /> Balcony &amp; Window Netting</span>
+              <h2>Invisible Commercial-Grade <span className="text-gradient">Bird Protection</span></h2>
+              <p>Keep pigeons, crows, and birds away from balconies and AC outdoor units without compromising your view or harming the birds.</p>
+            </Reveal>
 
             <CheckList items={birdFeatures} />
 
-
-          </div>
-
-          {/* Right – 2×2 image grid */}
-          <div className="te-bird-grid" style={{ perspective: '1000px' }}>
-            {birdGridImgs.map((img, i) => (
-              <motion.div
-                key={i}
-                className="te-bird-cell"
-                initial={{ opacity: 0, scale: 0.85, rotateY: i % 2 === 0 ? -15 : 15 }}
-                whileInView={{ opacity: 1, scale: 1, rotateY: 0 }}
-                transition={{ duration: 0.65, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
-                viewport={{ once: true }}
-                whileHover={{ scale: 1.04, rotateY: i % 2 === 0 ? -5 : 5, zIndex: 2 }}
-                style={{ transformStyle: 'preserve-3d' }}
+            <Reveal delay={0.25} className="te__action-group">
+              <button
+                type="button"
+                className="btn btn--outline-light btn--lg"
+                onClick={() => navigate('#bird-netting')}
               >
-                <img src={img} alt={`Bird netting ${i + 1}`} />
-                <div className="te-bird-cell-overlay" />
-              </motion.div>
-            ))}
-
-            {/* Corner dot accent */}
-            <div className="te-grid-dot te-grid-dot--tl" />
-            <div className="te-grid-dot te-grid-dot--br" />
+                <span>Explore Bird Netting Systems</span>
+                <ArrowRight />
+              </button>
+            </Reveal>
           </div>
-        </motion.div>
 
+          <div className="te__grid">
+            {birdGallery.map((item, i) => (
+              <Reveal key={i} delay={i * 0.08} className="te__cell" y={20}>
+                <img src={item.img} alt={item.title} loading="lazy" />
+                <div className="te__cell-overlay">
+                  <strong>{item.title}</strong>
+                  <span>{item.caption}</span>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );

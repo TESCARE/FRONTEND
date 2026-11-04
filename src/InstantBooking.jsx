@@ -1,154 +1,140 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { ChevronDown, Calendar, CheckCircle2, ShieldCheck, Phone } from 'lucide-react';
-import './InstantBooking.css';
+import { Calendar, CheckCircle2, ShieldCheck, Phone, Zap, ArrowRight, Sparkles } from 'lucide-react';
+import Reveal from './components/Reveal.jsx';
+import SectionHead from './components/SectionHead.jsx';
 import foggingImg from './assets/fogging-worker.png';
+import './InstantBooking.css';
+import navigate from './navigate.js';
 
 const InstantBooking = () => {
   return (
-    <section className="instant-booking-section">
-      <motion.div 
-        className="ib-header"
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.6 }}
-      >
-        <h2>Book Pest Control or Bird Netting Service Instantly</h2>
-        <p>Select your service and schedule a quick inspection with PROCARE technicians.</p>
-      </motion.div>
+    <section className="section section--white ib">
+      <div className="container">
+        <SectionHead
+          eyebrow="Fast-Track Scheduling"
+          icon={Zap}
+          center={true}
+          title="Schedule Your Inspection In 60 Seconds"
+          text="Select your target service and reserve an appointment with TESCARE certified technicians."
+        />
 
-      <div className="ib-container">
-        
-        {/* Left Side: Image */}
-        <motion.div 
-          className="ib-image-col"
-          initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-        >
-          <img src={foggingImg} alt="Pest Control Fogging Worker" className="ib-main-img" />
-          {/* We can add a cartoon bug overlay via CSS if needed, but the main image serves as the core visual */}
-        </motion.div>
-
-        {/* Right Side: Form */}
-        <motion.div 
-          className="ib-form-col"
-          initial={{ opacity: 0, x: 50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-        >
-          <div className="ib-form-grid">
-            <div className="ib-form-group">
-              <label>Select Service</label>
-              <div className="ib-select-wrapper">
-                <select defaultValue="">
-                  <option value="" disabled hidden>Select Service</option>
-                  <option value="bedbug">Bedbug Control</option>
-                  <option value="cockroach">Cockroach Control</option>
-                  <option value="mosquito">Mosquito Control</option>
-                  <option value="rodent">Rodent Control</option>
-                  <option value="termite">Termite Control</option>
-                  <option value="woodborer">Wood Borer Control</option>
-                  <option value="birdnetting">Bird Netting</option>
-                </select>
-                <ChevronDown size={18} className="ib-icon" />
-              </div>
-            </div>
-
-            <div className="ib-form-group">
-              <label>Type Of Services</label>
-              <div className="ib-select-wrapper">
-                <select defaultValue="">
-                  <option value="" disabled hidden>Select Type Service</option>
-                  <option value="single">Single Service</option>
-                  <option value="2_per_year">2 Service 1 Year</option>
-                  <option value="4_per_year">4 Service 1 Year</option>
-                  <option value="6_per_year">6 Service 1 Year</option>
-                </select>
-                <ChevronDown size={18} className="ib-icon" />
-              </div>
-            </div>
-
-            <div className="ib-form-group">
-              <label>Apartment Size / Area</label>
-              <div className="ib-select-wrapper">
-                <select defaultValue="">
-                  <option value="" disabled hidden>Select Size</option>
-                  <option value="1bhk">1 BHK</option>
-                  <option value="2bhk">2 BHK</option>
-                  <option value="3bhk">3 BHK</option>
-                  <option value="4bhk">4 BHK</option>
-                  <option value="villa">Villa</option>
-                  <option value="office">Office Space</option>
-                </select>
-                <ChevronDown size={18} className="ib-icon" />
-              </div>
-            </div>
-
-            <div className="ib-form-group">
-              <label>Property Type</label>
-              <div className="ib-select-wrapper">
-                <select defaultValue="">
-                  <option value="" disabled hidden>Select Property</option>
-                  <option value="apartment">Apartment</option>
-                  <option value="independent_house">Independent House</option>
-                  <option value="office">Office</option>
-                  <option value="commercial_building">Commercial Building</option>
-                  <option value="villa">Villa</option>
-                </select>
-                <ChevronDown size={18} className="ib-icon" />
-              </div>
-            </div>
-
-            <div className="ib-form-group">
-              <label>City / Location</label>
-              <div className="ib-input-wrapper">
-                <input type="text" placeholder="Enter your location" />
-              </div>
-            </div>
-
-            <div className="ib-form-group">
-              <label>Preferred Date</label>
-              <div className="ib-input-wrapper">
-                <input type="text" placeholder=" " />
-                <Calendar size={18} className="ib-icon right-icon text-gray" />
+        <Reveal className="ib__panel">
+          <div className="ib__media">
+            <img src={foggingImg} alt="Tescare specialist with fogging equipment" loading="lazy" />
+            <div className="ib__media-badge">
+              <ShieldCheck size={20} />
+              <div>
+                <strong>Certified &amp; Background-Verified</strong>
+                <span>Fully insured technicians with safety PPE</span>
               </div>
             </div>
           </div>
 
-          <div className="ib-actions">
-            <button className="ib-btn ib-btn-solid" onClick={() => window.location.hash = '#book'}>Book Service</button>
-            <button className="ib-btn ib-btn-outline" onClick={() => window.location.hash = '#contact'}>Talk to Expert</button>
-          </div>
+          <div className="ib__form">
+            <div className="ib__grid">
+              <div className="field">
+                <label>Select Target Pest</label>
+                <div className="field__control">
+                  <select defaultValue="cockroach">
+                    <option value="cockroach">Cockroach Control</option>
+                    <option value="termite">Termite Control</option>
+                    <option value="bedbug">Bedbug Control</option>
+                    <option value="mosquito">Mosquito Control</option>
+                    <option value="rodent">Rodent Control</option>
+                    <option value="woodborer">Wood Borer Control</option>
+                    <option value="birdnetting">Bird Netting</option>
+                  </select>
+                </div>
+              </div>
 
-          <div className="ib-features">
-            <div className="ib-feature"><CheckCircle2 size={16} /> Certified Technicians</div>
-            <div className="ib-feature"><ShieldCheck size={16} /> Safe Pest Treatment</div>
-            <div className="ib-feature"><CheckCircle2 size={16} /> Affordable Pricing</div>
-            <div className="ib-feature"><CheckCircle2 size={16} /> Warranty Service</div>
-          </div>
-        </motion.div>
-      </div>
+              <div className="field">
+                <label>Service Plan</label>
+                <div className="field__control">
+                  <select defaultValue="single">
+                    <option value="single">Single Treatment Service</option>
+                    <option value="2_per_year">2 Services / 1 Year</option>
+                    <option value="4_per_year">4 Services / 1 Year (AMC)</option>
+                    <option value="6_per_year">6 Services / 2 Years</option>
+                  </select>
+                </div>
+              </div>
 
-      <motion.div 
-        className="ib-bottom-bar"
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.6, delay: 0.4 }}
-      >
-        <div className="ib-pill">
-          <span className="ib-pill-text text-gray">Need help choosing a service?</span>
-          <a href="tel:+919600652424" className="ib-pill-phone">
-            <Phone size={16} /> Call us at +91 9600652424
+              <div className="field">
+                <label>Premise Layout</label>
+                <div className="field__control">
+                  <select defaultValue="2bhk">
+                    <option value="1rk">1 RK</option>
+                    <option value="1bhk">1 BHK</option>
+                    <option value="2bhk">2 BHK</option>
+                    <option value="3bhk">3 BHK</option>
+                    <option value="4bhk">4 BHK</option>
+                    <option value="villa">Independent Villa</option>
+                    <option value="office">Commercial Office Space</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="field">
+                <label>Property Category</label>
+                <div className="field__control">
+                  <select defaultValue="apartment">
+                    <option value="apartment">Apartment / Flat</option>
+                    <option value="independent_house">Independent House</option>
+                    <option value="villa">Luxury Villa</option>
+                    <option value="office">Corporate Office</option>
+                    <option value="commercial_building">Commercial Building</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="field">
+                <label>City / Location</label>
+                <div className="field__control">
+                  <input type="text" placeholder="e.g. Chennai, Bangalore" defaultValue="Chennai" />
+                </div>
+              </div>
+
+              <div className="field">
+                <label>Preferred Visit Date</label>
+                <div className="field__control">
+                  <input type="date" min={new Date().toISOString().split('T')[0]} />
+                </div>
+              </div>
+            </div>
+
+            <div className="ib__actions">
+              <button
+                type="button"
+                className="btn btn--primary btn--sq btn--lg"
+                onClick={() => navigate('#book')}
+              >
+                <span>Continue to Booking</span>
+                <ArrowRight />
+              </button>
+              <a
+                href="tel:+918754574229"
+                className="btn btn--outline btn--sq btn--lg"
+              >
+                <Phone size={17} /> Talk to Specialist
+              </a>
+            </div>
+
+            <ul className="ib__features">
+              <li><CheckCircle2 size={16} /> Certified Technicians</li>
+              <li><ShieldCheck size={16} /> 100% Odourless Formula</li>
+              <li><CheckCircle2 size={16} /> Price Confirmed After Inspection</li>
+              <li><CheckCircle2 size={16} /> Warranty Follow-Up Included</li>
+            </ul>
+          </div>
+        </Reveal>
+
+        <Reveal className="ib__help" delay={0.15}>
+          <span>Need custom enterprise pest proofing or large residential complex quote?</span>
+          <a href="tel:+918754574229" className="ib__help-phone">
+            <Phone size={16} /> Call +91 87545 74229
           </a>
-          <span className="ib-pill-text text-gray">or</span>
-          <a href="#expert" className="ib-pill-link">Talk to an expert</a>
-        </div>
-      </motion.div>
+        </Reveal>
+      </div>
     </section>
   );
 };

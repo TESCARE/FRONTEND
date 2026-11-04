@@ -1,192 +1,182 @@
-import React, { useState, useEffect } from 'react';
-import { MapPin, Home, Building, ChevronDown, Phone, CheckCircle } from 'lucide-react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { MapPin, Home, Building, Phone, CheckCircle, ShieldCheck, Info, ArrowRight } from 'lucide-react';
 import './ServiceBookingCard.css';
+import navigate from './navigate.js';
+
+const PEST_OPTIONS = [
+  { value: 'cockroach', label: 'Cockroach Control' },
+  { value: 'termite', label: 'Termite Control' },
+  { value: 'birdnetting', label: 'Bird Netting' },
+  { value: 'bedbug', label: 'Bedbug Control' },
+  { value: 'mosquito', label: 'Mosquito Control' },
+  { value: 'rodent', label: 'Rodent Control' },
+  { value: 'woodborer', label: 'Wood Borer Control' },
+];
 
 const ServiceBookingCard = ({ defaultPest = 'cockroach' }) => {
   const [pincode, setPincode] = useState('632326');
   const [premiseType, setPremiseType] = useState('residential');
   const [pestType, setPestType] = useState(defaultPest);
-  const [premiseSize, setPremiseSize] = useState('1rk');
-  const [sqft, setSqft] = useState('0');
-  const [price, setPrice] = useState(0);
+  const [premiseSize, setPremiseSize] = useState('2bhk');
+  const [sqft, setSqft] = useState('1200');
   const [showSuccess, setShowSuccess] = useState(false);
 
-  // Dynamic pricing calculation
-  useEffect(() => {
-    let basePrice = 0;
-    
-    // Pest multipliers
-    let pestMultiplier = 1.0;
-    if (pestType === 'termite') pestMultiplier = 1.6;
-    else if (pestType === 'woodborer') pestMultiplier = 1.4;
-    else if (pestType === 'birdnetting') pestMultiplier = 1.8;
-    else if (pestType === 'bedbug') pestMultiplier = 1.3;
-
-    if (premiseType === 'residential') {
-      const sizePrices = {
-        '1rk': 1200,
-        '1bhk': 1800,
-        '2bhk': 2400,
-        '3bhk': 3200,
-        '4bhk': 4200
-      };
-      basePrice = sizePrices[premiseSize] || 1200;
-      setPrice(basePrice * pestMultiplier);
-    } else {
-      const sqftVal = parseFloat(sqft) || 0;
-      if (sqftVal >= 200) {
-        // ₹2.5 per square foot base rate
-        basePrice = sqftVal * 2.5;
-        setPrice(basePrice * pestMultiplier);
-      } else {
-        setPrice(0);
-      }
-    }
-  }, [premiseType, pestType, premiseSize, sqft]);
-
   const handleBookNow = () => {
+    try {
+      sessionStorage.setItem('tescare_prefill_pest', pestType);
+      sessionStorage.setItem('tescare_prefill_property', premiseType);
+    } catch (e) {
+      // ignore
+    }
     setShowSuccess(true);
     setTimeout(() => {
       setShowSuccess(false);
-      window.location.hash = '#book';
-    }, 2000);
+      navigate('#book');
+    }, 1400);
   };
 
   const handleTalkToAgent = () => {
-    window.location.href = 'tel:+919876543210';
+    window.location.href = 'tel:+918754574229';
   };
 
   return (
-    <div className="service-booking-card">
-      {showSuccess && (
-        <div className="card-success-overlay">
-          <div className="success-content">
-            <CheckCircle className="success-icon" size={48} />
-            <h3>Request Received!</h3>
-            <p>Redirecting to booking form...</p>
-          </div>
-        </div>
-      )}
+    <div className="sbc">
+      <AnimatePresence>
+        {showSuccess && (
+          <motion.div
+            className="sbc__success"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ type: 'spring', stiffness: 260, damping: 18 }}
+            >
+              <CheckCircle size={56} />
+            </motion.div>
+            <h3>Service Estimate Confirmed!</h3>
+            <p>Redirecting you to booking details…</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      {/* Check Serviceability */}
-      <div className="card-field">
-        <label className="card-label">Check Serviceability</label>
-        <div className="card-input-wrapper">
-          <MapPin className="card-input-icon icon-green" size={18} />
-          <input 
-            type="text" 
-            value={pincode} 
-            onChange={(e) => setPincode(e.target.value)} 
+      <div className="sbc__head">
+        <div>
+          <span className="sbc__kicker">Free Inspection Request</span>
+          <h3>Check Service Availability</h3>
+        </div>
+        <span className="sbc__badge">
+          <ShieldCheck size={14} /> Free Inspection
+        </span>
+      </div>
+
+      <div className="field">
+        <label htmlFor="sbc-pincode">Service Pincode</label>
+        <div className="field__control field__control--icon">
+          <MapPin />
+          <input
+            id="sbc-pincode"
+            type="text"
+            inputMode="numeric"
+            value={pincode}
+            onChange={(e) => setPincode(e.target.value)}
             placeholder="Enter Pincode"
-            className="card-input"
+            maxLength={6}
           />
         </div>
       </div>
 
-      {/* Premise Type */}
-      <div className="card-field">
-        <label className="card-label">Premise Type *</label>
-        <div className="card-toggle-group">
-          <button 
+      <div className="field">
+        <label>Property Category *</label>
+        <div className="segmented">
+          <button
             type="button"
-            className={`card-toggle-btn ${premiseType === 'residential' ? 'active' : ''}`}
+            className={premiseType === 'residential' ? 'active' : ''}
             onClick={() => setPremiseType('residential')}
           >
-            <Home size={16} />
-            <span>Residential</span>
+            <Home size={15} /> Residential
           </button>
-          <button 
+          <button
             type="button"
-            className={`card-toggle-btn ${premiseType === 'commercial' ? 'active' : ''}`}
+            className={premiseType === 'commercial' ? 'active' : ''}
             onClick={() => setPremiseType('commercial')}
           >
-            <Building size={16} />
-            <span>Commercial</span>
+            <Building size={15} /> Commercial
           </button>
         </div>
       </div>
 
-      {/* Pest Type */}
-      <div className="card-field">
-        <label className="card-label">Pest Type *</label>
-        <div className="card-select-wrapper">
-          <select 
-            value={pestType} 
-            onChange={(e) => setPestType(e.target.value)}
-            className="card-select"
-          >
-            <option value="bedbug">Bedbug Control</option>
-            <option value="cockroach">Cockroach Control</option>
-            <option value="mosquito">Mosquito Control</option>
-            <option value="rodent">Rodent Control</option>
-            <option value="termite">Termite Control</option>
-            <option value="woodborer">Wood Borer Control</option>
-            <option value="birdnetting">Bird Netting</option>
-          </select>
-          <ChevronDown className="card-chevron" size={18} />
-        </div>
-      </div>
-
-      {/* Price Display */}
-      <div className="card-price-section">
-        <span className="price-title">Price (Excluding GST)</span>
-        <div className="price-value">
-          <span className="price-currency">₹</span>
-          <span className="price-amount">{price.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
-        </div>
-      </div>
-
-      {/* Premise Size (Residential Only) */}
-      {premiseType === 'residential' && (
-        <div className="card-field">
-          <label className="card-label">Premise Size *</label>
-          <div className="card-select-wrapper">
-            <select 
-              value={premiseSize} 
-              onChange={(e) => setPremiseSize(e.target.value)}
-              className="card-select"
-            >
-              <option value="1rk">1 RK</option>
-              <option value="1bhk">1 BHK</option>
-              <option value="2bhk">2 BHK</option>
-              <option value="3bhk">3 BHK</option>
-              <option value="4bhk">4 BHK</option>
+      <div className="sbc__row">
+        <div className="field">
+          <label htmlFor="sbc-pest">Target Pest *</label>
+          <div className="field__control">
+            <select id="sbc-pest" value={pestType} onChange={(e) => setPestType(e.target.value)}>
+              {PEST_OPTIONS.map((o) => (
+                <option key={o.value} value={o.value}>{o.label}</option>
+              ))}
             </select>
-            <ChevronDown className="card-chevron" size={18} />
           </div>
         </div>
-      )}
 
-      {/* Square Feet (Commercial Only) */}
-      {premiseType === 'commercial' && (
-        <div className="card-field">
-          <label className="card-label">Square Feet *(Required: at least 200 sqft)</label>
-          <div className="card-input-wrapper">
-            <input 
-              type="number" 
-              value={sqft} 
-              onChange={(e) => setSqft(e.target.value)} 
-              placeholder="e.g. 500"
-              className="card-input"
-              min="0"
-            />
-          </div>
-          {price === 0 && (
-            <div className="card-helper-text">
-              Enter Square Feet to see pricing
+        {premiseType === 'residential' ? (
+          <div className="field">
+            <label htmlFor="sbc-size">Layout Size *</label>
+            <div className="field__control">
+              <select id="sbc-size" value={premiseSize} onChange={(e) => setPremiseSize(e.target.value)}>
+                <option value="1rk">1 RK</option>
+                <option value="1bhk">1 BHK</option>
+                <option value="2bhk">2 BHK</option>
+                <option value="3bhk">3 BHK</option>
+                <option value="4bhk">4 BHK</option>
+              </select>
             </div>
-          )}
-        </div>
-      )}
+          </div>
+        ) : (
+          <div className="field">
+            <label htmlFor="sbc-sqft">Carpet Area (sq. ft) *</label>
+            <div className="field__control">
+              <input
+                id="sbc-sqft"
+                type="number"
+                min="0"
+                value={sqft}
+                onChange={(e) => setSqft(e.target.value)}
+                placeholder="e.g. 1200"
+              />
+            </div>
+            <span className="field__hint">
+              <Info size={12} style={{ display: 'inline', verticalAlign: '-2px' }} /> Min 200 sq.ft
+            </span>
+          </div>
+        )}
+      </div>
 
-      {/* Action Buttons */}
-      <div className="card-actions">
-        <button className="card-btn btn-book-now" onClick={handleBookNow}>
-          BOOK NOW
+      <div className="sbc__quote">
+        <span className="sbc__quote-icon"><ShieldCheck size={17} /></span>
+        <p>
+          Send these details and we&rsquo;ll confirm your price after a
+          <strong> free on-site inspection</strong> — no charge for the visit.
+        </p>
+      </div>
+
+      <div className="sbc__actions">
+        <button
+          type="button"
+          className="btn btn--primary btn--sq btn--block"
+          onClick={handleBookNow}
+        >
+          <span>Request Inspection</span>
+          <ArrowRight size={15} />
         </button>
-        <button className="card-btn btn-talk-agent" onClick={handleTalkToAgent}>
-          <Phone size={16} />
-          <span>TALK TO AGENT</span>
+        <button
+          type="button"
+          className="btn btn--outline btn--sq btn--block"
+          onClick={handleTalkToAgent}
+        >
+          <Phone size={15} /> Talk to Agent
         </button>
       </div>
     </div>

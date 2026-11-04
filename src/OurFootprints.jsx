@@ -1,84 +1,82 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { MapPin } from 'lucide-react';
+import { MapPin, Map } from 'lucide-react';
+import Reveal from './components/Reveal.jsx';
 import mapIndiaImg from './assets/map_india.png';
 import './OurFootprints.css';
 
 const locations = [
-  'Chennai',
-  'Tiruchirappalli',
-  'coimbatore',
-  'Thiruvananthapuram',
-  'Thrissur,',
-  'Bangalore',
-  'Hyderabad',
-  'Mumbai',
-  'Kolkata',
-  'Ahmedabad',
-  'Pune',
-  'Surat'
+  { name: 'Chennai', hub: 'HQ & Main Dispatch Hub', timing: '30-45 mins' },
+  { name: 'Bangalore', hub: 'Tech Hub Operations', timing: '45 mins' },
+  { name: 'Hyderabad', hub: 'Regional Operations', timing: '45 mins' },
+  { name: 'Coimbatore', hub: 'Active Fleet Hub', timing: '60 mins' },
+  { name: 'Tiruchirappalli', hub: 'Active Unit', timing: '60 mins' },
+  { name: 'Thiruvananthapuram', hub: 'Kerala State Hub', timing: '60 mins' },
+  { name: 'Thrissur', hub: 'Active Unit', timing: '60 mins' },
+  { name: 'Mumbai', hub: 'West Zone Hub', timing: '45 mins' },
+  { name: 'Pune', hub: 'Active Fleet Hub', timing: '45 mins' },
+  { name: 'Ahmedabad', hub: 'Gujarat Operations', timing: '60 mins' },
+  { name: 'Kolkata', hub: 'East Zone Hub', timing: '60 mins' },
+  { name: 'Surat', hub: 'Active Unit', timing: '60 mins' },
 ];
 
 const OurFootprints = () => {
-  const sectionRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start end', 'end start']
-  });
-
-  const mapY = useTransform(scrollYProgress, [0, 1], [50, -50]);
+  const ref = useRef(null);
+  const [selectedLoc, setSelectedLoc] = useState(locations[0]);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
+  const mapY = useTransform(scrollYProgress, [0, 1], [30, -30]);
 
   return (
-    <section className="footprints-section" ref={sectionRef}>
-      <div className="footprints-container">
-        
-        {/* Left Side: Locations */}
-        <div className="footprints-content">
-          <motion.h2 
-            className="footprints-title"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            Our Footprints
-          </motion.h2>
+    <section className="section section--white footprints" ref={ref}>
+      <div className="container footprints__inner">
+        {/* Left Column: Information & Interactive Chips */}
+        <div className="footprints__content">
+          <Reveal>
+            <span className="eyebrow"><Map size={14} /> National Presence</span>
+            <h2>Rapid Response Across India's Major Hubs</h2>
+            <p className="footprints__lead">
+              TESCARE operates dedicated fleet vans and certified field units across 12+ metro and tier-1 cities, ensuring fast same-day response whenever you encounter a pest issue.
+            </p>
+          </Reveal>
 
-          <div className="locations-grid">
-            {locations.map((loc, index) => (
-              <motion.div 
-                key={index}
-                className="location-pill"
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.4, delay: index * 0.05 }}
-                viewport={{ once: true }}
-                whileHover={{ scale: 1.05 }}
-              >
-                <MapPin size={16} className="location-icon" />
-                <span>{loc}</span>
-              </motion.div>
-            ))}
+          {/* City Chips */}
+          <div className="footprints__chips">
+            {locations.map((loc, i) => {
+              const isSelected = selectedLoc.name === loc.name;
+              return (
+                <Reveal key={loc.name} as="div" delay={i * 0.03} y={8}>
+                  <button
+                    type="button"
+                    className={`footprints__chip ${isSelected ? 'is-selected' : ''}`}
+                    onClick={() => setSelectedLoc(loc)}
+                  >
+                    <MapPin size={14} />
+                    <span>{loc.name}</span>
+                  </button>
+                </Reveal>
+              );
+            })}
           </div>
+
+          <Reveal delay={0.3} className="footprints__footer">
+            <p className="footprints__note">
+              Don't see your specific town? <a href="#contact">Contact us</a> — we frequently dispatch mobile units to surrounding districts.
+            </p>
+          </Reveal>
         </div>
 
-        {/* Right Side: Map */}
-        <div className="footprints-map-wrapper">
-          <motion.div 
-            className="footprints-map-container"
-            style={{ y: mapY }}
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            {/* Placeholder for the India map SVG/Image. The user can replace this with the actual map asset. */}
-            <div className="map-image-wrapper">
-               <img src={mapIndiaImg} alt="Map of India showing our footprint locations" className="footprints-map-img" />
+        {/* Right Column: India Map Visual */}
+        <motion.div className="footprints__map-wrap" style={{ y: mapY }}>
+          <Reveal y={30} className="footprints__map-card">
+            <img src={mapIndiaImg} alt="Map of India showing Tescare certified service network" loading="lazy" />
+            <div className="footprints__map-glow" />
+            
+            <div className="footprints__stat-badge">
+              <strong>12+ Cities</strong>
+              <span>50+ Dedicated Vehicles</span>
             </div>
-          </motion.div>
-        </div>
-
+          </Reveal>
+        </motion.div>
       </div>
     </section>
   );

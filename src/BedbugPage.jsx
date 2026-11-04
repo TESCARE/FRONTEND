@@ -1,30 +1,21 @@
-import React, { useEffect } from 'react';
-import Navbar from './Navbar.jsx';
+import React from 'react';
+import PageLayout from './components/PageLayout.jsx';
 import BedbugHero from './BedbugHero.jsx';
 import BedbugSigns from './BedbugSigns.jsx';
 import BedbugProcess from './BedbugProcess.jsx';
 import BedbugWhyChoose from './BedbugWhyChoose.jsx';
 import BedbugCTA from './BedbugCTA.jsx';
 import BedbugFAQ from './BedbugFAQ.jsx';
-import Footer from './Footer.jsx';
 
-const BedbugPage = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  return (
-    <div className="bedbug-page-wrapper">
-      <Navbar />
-      <BedbugHero />
-      <BedbugSigns />
-      <BedbugProcess />
-      <BedbugWhyChoose />
-      <BedbugCTA />
-      <BedbugFAQ />
-      <Footer />
-    </div>
-  );
-};
+const BedbugPage = () => (
+  <PageLayout footerCta={false} className="tes-page bedbug-page-wrapper">
+    <BedbugHero />
+    <BedbugSigns />
+    <BedbugProcess />
+    <BedbugWhyChoose />
+    <BedbugCTA />
+    <BedbugFAQ />
+  </PageLayout>
+);
 
 export default BedbugPage;

@@ -1,204 +1,162 @@
-.instant-booking-section {
-  background: linear-gradient(to bottom, var(--primary) 0%, #0d1a09 100%);
-  padding: 6rem 2rem 8rem 2rem;
-  font-family: 'Inter', sans-serif;
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
+/* =========================================================
+   TESCARE — Instant Booking Form (About Page)
+   ========================================================= */
+
+.ib__panel {
+  display: grid;
+  grid-template-columns: 0.9fr 1.3fr;
+  background: #FFFFFF;
+  border: 1px solid var(--line);
+  border-radius: var(--r-2xl);
+  box-shadow: var(--shadow-xl);
   overflow: hidden;
 }
 
-.ib-header {
-  text-align: center;
-  margin-bottom: 4rem;
+.ib__media {
+  position: relative;
+  min-height: 440px;
+  background: var(--forest-2);
 }
 
-.ib-header h2 {
-  font-size: 2.2rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-}
-
-.ib-header p {
-  font-size: 1.1rem;
-  color: #e2f5dc;
-}
-
-.ib-container {
-  max-width: 1200px;
+.ib__media img {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  display: flex;
-  gap: 4rem;
-  align-items: center;
-}
-
-.ib-image-col {
-  flex: 1;
-}
-
-.ib-main-img {
-  width: 100%;
-  height: 500px;
+  height: 100%;
   object-fit: cover;
-  /* Specific border radius matching design: heavy rounding on TL and BR */
-  border-radius: 60px 20px 60px 20px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
 }
 
-.ib-form-col {
-  flex: 1;
+.ib__media-badge {
+  position: absolute;
+  left: 1.25rem;
+  bottom: 1.25rem;
+  right: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: var(--r-lg);
+  padding: 0.85rem 1.15rem;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--primary-border);
 }
 
-.ib-form-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-  margin-bottom: 2.5rem;
+.ib__media-badge svg {
+  color: var(--primary);
+  flex-shrink: 0;
 }
 
-.ib-form-group {
+.ib__media-badge strong {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.ib__media-badge span {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.ib__form {
+  padding: clamp(2rem, 3.5vw, 3rem);
   display: flex;
   flex-direction: column;
+  justify-content: center;
 }
 
-.ib-form-group label {
-  font-size: 0.95rem;
-  margin-bottom: 0.6rem;
-  color: #f0fdf4;
-  font-weight: 500;
-}
-
-.ib-select-wrapper, .ib-input-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.ib-select-wrapper select, .ib-input-wrapper input {
-  width: 100%;
-  padding: 0.8rem 1rem;
-  border-radius: 8px;
-  border: none;
-  background-color: #fff;
-  color: #333;
-  font-size: 1rem;
-  outline: none;
-  appearance: none;
-  -webkit-appearance: none;
-}
-
-.ib-icon {
-  position: absolute;
-  right: 1rem;
-  color: #333;
-  pointer-events: none;
-}
-
-.ib-actions {
-  display: flex;
-  gap: 1.5rem;
-  margin-bottom: 2.5rem;
-}
-
-.ib-btn {
-  padding: 0.9rem 2rem;
-  border-radius: 30px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  flex: 1;
-  text-align: center;
-}
-
-.ib-btn-solid {
-  background-color: var(--primary);
-  color: #fff;
-  border: none;
-  box-shadow: 0 4px 15px rgba(var(--primary-rgb), 0.4);
-}
-
-.ib-btn-solid:hover {
-  background-color: #3e8d13;
-}
-
-.ib-btn-outline {
-  background-color: transparent;
-  color: #fff;
-  border: 1px solid #fff;
-}
-
-.ib-btn-outline:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-.ib-features {
+.ib__grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.ib__actions {
+  display: flex;
   gap: 1rem;
-}
-
-.ib-feature {
-  display: flex;
-  align-items: center;
-  font-size: 0.9rem;
-  color: #e2f5dc;
-}
-
-.ib-feature svg {
-  margin-right: 0.5rem;
-  color: #fff;
-}
-
-.ib-bottom-bar {
-  margin-top: 5rem;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.ib-pill {
-  background-color: #fff;
-  padding: 1rem 2.5rem;
-  border-radius: 50px;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  margin-top: 1.75rem;
   flex-wrap: wrap;
-  justify-content: center;
 }
 
-.ib-pill-text.text-gray {
-  color: #6b7280;
-  font-weight: 500;
-}
-
-.ib-pill-phone {
+.ib__features {
   display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 1.5rem;
+  margin-top: 1.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+}
+
+.ib__features li {
+  display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  color: var(--primary);
+  gap: 0.45rem;
+  font-size: 0.86rem;
   font-weight: 600;
-  text-decoration: none;
+  color: var(--ink-2);
 }
 
-.ib-pill-link {
+.ib__features svg {
   color: var(--primary);
-  font-weight: 600;
-  text-decoration: none;
+  flex-shrink: 0;
 }
 
-@media (max-width: 992px) {
-  .ib-container {
-    flex-direction: column;
-  }
-  .ib-main-img {
-    height: auto;
-  }
-  .ib-form-grid {
+.ib__help {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem 1.15rem;
+  margin-top: 2.25rem;
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  padding: 1rem 1.75rem;
+  font-size: 0.94rem;
+  color: var(--text-secondary);
+}
+
+.ib__help-phone {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-weight: 700;
+  color: var(--primary-700);
+}
+
+.ib__help-link {
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 960px) {
+  .ib__panel {
     grid-template-columns: 1fr;
+  }
+  .ib__media {
+    min-height: 280px;
+  }
+}
+
+@media (max-width: 640px) {
+  .ib__form {
+    padding: 1.5rem;
+  }
+  .ib__grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .ib__actions .btn {
+    width: 100%;
+  }
+  .ib__help {
+    border-radius: var(--r-xl);
+    flex-direction: column;
+    text-align: center;
   }
 }

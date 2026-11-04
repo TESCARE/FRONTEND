@@ -1,160 +1,231 @@
 import React, { useState } from 'react';
-import { MapPin, Info, Calendar, ChevronDown, Leaf, BadgeCheck } from 'lucide-react';
+import { MapPin, Info, Calendar, ShieldCheck, BadgeCheck, Leaf, Phone, ArrowRight, CheckCircle2, Building2, Home } from 'lucide-react';
+import Reveal from './components/Reveal.jsx';
+import SectionHead from './components/SectionHead.jsx';
 import './BookingSection.css';
+import navigate from './navigate.js';
+
+const PEST_LIST = [
+  { value: 'cockroach', label: 'Cockroach Control', mult: 1.0 },
+  { value: 'termite', label: 'Termite Control', mult: 1.6 },
+  { value: 'bedbug', label: 'Bedbug Control', mult: 1.3 },
+  { value: 'mosquito', label: 'Mosquito Control', mult: 1.0 },
+  { value: 'rodent', label: 'Rodent Control', mult: 1.0 },
+  { value: 'woodborer', label: 'Wood Borer Control', mult: 1.4 },
+  { value: 'birdnetting', label: 'Bird Netting', mult: 1.8 },
+];
+
+const RESIDENTIAL_SIZES = [
+  { value: '1rk', label: '1 RK', base: 1200 },
+  { value: '1bhk', label: '1 BHK', base: 1800 },
+  { value: '2bhk', label: '2 BHK', base: 2400 },
+  { value: '3bhk', label: '3 BHK', base: 3200 },
+  { value: '4bhk', label: '4 BHK', base: 4200 },
+];
+
+const FREQUENCIES = [
+  { value: '1_service', label: '1 Service (Single Treatment)', mult: 1.0 },
+  { value: '3_service_2year', label: '3 Services / 1 Year (Popular)', mult: 2.3 },
+  { value: '6_service_2year', label: '6 Services / 2 Years (Save 25%)', mult: 4.1 },
+  { value: '9_service_3year', label: '9 Services / 3 Years (Save 35%)', mult: 5.6 },
+];
+
+const TIERS = [
+  { value: 'standard', label: 'Standard Pest Control', mult: 1.0 },
+  { value: 'silver_shield_3d', label: 'Silver Shield Service 3D', mult: 1.15 },
+  { value: 'gold_shield_4d', label: 'Gold Shield Service 4D (Recommended)', mult: 1.3 },
+  { value: 'platinum_shield_5d', label: 'Platinum Shield Service 5D', mult: 1.45 },
+];
 
 const BookingSection = () => {
+  const [pincode, setPincode] = useState('632326');
   const [premiseType, setPremiseType] = useState('residential');
+  const [pestType, setPestType] = useState('cockroach');
+  const [premiseSize, setPremiseSize] = useState('2bhk');
+  const [sqft, setSqft] = useState('1200');
+  const [frequency, setFrequency] = useState('1_service');
+  const [serviceTier, setServiceTier] = useState('gold_shield_4d');
   const [bookingDate, setBookingDate] = useState('');
 
+  const handleBookNow = () => {
+    // Store selected params in sessionStorage so BookForm can pick them up
+    try {
+      sessionStorage.setItem('tescare_prefill_pest', pestType);
+      sessionStorage.setItem('tescare_prefill_property', premiseType);
+      sessionStorage.setItem('tescare_prefill_date', bookingDate);
+    } catch (e) {
+      // fallback
+    }
+    navigate('#book');
+  };
+
   return (
-    <section className="booking-section">
-      <div className="booking-container">
-        
-        {/* Header */}
-        <div className="booking-header">
-          <h2>Book Your Pest Control Service</h2>
-          <p>Get instant pricing based on your property details.</p>
-        </div>
+    <section className="section section--soft booking">
+      <div className="container">
+        <SectionHead
+          eyebrow="Free Inspection"
+          icon={BadgeCheck}
+          center={true}
+          title="Check Availability &amp; Book an Inspection"
+          text="Tell us about your property and preferred slot. We confirm the price after a free on-site inspection."
+        />
 
-        {/* Form Grid */}
-        <div className="booking-form-grid">
-          
-          {/* Row 1 */}
-          <div className="form-group">
-            <label>Check Serviceability</label>
-            <div className="input-wrapper">
-              <MapPin className="input-icon text-green" size={18} />
-              <input type="text" placeholder="632326" />
+        <Reveal className="booking__panel">
+          <div className="booking__form">
+            {/* Pincode & Serviceability */}
+            <div className="field">
+              <label>Service Pincode</label>
+              <div className="field__control field__control--icon">
+                <MapPin />
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  value={pincode}
+                  onChange={(e) => setPincode(e.target.value)}
+                  placeholder="e.g. 600001"
+                  maxLength={6}
+                />
+              </div>
+              <span className="field__hint text-primary">✓ Service available with same-day dispatch</span>
             </div>
-          </div>
 
-          <div className="form-group">
-            <label>Premise Type</label>
-            <div className="toggle-group">
-              <button 
-                type="button" 
-                className={`toggle-btn ${premiseType === 'residential' ? 'active' : ''}`}
-                onClick={() => setPremiseType('residential')}
-              >
-                Residential
-              </button>
-              <button 
-                type="button" 
-                className={`toggle-btn ${premiseType === 'commercial' ? 'active' : ''}`}
-                onClick={() => setPremiseType('commercial')}
-              >
-                Commercial
-              </button>
+            {/* Premise Type */}
+            <div className="field">
+              <label>Property Category</label>
+              <div className="segmented">
+                <button
+                  type="button"
+                  className={premiseType === 'residential' ? 'active' : ''}
+                  onClick={() => setPremiseType('residential')}
+                >
+                  <Home size={16} /> Residential
+                </button>
+                <button
+                  type="button"
+                  className={premiseType === 'commercial' ? 'active' : ''}
+                  onClick={() => setPremiseType('commercial')}
+                >
+                  <Building2 size={16} /> Commercial
+                </button>
+              </div>
             </div>
-          </div>
 
-          <div className="form-group">
-            <label>Pest Type</label>
-            <div className="input-wrapper select-wrapper">
-              <select defaultValue="cockroach">
-                <option value="" disabled hidden>Select Pest Type</option>
-                <option value="bedbug">Bedbug Control</option>
-                <option value="cockroach">Cockroach Control</option>
-                <option value="mosquito">Mosquito Control</option>
-                <option value="rodent">Rodent Control</option>
-                <option value="termite">Termite Control</option>
-                <option value="woodborer">Wood Borer Control</option>
-                <option value="birdnetting">Bird Netting</option>
-              </select>
-              <ChevronDown className="select-icon" size={18} />
-            </div>
-          </div>
-
-          {/* Row 2 */}
-          {premiseType === 'residential' ? (
-            <div className="form-group">
-              <label>Premise Size</label>
-              <div className="input-wrapper select-wrapper">
-                <select defaultValue="">
-                  <option value="" disabled hidden>Select Size</option>
-                  <option value="1bhk">1 BHK</option>
-                  <option value="2bhk">2 BHK</option>
-                  <option value="3bhk">3 BHK</option>
-                  <option value="4bhk">4 BHK</option>
+            {/* Pest Type */}
+            <div className="field">
+              <label>Target Pest</label>
+              <div className="field__control">
+                <select value={pestType} onChange={(e) => setPestType(e.target.value)}>
+                  {PEST_LIST.map((p) => (
+                    <option key={p.value} value={p.value}>{p.label}</option>
+                  ))}
                 </select>
-                <ChevronDown className="select-icon" size={18} />
               </div>
             </div>
-          ) : (
-            <div className="form-group">
-              <label>Square Feet Input</label>
-              <div className="input-wrapper">
-                <input type="text" placeholder="1200" />
+
+            {/* Premise Size / Sqft */}
+            {premiseType === 'residential' ? (
+              <div className="field">
+                <label>Property Layout / Size</label>
+                <div className="field__control">
+                  <select value={premiseSize} onChange={(e) => setPremiseSize(e.target.value)}>
+                    {RESIDENTIAL_SIZES.map((s) => (
+                      <option key={s.value} value={s.value}>{s.label}</option>
+                    ))}
+                  </select>
+                </div>
               </div>
-              <span className="helper-text">Minimum 200 sqft required</span>
-            </div>
-          )}
+            ) : (
+              <div className="field">
+                <label>Carpet Area (sq. ft)</label>
+                <div className="field__control">
+                  <input
+                    type="number"
+                    min="200"
+                    value={sqft}
+                    onChange={(e) => setSqft(e.target.value)}
+                    placeholder="e.g. 1500"
+                  />
+                </div>
+                <span className="field__hint">Minimum 200 sq.ft required for commercial service</span>
+              </div>
+            )}
 
-          <div className="form-group">
-            <label>Select Frequency</label>
-            <div className="input-wrapper select-wrapper">
-              <select defaultValue="">
-                <option value="" disabled hidden>Select Frequency</option>
-                <option value="1_service">1 Service</option>
-                <option value="3_service_2year">3 Service 2 Year</option>
-                <option value="6_service_2year">6 Service 2 Year</option>
-                <option value="9_service_3year">9 Service 3 Year</option>
-              </select>
-              <ChevronDown className="select-icon" size={18} />
+            {/* Frequency Plan */}
+            <div className="field">
+              <label>Service Frequency</label>
+              <div className="field__control">
+                <select value={frequency} onChange={(e) => setFrequency(e.target.value)}>
+                  {FREQUENCIES.map((f) => (
+                    <option key={f.value} value={f.value}>{f.label}</option>
+                  ))}
+                </select>
+              </div>
             </div>
-          </div>
 
-          {/* Row 3 */}
-          <div className="form-group">
-            <label className="flex-label">Select Service Type <Info size={14} className="icon-subtle" /></label>
-            <div className="input-wrapper select-wrapper">
-              <select defaultValue="gold_shield_4d">
-                <option value="" disabled hidden>Select Service Type</option>
-                <option value="standard">Standard Pest Control</option>
-                <option value="silver_shield_3d">Silver Shield Service 3D</option>
-                <option value="gold_shield_4d">Gold Shield Service 4D</option>
-                <option value="platinum_shield_5d">Platinum Shield Service 5D</option>
-              </select>
-              <ChevronDown className="select-icon" size={18} />
+            {/* Treatment Shield Tier */}
+            <div className="field">
+              <label>Protection Tier</label>
+              <div className="field__control">
+                <select value={serviceTier} onChange={(e) => setServiceTier(e.target.value)}>
+                  {TIERS.map((t) => (
+                    <option key={t.value} value={t.value}>{t.label}</option>
+                  ))}
+                </select>
+              </div>
             </div>
-          </div>
 
-          <div className="form-group">
-            <label>Select Date</label>
-            <div className="input-wrapper select-wrapper">
-              <input 
-                type="date" 
-                value={bookingDate} 
-                onChange={(e) => setBookingDate(e.target.value)} 
-                style={{ colorScheme: 'dark', cursor: 'pointer' }}
-              />
-              <Calendar className="select-icon text-green" size={18} style={{ pointerEvents: 'none' }} />
-            </div>
-          </div>
-
-        </div>
-
-        {/* Pricing Summary */}
-        <div className="pricing-card">
-          <div className="pricing-info">
-            <div className="pricing-label">ESTIMATED INVESTMENT</div>
-            <div className="price-display">
-              <span className="rupee">₹</span>
-              <span className="amount">2,550.00</span>
-              <span className="gst-note">(Excluding GST)</span>
-            </div>
-            <div className="pricing-tags">
-              <span className="tag tag-premium">PREMIUM SERVICE</span>
-              <span className="tag tag-safety">SAFETY GUARANTEED</span>
+            {/* Preferred Date */}
+            <div className="field booking__field-full">
+              <label>Preferred Visit Date</label>
+              <div className="field__control">
+                <input
+                  type="date"
+                  value={bookingDate}
+                  onChange={(e) => setBookingDate(e.target.value)}
+                  min={new Date().toISOString().split('T')[0]}
+                />
+              </div>
             </div>
           </div>
-          <div className="pricing-actions">
-            <button className="btn-book" onClick={() => window.location.hash = '#book'}>BOOK NOW</button>
-            <button className="btn-talk" onClick={() => window.location.hash = '#contact'}>TALK TO AGENT</button>
-          </div>
-        </div>
 
+          {/* Pricing Summary Aside */}
+          <aside className="booking__summary">
+            <div className="booking__summary-badge">
+              <ShieldCheck size={14} /> Free Site Inspection
+            </div>
+            <span className="booking__summary-label">What happens next</span>
 
+            <p className="booking__quote-note">
+              A technician visits, assesses the infestation and the property, and
+              gives you a firm price before any work starts. The inspection itself
+              is free.
+            </p>
+
+            <div className="booking__divider" />
+
+            <ul className="booking__tags">
+              <li><CheckCircle2 size={16} /> Certified Non-Toxic Chemicals</li>
+              <li><ShieldCheck size={16} /> Free 30-90 Day Re-Treatment Guarantee</li>
+              <li><Leaf size={16} /> 100% Safe for Toddlers &amp; House Pets</li>
+            </ul>
+
+            <div className="booking__actions">
+              <button
+                type="button"
+                className="btn btn--primary btn--sq btn--block btn--lg"
+                onClick={handleBookNow}
+              >
+                Book This Service <ArrowRight />
+              </button>
+              <a
+                href="tel:+918754574229"
+                className="btn btn--outline-light btn--sq btn--block"
+              >
+                <Phone size={17} /> Talk to Pest Specialist
+              </a>
+            </div>
+          </aside>
+        </Reveal>
       </div>
     </section>
   );

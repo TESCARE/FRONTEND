@@ -1,101 +1,181 @@
-.why-choose-us {
-  padding: 5rem 2rem;
-  background: linear-gradient(180deg, var(--dark-bg) 0%, #285915 25%, #2a6117 50%, #285915 75%, var(--dark-bg) 100%);
-  color: #fff;
-  font-family: 'Inter', sans-serif;
-  overflow: hidden;
-}
+/* =========================================================
+   TESCARE — Why Choose Us
+   ========================================================= */
 
-.wcu-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  margin-bottom: 4rem;
-}
-
-.wcu-header h2 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin: 0;
-}
-
-.wcu-content {
-  display: flex;
-  max-width: 1200px;
-  margin: 0 auto;
-  gap: 4rem;
+.wcu__inner {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: clamp(3rem, 6vw, 5.5rem);
   align-items: center;
 }
 
-.wcu-text {
-  flex: 1;
-}
-
-.wcu-text p {
-  font-size: 1.1rem;
-  line-height: 1.8;
-  color: #f0f0f0;
-}
-
-.wcu-image-container {
-  flex: 1;
+.wcu__media {
   position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 0 2rem 3rem 0;
 }
 
-.building-img {
-  width: 100%;
-  max-width: 550px;
-  height: auto;
-  object-fit: cover;
-  border-top-left-radius: 80px;
-  border-bottom-right-radius: 80px;
-  border-top-right-radius: 12px;
-  border-bottom-left-radius: 12px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-}
-
-.worker-overlay {
-  position: absolute;
-  top: -40px;
-  right: -20px;
-  width: 140px;
-  height: 140px;
-  background-color: #fff;
-  border-radius: 50%;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.wcu__img {
+  border-radius: var(--r-2xl);
   overflow: hidden;
-  border: 4px solid #fff;
+  box-shadow: var(--shadow-xl);
+  aspect-ratio: 4 / 4.4;
+  border: 1px solid var(--line);
 }
 
-.worker-overlay img {
-  width: 120%;
-  height: 120%;
+.wcu__img img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  object-position: center top;
+}
+
+.wcu__worker {
+  position: absolute;
+  right: -10px;
+  bottom: 0;
+  width: 48%;
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  border: 7px solid #FFFFFF;
+  box-shadow: var(--shadow-xl);
+  aspect-ratio: 1;
+}
+
+.wcu__worker img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.wcu__badge {
+  position: absolute;
+  left: -16px;
+  top: 36px;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  background: #FFFFFF;
+  border-radius: var(--r-lg);
+  padding: 0.95rem 1.35rem;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--primary-border);
+}
+
+.wcu__badge svg {
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+.wcu__badge strong {
+  display: block;
+  font-family: var(--font-head);
+  font-size: 1.12rem;
+  color: var(--ink);
+  line-height: 1.15;
+}
+
+.wcu__badge span {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.wcu__mini-badge {
+  position: absolute;
+  left: 20px;
+  bottom: 30px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(13, 30, 22, 0.92);
+  color: #86EFAC;
+  padding: 0.5rem 1rem;
+  border-radius: var(--r-pill);
+  font-size: 0.82rem;
+  font-weight: 700;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: var(--shadow-md);
+}
+
+.wcu__content h2 {
+  margin-bottom: 1.15rem;
+}
+
+.wcu__lead {
+  margin-bottom: 2rem;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.wcu__points {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.35rem 1.75rem;
+  margin-bottom: 2.25rem;
+}
+
+.wcu__point {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.wcu__point .icon-box {
+  width: 48px;
+  height: 48px;
+}
+
+.wcu__point .icon-box svg {
+  width: 22px;
+  height: 22px;
+}
+
+.wcu__point h3 {
+  font-size: 1.02rem;
+  margin-bottom: 0.25rem;
+  color: var(--ink);
+}
+
+.wcu__point p {
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.wcu__cta-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
 /* Responsive */
-@media (max-width: 900px) {
-  .wcu-content {
+@media (max-width: 1024px) {
+  .wcu__inner {
+    grid-template-columns: 1fr;
+  }
+  .wcu__media {
+    max-width: 580px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .wcu__points {
+    grid-template-columns: 1fr;
+    gap: 1.15rem;
+  }
+  .wcu__badge {
+    left: 0;
+    top: 16px;
+    padding: 0.75rem 1rem;
+  }
+  .wcu__media {
+    padding-right: 0.5rem;
+  }
+  .wcu__cta-row {
     flex-direction: column;
-    gap: 3rem;
+    align-items: stretch;
   }
-  
-  .wcu-text p {
-    font-size: 1rem;
-  }
-  
-  .worker-overlay {
-    top: -20px;
-    right: -10px;
-    width: 100px;
-    height: 100px;
+  .wcu__cta-row .btn {
+    width: 100%;
   }
 }

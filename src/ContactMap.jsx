@@ -1,44 +1,43 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { MapPin } from 'lucide-react';
+import { MapPin, ExternalLink } from 'lucide-react';
+import Reveal from './components/Reveal.jsx';
+import SectionHead from './components/SectionHead.jsx';
+import { OFFICE_ADDRESS, OFFICE_MAPS_EMBED, OFFICE_MAPS_URL } from './siteConfig.js';
 import './ContactMap.css';
 
-const ContactMap = () => {
-  return (
-    <section className="contact-map-section">
-      <div className="cmap-container">
-        <motion.div 
-          className="cmap-header"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.6 }}
+const ContactMap = () => (
+  <section className="section section--white cmap">
+    <div className="container">
+      <SectionHead
+        eyebrow="Location"
+        icon={MapPin}
+        title="Find Us Here"
+        text={`Our office at ${OFFICE_ADDRESS}.`}
+      />
+      <Reveal className="cmap__frame" y={30}>
+        <iframe
+          src={OFFICE_MAPS_EMBED}
+          width="100%"
+          height="100%"
+          style={{ border: 0 }}
+          allowFullScreen=""
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          title={`Tescare office — ${OFFICE_ADDRESS}`}
+        />
+      </Reveal>
+      <div className="cmap__actions">
+        <a
+          className="btn btn--outline btn--sq"
+          href={OFFICE_MAPS_URL}
+          target="_blank"
+          rel="noreferrer"
         >
-          <h2>Find Us Here</h2>
-          <p>Our service location</p>
-        </motion.div>
-
-        <motion.div 
-          className="cmap-placeholder-box"
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          <iframe 
-            src="https://maps.google.com/maps?q=Chennai,%20Tamil%20Nadu&t=&z=11&ie=UTF8&iwloc=&output=embed" 
-            width="100%" 
-            height="100%" 
-            style={{ border: 0, borderRadius: '16px' }} 
-            allowFullScreen="" 
-            loading="lazy" 
-            referrerPolicy="no-referrer-when-downgrade"
-            title="Service Location Map"
-          ></iframe>
-        </motion.div>
+          <MapPin /> Open in Google Maps <ExternalLink />
+        </a>
       </div>
-    </section>
-  );
-};
+    </div>
+  </section>
+);
 
 export default ContactMap;

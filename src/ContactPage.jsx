@@ -1,26 +1,17 @@
-import React, { useEffect } from 'react';
-import Navbar from './Navbar.jsx';
+import React from 'react';
+import PageLayout from './components/PageLayout.jsx';
 import ContactHero from './ContactHero.jsx';
 import ContactForm from './ContactForm.jsx';
 import ContactMap from './ContactMap.jsx';
 import ContactHours from './ContactHours.jsx';
-import Footer from './Footer.jsx';
 
-const ContactPage = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  return (
-    <div className="contact-page-wrapper">
-      <Navbar />
-      <ContactHero />
-      <ContactForm />
-      <ContactMap />
-      <ContactHours />
-      <Footer />
-    </div>
-  );
-};
+const ContactPage = () => (
+  <PageLayout className="contact-page-wrapper">
+    <ContactHero />
+    <ContactForm />
+    <ContactMap />
+    <ContactHours />
+  </PageLayout>
+);
 
 export default ContactPage;

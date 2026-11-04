@@ -1,91 +1,96 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Bug, Droplet, Shield, Home } from 'lucide-react';
+import { Bug, Droplet, Shield, Home, Package, ArrowRight, CheckCircle2, Sparkles } from 'lucide-react';
+import Reveal from './components/Reveal.jsx';
+import SectionHead from './components/SectionHead.jsx';
 import './ComboPackages.css';
 
 const combos = [
   {
-    saveTag: "SAVE ₹3,000",
-    title: "Home Protection Package",
-    subtitle: "Complete pest control solution",
-    oldPrice: "₹9,999",
-    newPrice: "₹6,999",
+    saveTag: 'SAVE ₹3,000 (30% OFF)',
+    title: 'Complete Home Defense Combo',
+    subtitle: 'Integrated multi-pest protection plan',
+    oldPrice: '₹9,999',
+    newPrice: '₹6,999',
+    warranty: '1-Year AMC with 3 Scheduled Visits',
     features: [
-      { text: "Cockroach Control", icon: Bug },
-      { text: "Mosquito Control", icon: Droplet },
-      { text: "Ant Treatment", icon: Bug }
-    ]
+      { text: 'Cockroach Control (Kitchen Gel + Perimeter)', icon: Bug },
+      { text: 'Mosquito Misting & Drain Larvicide Treatment', icon: Droplet },
+      { text: 'Ant, Spider & Silverfish Baseboard Shield', icon: Shield },
+    ],
   },
   {
-    saveTag: "SAVE ₹4,500",
-    title: "Apartment Safety Package",
-    subtitle: "Complete protection for your home",
-    oldPrice: "₹12,999",
-    newPrice: "₹8,499",
+    saveTag: 'SAVE ₹4,500 (35% OFF)',
+    title: 'Apartment Safety & Bird Shield',
+    subtitle: 'Complete pest elimination + balcony bird protection',
+    oldPrice: '₹12,999',
+    newPrice: '₹8,499',
+    warranty: '3-Year Bird Net Warranty + 1-Year Pest AMC',
     features: [
-      { text: "Bird Net Installation", icon: Home },
-      { text: "Mosquito Mesh", icon: Shield },
-      { text: "General Pest Control", icon: Bug }
-    ]
-  }
+      { text: 'Balcony Invisible Bird Netting (Garware HDPE)', icon: Home },
+      { text: 'Complete Cockroach & Pest Gel Treatment', icon: Bug },
+      { text: 'Window Mosquito Mesh & Pigeon Proofing', icon: Shield },
+    ],
+    featured: true,
+  },
 ];
 
-const ComboPackages = () => {
-  return (
-    <section className="combo-section">
-      <div className="combo-container">
-        
-        <motion.div 
-          className="combo-header"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.6 }}
-        >
-          <h2>Combo Packages</h2>
-          <p>Save even more with our specially curated combo packages</p>
-        </motion.div>
+const ComboPackages = () => (
+  <section className="section section--soft combo">
+    <div className="container">
+      <SectionHead
+        eyebrow="Curated Bundles"
+        icon={Package}
+        center={true}
+        title="Multi-Service Combo Packages"
+        text="Bundle clinical pest elimination with balcony netting to maximize your home protection while saving significantly."
+      />
+      <div className="combo__grid">
+        {combos.map((c, i) => (
+          <Reveal
+            key={i}
+            delay={i * 0.12}
+            className={`combo__card ${c.featured ? 'combo__card--featured' : ''}`}
+          >
+            <div className="combo__top">
+              <span className="combo__save">{c.saveTag}</span>
+              <h3>{c.title}</h3>
+              <p className="combo__sub">{c.subtitle}</p>
+            </div>
 
-        <div className="combo-grid">
-          {combos.map((combo, index) => (
-            <motion.div 
-              key={index}
-              className="combo-card"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, delay: index * 0.15 }}
-            >
-              <div className="combo-save-tag">{combo.saveTag}</div>
-              
-              <h3 className="combo-title">{combo.title}</h3>
-              <p className="combo-subtitle">{combo.subtitle}</p>
-              
-              <div className="combo-price-row">
-                <span className="combo-old-price">{combo.oldPrice}</span>
-                <span className="combo-new-price">{combo.newPrice}</span>
-              </div>
+            <div className="combo__price">
+              <span className="combo__old">{c.oldPrice}</span>
+              <span className="combo__new">{c.newPrice}</span>
+              <span className="combo__warranty">{c.warranty}</span>
+            </div>
 
-              <div className="combo-features">
-                {combo.features.map((feature, i) => {
-                  const Icon = feature.icon;
-                  return (
-                    <div key={i} className="combo-feature-item">
-                      <Icon className="combo-feature-icon" size={20} strokeWidth={1.5} />
-                      <span>{feature.text}</span>
+            <ul className="combo__features">
+              {c.features.map((f, j) => {
+                const Icon = f.icon;
+                return (
+                  <li key={j}>
+                    <span className="icon-box combo__icon-box"><Icon /></span>
+                    <div>
+                      <strong>{f.text}</strong>
+                      <span>Included in bundled rate</span>
                     </div>
-                  );
-                })}
-              </div>
+                  </li>
+                );
+              })}
+            </ul>
 
-              <button className="combo-btn" onClick={() => window.location.hash = '#book'}>Book Package</button>
-            </motion.div>
-          ))}
-        </div>
-
+            <button
+              type="button"
+              className="btn btn--primary btn--sq btn--block btn--lg"
+              onClick={() => (window.location.hash = '#book')}
+            >
+              <span>Book Bundle Package</span>
+              <ArrowRight />
+            </button>
+          </Reveal>
+        ))}
       </div>
-    </section>
-  );
-};
+    </div>
+  </section>
+);
 
 export default ComboPackages;

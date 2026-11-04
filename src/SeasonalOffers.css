@@ -1,141 +1,120 @@
-.seasonal-section {
-  background-color: #050505;
-  padding: 4rem 2rem 8rem 2rem;
-  font-family: 'Inter', sans-serif;
-  color: #fff;
+/* =========================================================
+   TESCARE — Seasonal Offers
+   ========================================================= */
+
+.seasonal__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+.seasonal__card {
+  position: relative;
+  border-radius: var(--r-2xl);
+  padding: clamp(2rem, 3.5vw, 2.75rem);
+  color: #FFFFFF;
+  overflow: hidden;
   display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-lg);
+  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+
+.seasonal__card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-xl);
+}
+
+.seasonal__card::after {
+  content: '';
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  right: -100px;
+  bottom: -140px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  pointer-events: none;
+}
+
+.seasonal__card--emerald {
+  background: linear-gradient(135deg, #15803D 0%, #0F2A1E 100%);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+}
+
+.seasonal__card--blue {
+  background: linear-gradient(135deg, #0284C7 0%, #0B1E2D 100%);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.seasonal__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.seasonal__icon {
+  width: 54px;
+  height: 54px;
+  border-radius: var(--r-md);
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(8px);
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
 }
 
-.seasonal-container {
-  max-width: 950px;
-  width: 100%;
+.seasonal__icon svg {
+  width: 26px;
+  height: 26px;
+  color: #FFFFFF;
 }
 
-.seasonal-header {
-  text-align: center;
-  margin-bottom: 4rem;
+.seasonal__badge {
+  background: #FFFFFF;
+  color: var(--ink);
+  font-weight: 800;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  padding: 0.4rem 0.95rem;
+  border-radius: var(--r-pill);
+  box-shadow: var(--shadow-sm);
 }
 
-.seasonal-header h2 {
-  font-size: 2.8rem;
-  font-weight: 600;
-  margin-bottom: 0.8rem;
-  letter-spacing: -0.5px;
+.seasonal__card h3 {
+  color: #FFFFFF;
+  font-size: clamp(1.45rem, 2.4vw, 1.85rem);
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 0.75rem;
 }
 
-.seasonal-header p {
-  font-size: 1.1rem;
-  color: #d1d5db;
+.seasonal__card p {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 1rem;
+  line-height: 1.65;
+  margin-bottom: 1.25rem;
 }
 
-.seasonal-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 3rem;
+.seasonal__highlight {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #86EFAC;
+  margin-bottom: 1.75rem;
 }
 
-.seasonal-card {
-  border: 6px solid #4caa17;
-  border-radius: 35px;
-  padding: 3rem 2.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  color: #111827;
-  box-shadow: 0 15px 40px rgba(76, 170, 23, 0.15);
-  transition: transform 0.3s ease;
-  min-height: 400px;
+.seasonal__actions {
+  margin-top: auto;
+  position: relative;
+  z-index: 2;
 }
 
-.seasonal-card:hover {
-  transform: translateY(-5px);
-}
-
-.festival-card {
-  background: linear-gradient(180deg, #fff0f0 0%, #ffffff 100%);
-}
-
-.summer-card {
-  background: linear-gradient(180deg, #f0f8ff 0%, #ffffff 100%);
-}
-
-.seasonal-icon-wrapper {
-  margin-bottom: 2rem;
-}
-
-.seasonal-icon {
-  color: #4caa17;
-}
-
-.seasonal-title {
-  font-size: 1.6rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
-  color: #1f2937;
-}
-
-.seasonal-desc {
-  font-size: 1.05rem;
-  color: #4b5563;
-  line-height: 1.6;
-  margin-bottom: 3rem;
-  flex-grow: 1;
-}
-
-.seasonal-buttons {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.seasonal-btn {
-  border-radius: 30px;
-  padding: 1rem;
-  font-size: 1.05rem;
-  font-weight: 600;
-  cursor: pointer;
-  width: 100%;
-  transition: all 0.3s ease;
-  text-align: center;
-}
-
-.primary-btn {
-  color: #fff;
-  border: none;
-}
-
-.red-btn {
-  background-color: #e60000;
-}
-
-.red-btn:hover {
-  background-color: #cc0000;
-}
-
-.blue-btn {
-  background-color: #1a66ff;
-}
-
-.blue-btn:hover {
-  background-color: #004de6;
-}
-
-.outline-btn {
-  background-color: #fff;
-  color: #4caa17;
-  border: 1.5px solid #4caa17;
-}
-
-.outline-btn:hover {
-  background-color: #f0fdf4;
-}
-
-@media (max-width: 800px) {
-  .seasonal-grid {
+@media (max-width: 860px) {
+  .seasonal__grid {
     grid-template-columns: 1fr;
-    max-width: 450px;
-    margin: 0 auto;
   }
 }

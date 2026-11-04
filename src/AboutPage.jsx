@@ -1,24 +1,19 @@
 import React from 'react';
-import Navbar from './Navbar.jsx';
+import PageLayout from './components/PageLayout.jsx';
 import AboutHero from './AboutHero.jsx';
 import OurStory from './OurStory.jsx';
 import MissionVision from './MissionVision.jsx';
 import StatsSection from './StatsSection.jsx';
 import InstantBooking from './InstantBooking.jsx';
-import Footer from './Footer.jsx';
 
-const AboutPage = () => {
-  return (
-    <div className="about-page-wrapper">
-      <Navbar />
-      <AboutHero />
-      <OurStory />
-      <MissionVision />
-      <StatsSection />
-      <InstantBooking />
-      <Footer />
-    </div>
-  );
-};
+const AboutPage = () => (
+  <PageLayout className="tes-page about-page-wrapper">
+    <AboutHero />
+    <OurStory />
+    <MissionVision />
+    <StatsSection />
+    <InstantBooking />
+  </PageLayout>
+);
 
 export default AboutPage;

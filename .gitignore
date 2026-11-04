@@ -12,3 +12,5 @@ dist-ssr/
 # Local Node.js binaries/archives
 node-v20.11.1-darwin-arm64/
 node-v20.11.1-darwin-arm64.tar.gz
+
+.env

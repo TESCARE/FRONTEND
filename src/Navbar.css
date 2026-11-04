@@ -1,0 +1,753 @@
+/* =========================================================
+   TESCARE — Enterprise Grade Modern Navbar
+   ========================================================= */
+
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: var(--nav-h);
+  background: #FFFFFF;
+  border-bottom: 1px solid #E2E8F0;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 4px 12px -2px rgba(15, 23, 42, 0.03);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav.is-scrolled {
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom-color: #CBD5E1;
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.08), 0 1px 3px rgba(15, 23, 42, 0.04);
+}
+
+.nav__inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+}
+
+/* Brand Logo */
+.nav__logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.nav__logo img {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav__logo:hover img {
+  transform: scale(1.02);
+}
+
+/* Nav links */
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  white-space: nowrap;
+}
+
+.nav__item,
+.nav__dd-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.55rem 0.9rem;
+  border-radius: var(--r-pill);
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: #1E293B;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap !important;
+  text-decoration: none;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav__item:hover,
+.nav__dd-trigger:hover {
+  color: #047857;
+  background: #F0FDF4;
+}
+
+.nav__item.is-active,
+.nav__dd-trigger.is-active {
+  color: #047857;
+  background: #DCFCE7;
+  font-weight: 700;
+}
+
+.nav__badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #F97316 0%, #EA580C 100%);
+  color: #FFFFFF;
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--r-pill);
+  line-height: 1;
+  margin-left: 0.2rem;
+  box-shadow: 0 2px 6px rgba(249, 115, 22, 0.3);
+}
+
+.nav__dd-arrow {
+  width: 15px;
+  height: 15px;
+  color: #64748B;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), color 0.18s ease;
+}
+
+.nav__dd:hover .nav__dd-arrow,
+.nav__dd-trigger:hover .nav__dd-arrow {
+  color: #047857;
+}
+
+/* Mega-Menu Dropdown */
+.nav__dd {
+  position: relative;
+}
+
+.nav__dd::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  height: 14px;
+}
+
+.nav__dd-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  width: 580px;
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 18px;
+  padding: 1.15rem;
+  box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.15), 0 0 1px rgba(15, 23, 42, 0.1);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.2s;
+  z-index: 1050;
+}
+
+.nav__dd:hover .nav__dd-menu,
+.nav__dd:focus-within .nav__dd-menu {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+.nav__dd:hover .nav__dd-arrow {
+  transform: rotate(180deg);
+}
+
+.nav__dd-header {
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.nav__dd-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #047857;
+  background: #DCFCE7;
+  border: 1px solid #BBF7D0;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--r-pill);
+  margin-bottom: 0.3rem;
+}
+
+.nav__dd-header p {
+  font-size: 0.82rem;
+  color: #64748B;
+  margin: 0;
+}
+
+.nav__dd-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.45rem;
+}
+
+.nav__dd-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav__dd-card:hover,
+.nav__dd-card.is-active {
+  background: #F0FDF4;
+  transform: translateX(2px);
+}
+
+.nav__dd-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #16A34A;
+  flex-shrink: 0;
+  transition: all 0.18s ease;
+}
+
+.nav__dd-icon svg {
+  width: 17px;
+  height: 17px;
+}
+
+.nav__dd-card:hover .nav__dd-icon {
+  background: #16A34A;
+  border-color: #16A34A;
+  color: #FFFFFF;
+}
+
+.nav__dd-info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.nav__dd-info strong {
+  font-size: 0.9rem;
+  color: #0F172A;
+  font-weight: 600;
+}
+
+.nav__dd-info span {
+  font-size: 0.76rem;
+  color: #64748B;
+}
+
+.nav__dd-card:hover .nav__dd-info strong {
+  color: #047857;
+}
+
+.nav__dd-footer {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #F1F5F9;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  color: #64748B;
+}
+
+.nav__dd-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: #047857;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.nav__dd-cta:hover {
+  color: #065F46;
+  text-decoration: underline;
+}
+
+/* Actions Right */
+.nav__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.nav__phone {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.45rem 0.95rem;
+  border-radius: var(--r-pill);
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  color: #0F172A;
+  text-decoration: none;
+  white-space: nowrap !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav__phone:hover {
+  background: #F0FDF4;
+  border-color: #86EFAC;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px -2px rgba(16, 185, 129, 0.12);
+}
+
+.nav__phone-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #DCFCE7;
+  color: #16A34A;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.nav__phone-icon svg {
+  width: 15px;
+  height: 15px;
+}
+
+.nav__phone-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+  text-align: left;
+}
+
+.nav__phone-sub {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #64748B;
+}
+
+.nav__phone-text strong {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #0F172A;
+  letter-spacing: -0.01em;
+}
+
+.nav__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65rem 1.35rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  border-radius: var(--r-pill);
+  background: linear-gradient(135deg, #16A34A 0%, #15803D 100%);
+  color: #FFFFFF;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap !important;
+  box-shadow: 0 2px 8px rgba(22, 163, 74, 0.25);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav__cta:hover {
+  background: linear-gradient(135deg, #15803D 0%, #166534 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(22, 163, 74, 0.35);
+}
+
+.nav__burger {
+  display: none;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--r-sm);
+  align-items: center;
+  justify-content: center;
+  color: #1E293B;
+  background: #F1F5F9;
+  border: 1px solid #E2E8F0;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.nav__burger:hover {
+  background: #E2E8F0;
+  color: #0F172A;
+}
+
+.nav__burger svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Mobile Drawer */
+.nav__mobile {
+  position: fixed;
+  top: var(--nav-h);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 990;
+  background: #FFFFFF;
+  overflow-y: auto;
+  border-top: 1px solid #E2E8F0;
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.12);
+}
+
+.nav__mobile-inner {
+  padding: 1.25rem var(--gutter) 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.nav__m-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.nav__m-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.9rem 1rem;
+  border-radius: var(--r-md);
+  font-weight: 700;
+  font-size: 1.02rem;
+  color: #0F172A;
+  text-align: left;
+  font-family: var(--font-head);
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.nav__m-link:hover,
+.nav__m-link.is-active {
+  background: #F0FDF4;
+  color: #047857;
+}
+
+.nav__m-arrow {
+  width: 18px;
+  height: 18px;
+  color: #64748B;
+  transition: transform 0.2s ease;
+}
+
+.nav__m-arrow.rot {
+  transform: rotate(180deg);
+  color: #047857;
+}
+
+.nav__m-sub {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0.25rem 0.5rem 0.75rem;
+  padding-left: 0.75rem;
+  border-left: 2px solid #86EFAC;
+}
+
+.nav__m-sublink {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: var(--r-sm);
+  color: #334155;
+  text-decoration: none;
+  transition: all 0.18s ease;
+}
+
+.nav__m-sublink svg {
+  width: 18px;
+  height: 18px;
+  color: #16A34A;
+  flex-shrink: 0;
+}
+
+.nav__m-sublink strong {
+  display: block;
+  font-size: 0.92rem;
+  color: #0F172A;
+}
+
+.nav__m-sublink span {
+  display: block;
+  font-size: 0.78rem;
+  color: #64748B;
+}
+
+.nav__m-sublink:hover,
+.nav__m-sublink.is-active {
+  background: #F0FDF4;
+  color: #047857;
+}
+
+.nav__m-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #E2E8F0;
+}
+
+.nav__m-contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.65rem;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1180px) {
+  .nav__phone-text {
+    display: none;
+  }
+  .nav__phone {
+    padding: 0.45rem;
+  }
+  .nav__links {
+    gap: 0.2rem;
+  }
+  .nav__item,
+  .nav__dd-trigger {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.88rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .nav__links {
+    display: none;
+  }
+  .nav__phone {
+    display: none;
+  }
+  .nav__burger {
+    display: inline-flex;
+  }
+  .nav__cta {
+    padding: 0.6rem 1.15rem;
+    font-size: 0.88rem;
+  }
+  .nav__logo img {
+    height: 42px;
+  }
+}
+
+@media (max-width: 520px) {
+  .nav__cta {
+    display: none;
+  }
+  .nav__logo img {
+    height: 38px;
+  }
+  .nav__m-contact-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================================
+   Pest Control dropdown — refinement
+   The six icon chips were grey on grey (#F8FAFC on #E2E8F0) and read as
+   six identical glyphs. Brand-tinted chips plus a per-row affordance make
+   the panel scannable.
+   ========================================================= */
+
+.nav__dd-menu {
+  width: 616px;
+  padding: 1.25rem 1.25rem 1.1rem;
+  border-radius: 20px;
+  border-color: #E6EDE8;
+  box-shadow: 0 28px 60px -18px rgba(8, 20, 14, 0.26),
+    0 2px 6px rgba(8, 20, 14, 0.05);
+}
+
+.nav__dd-header {
+  padding-bottom: 0.9rem;
+  margin-bottom: 0.9rem;
+  border-bottom-color: #ECF2EE;
+}
+
+.nav__dd-header p {
+  font-size: 0.83rem;
+  color: #6B7A72;
+  margin-top: 0.3rem;
+}
+
+.nav__dd-grid {
+  gap: 0.35rem 0.5rem;
+}
+
+.nav__dd-card {
+  gap: 0.8rem;
+  padding: 0.68rem 0.7rem;
+  border: 1px solid transparent;
+  transition: background 0.18s var(--ease), border-color 0.18s var(--ease);
+}
+
+/* the sideways nudge fought the cursor; a tinted surface reads calmer */
+.nav__dd-card:hover,
+.nav__dd-card.is-active {
+  background: var(--primary-soft);
+  border-color: var(--primary-border);
+  transform: none;
+}
+
+.nav__dd-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  background: var(--primary-soft);
+  border-color: var(--primary-border);
+  color: var(--primary-700);
+}
+
+.nav__dd-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.nav__dd-card:hover .nav__dd-icon,
+.nav__dd-card.is-active .nav__dd-icon {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #FFFFFF;
+}
+
+.nav__dd-info {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.nav__dd-info strong {
+  letter-spacing: -0.01em;
+}
+
+/* arrow only appears on the row you are pointing at */
+.nav__dd-go {
+  flex-shrink: 0;
+  color: var(--primary);
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.18s var(--ease), transform 0.18s var(--ease);
+}
+
+.nav__dd-card:hover .nav__dd-go,
+.nav__dd-card.is-active .nav__dd-go {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.nav__dd-footer {
+  margin-top: 0.95rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid #ECF2EE;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav__dd-go {
+    transition: none;
+  }
+}
+
+/* =========================================================
+   Pest Control dropdown — brighter
+   The panel read dim: 12px descriptions at #64748B on white, pale
+   #F0FDF4 icon fills and a dark #166534 glyph. Lifting saturation on
+   the chips and contrast on the type.
+   ========================================================= */
+
+.nav__dd-menu {
+  background: #FFFFFF;
+  border-color: #D9E7DE;
+}
+
+.nav__dd-badge {
+  background: #D6FBE2;
+  border-color: #9BEBB7;
+  color: #0B6B35;
+}
+
+.nav__dd-header p {
+  color: #4A5A52;
+}
+
+/* brighter fill, brighter glyph */
+.nav__dd-icon {
+  background: #DCFCE7;
+  border-color: #A7EFC2;
+  color: #16A34A;
+}
+
+.nav__dd-card:hover .nav__dd-icon,
+.nav__dd-card.is-active .nav__dd-icon {
+  background: #16A34A;
+  border-color: #16A34A;
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px -3px rgba(22, 163, 74, 0.5);
+}
+
+.nav__dd-info strong {
+  color: #0B1612;
+  font-weight: 700;
+}
+
+/* the single biggest lift — these were the faintest text in the panel */
+.nav__dd-info span {
+  font-size: 0.785rem;
+  color: #51635A;
+}
+
+.nav__dd-card:hover .nav__dd-info strong,
+.nav__dd-card.is-active .nav__dd-info strong {
+  color: #15803D;
+}
+
+.nav__dd-card:hover .nav__dd-info span {
+  color: #3F574A;
+}
+
+.nav__dd-card:hover,
+.nav__dd-card.is-active {
+  background: #EDFCF2;
+  border-color: #A7EFC2;
+}
+
+.nav__dd-go {
+  color: #16A34A;
+}
+
+.nav__dd-footer {
+  color: #4A5A52;
+  border-top-color: #E3EFE7;
+}
+
+.nav__dd-cta {
+  color: #15803D;
+}
+
+.nav__dd-cta:hover {
+  color: #166534;
+}

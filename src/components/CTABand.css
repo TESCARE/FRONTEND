@@ -1,0 +1,152 @@
+/* =========================================================
+   TESCARE — Conversion Call-To-Action Band
+   ========================================================= */
+
+.cta-band {
+  position: relative;
+  background: var(--bg-soft);
+  padding: clamp(3.5rem, 6vw, 5.5rem) 0;
+}
+
+.cta-band__panel {
+  position: relative;
+  background: linear-gradient(135deg, var(--forest) 0%, var(--forest-2) 50%, var(--forest-3) 100%);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--r-2xl);
+  box-shadow: var(--shadow-xl);
+  overflow: hidden;
+  isolation: isolate;
+  padding: clamp(2.5rem, 5vw, 4rem) clamp(1.75rem, 3.5vw, 3rem) 0;
+}
+
+/* The eyebrow was inheriting the light-surface treatment because this
+   section isn't .section--dark — a mint pill on a near-black panel. */
+.cta-band__panel .eyebrow {
+  background: rgba(34, 197, 94, 0.12);
+  border-color: rgba(34, 197, 94, 0.28);
+  color: #86EFAC;
+}
+
+.cta-band__panel .eyebrow svg {
+  color: #4ADE80;
+}
+
+.cta-band__glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.cta-band__glow--a {
+  width: 580px;
+  height: 580px;
+  left: -220px;
+  top: -220px;
+  background: radial-gradient(circle, rgba(22, 163, 74, 0.3) 0%, rgba(0, 0, 0, 0) 70%);
+}
+
+.cta-band__glow--b {
+  width: 500px;
+  height: 500px;
+  right: 5%;
+  bottom: -240px;
+  background: radial-gradient(circle, rgba(34, 197, 94, 0.22) 0%, rgba(0, 0, 0, 0) 70%);
+}
+
+.cta-band__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  align-items: end;
+  gap: 2.5rem;
+}
+
+.cta-band__content {
+  padding-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+.cta-band__content h2 {
+  color: #FFFFFF;
+  font-size: clamp(2rem, 3.8vw, 3rem);
+  line-height: 1.15;
+  margin-bottom: 1rem;
+  max-width: 600px;
+}
+
+.cta-band__content p {
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 1.1rem;
+  line-height: 1.65;
+  max-width: 540px;
+  margin-bottom: 2rem;
+}
+
+.cta-band__actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.cta-band__trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.75rem;
+  margin-top: 2.25rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.cta-band__trust li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.88);
+  font-weight: 600;
+}
+
+.cta-band__trust svg {
+  width: 18px;
+  height: 18px;
+  color: #4ADE80;
+  flex-shrink: 0;
+}
+
+.cta-band__media {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  align-self: end;
+}
+
+.cta-band__media img {
+  max-height: 480px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.6));
+  transition: transform 0.6s var(--ease);
+}
+
+.cta-band__media:hover img {
+  transform: scale(1.03);
+}
+
+@media (max-width: 960px) {
+  .cta-band__inner {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .cta-band__media {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .cta-band__actions {
+    flex-direction: column;
+  }
+  .cta-band__actions .btn {
+    width: 100%;
+  }
+}

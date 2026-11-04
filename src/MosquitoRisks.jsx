@@ -1,51 +1,15 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { AlertCircle } from 'lucide-react';
-import './MosquitoRisks.css';
+import InfoGrid from './components/InfoGrid.jsx';
 
-const risks = [
-  "Dengue",
-  "Malaria",
-  "Chikungunya",
-  "Skin irritation"
+const items = [
+  { title: "Dengue", desc: "Spread by Aedes mosquitoes, which breed in clean standing water and bite through the day." },
+  { title: "Malaria", desc: "Carried by Anopheles mosquitoes, most active between dusk and dawn." },
+  { title: "Chikungunya", desc: "Causes severe joint pain that can linger for weeks after the fever clears." },
+  { title: "Skin irritation", desc: "Repeated bites leave itching and welts, and scratching invites secondary infection." },
 ];
 
-const MosquitoRisks = () => {
-  return (
-    <section className="mrisks-section">
-      <div className="mrisks-glow-left"></div>
-      <div className="mrisks-glow-right"></div>
-      
-      <div className="mrisks-container">
-        <motion.div 
-          className="mrisks-header"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-        >
-          <h2>Health Risks from Mosquitoes</h2>
-          <p>Mosquitoes carry dangerous diseases affecting millions</p>
-        </motion.div>
-
-        <div className="mrisks-grid">
-          {risks.map((risk, index) => (
-            <motion.div 
-              key={index}
-              className="mrisks-card"
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-            >
-              <AlertCircle className="mrisks-icon" size={24} strokeWidth={1.5} />
-              <span className="mrisks-text">{risk}</span>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
+const MosquitoRisks = () => (
+  <InfoGrid eyebrow="Health Risks" title="Health Risks from Mosquitoes" text="Mosquitoes carry dangerous diseases affecting millions" items={items} />
+);
 
 export default MosquitoRisks;

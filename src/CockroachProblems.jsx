@@ -1,51 +1,15 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { AlertTriangle } from 'lucide-react';
-import './CockroachProblems.css';
+import InfoGrid from './components/InfoGrid.jsx';
 
-const problems = [
-  "Food contamination",
-  "Allergy triggers",
-  "Rapid infestation",
-  "Disease transmission"
+const items = [
+  { title: "Food contamination", desc: "Roaches travel through drains and waste, then across worktops, utensils and stored food." },
+  { title: "Allergy triggers", desc: "Shed skins and droppings carry allergens linked to asthma attacks, particularly in children." },
+  { title: "Rapid infestation", desc: "A single German cockroach egg case holds up to 40 nymphs, so numbers climb quickly." },
+  { title: "Disease transmission", desc: "They can carry salmonella, E. coli and other organisms behind common stomach illness." },
 ];
 
-const CockroachProblems = () => {
-  return (
-    <section className="cprobs-section">
-      <div className="cprobs-glow-left"></div>
-      <div className="cprobs-glow-right"></div>
-      
-      <div className="cprobs-container">
-        <motion.div 
-          className="cprobs-header"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-        >
-          <h2>Problems Caused by Cockroaches</h2>
-          <p>Cockroaches pose serious health and hygiene risks</p>
-        </motion.div>
-
-        <div className="cprobs-grid">
-          {problems.map((problem, index) => (
-            <motion.div 
-              key={index}
-              className="cprobs-card"
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-            >
-              <AlertTriangle className="cprobs-icon" size={24} strokeWidth={1.5} />
-              <span className="cprobs-text">{problem}</span>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
+const CockroachProblems = () => (
+  <InfoGrid eyebrow="Health Risks" title="Problems Caused by Cockroaches" text="Cockroaches pose serious health and hygiene risks" items={items} />
+);
 
 export default CockroachProblems;

@@ -1,51 +1,15 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { AlertCircle } from 'lucide-react';
-import './BedbugSigns.css';
+import InfoGrid from './components/InfoGrid.jsx';
 
-const signs = [
-  "Red bite marks on skin",
-  "Blood spots on sheets",
-  "Small dark stains on mattress",
-  "Bedbugs hiding in cracks"
+const items = [
+  { title: "Red bite marks on skin", desc: "Itchy welts in clusters or short lines, usually on arms, shoulders and legs exposed during sleep." },
+  { title: "Blood spots on sheets", desc: "Small rust-coloured smears on bedding where bugs were crushed after feeding." },
+  { title: "Small dark stains on mattress", desc: "Dark specks of digested blood along seams, piping and the underside of the mattress." },
+  { title: "Bedbugs hiding in cracks", desc: "Live insects and pale shed skins tucked into headboard joints, bed frames and skirting gaps." },
 ];
 
-const BedbugSigns = () => {
-  return (
-    <section className="bsigns-section">
-      <div className="bsigns-glow-left"></div>
-      <div className="bsigns-glow-right"></div>
-      
-      <div className="bsigns-container">
-        <motion.div 
-          className="bsigns-header"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-        >
-          <h2>Signs of Bedbug Infestation</h2>
-          <p>Look out for these warning signs in your bedroom</p>
-        </motion.div>
-
-        <div className="bsigns-grid">
-          {signs.map((sign, index) => (
-            <motion.div 
-              key={index}
-              className="bsigns-card"
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-            >
-              <AlertCircle className="bsigns-icon" size={24} strokeWidth={1.5} />
-              <span className="bsigns-text">{sign}</span>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
+const BedbugSigns = () => (
+  <InfoGrid eyebrow="Warning Signs" title="Signs of Bedbug Infestation" text="Look out for these warning signs in your bedroom" items={items} />
+);
 
 export default BedbugSigns;

@@ -1,316 +1,234 @@
-.book-form-section {
-  background-color: #030604;
-  padding: 4rem 2rem 6rem 2rem;
-  font-family: 'Inter', sans-serif;
-  color: #fff;
-  display: flex;
-  justify-content: center;
-}
+/* =========================================================
+   TESCARE — Book Form Styles
+   ========================================================= */
 
-.book-form-container {
-  max-width: 1200px;
-  width: 100%;
-}
-
-.book-form-header {
-  margin-bottom: 3rem;
-}
-
-.book-form-header h2 {
-  font-size: 2.2rem;
-  font-weight: 500;
-  color: #fff;
-}
-
-.book-form-grid {
+.bform__inner {
   display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 3rem;
+  grid-template-columns: 1.6fr 0.95fr;
+  gap: 2rem;
+  align-items: start;
 }
 
-/* Form Styles */
-.bform {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+.bform__main {
+  background: #FFFFFF;
+  border: 1px solid var(--line);
+  border-radius: var(--r-2xl);
+  padding: clamp(2rem, 3.5vw, 3rem);
+  box-shadow: var(--shadow-xl);
 }
 
-.bform-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-}
-
-.bform-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-
-.bform-group label {
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: #e5e7eb;
-}
-
-.bform-group input,
-.bform-group select,
-.bform-group textarea {
-  width: 100%;
-  background-color: #f3f4f6; /* Very light gray */
-  border: 1px solid transparent;
-  border-radius: 8px;
-  padding: 1rem 1.2rem;
-  font-size: 1rem;
-  color: #1f2937;
-  font-family: 'Inter', sans-serif;
-  transition: all 0.3s ease;
-  outline: none;
-}
-
-.bform-group input::placeholder,
-.bform-group textarea::placeholder {
-  color: #9ca3af;
-}
-
-.bform-group input.placeholder,
-.bform-group select.placeholder {
-  color: #9ca3af;
-}
-
-.bform-group input:focus,
-.bform-group select:focus,
-.bform-group textarea:focus {
-  border-color: #4caa17;
-  box-shadow: 0 0 0 2px rgba(76, 170, 23, 0.2);
-}
-
-.bform-select-wrapper {
-  position: relative;
-}
-
-.bform-select-wrapper::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  right: 1.2rem;
-  transform: translateY(-50%);
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 5px solid #9ca3af;
-  pointer-events: none;
-}
-
-.bform-group select {
-  appearance: none;
-  -webkit-appearance: none;
-  padding-right: 2.5rem;
-}
-
-.bform-submit {
-  background-color: #4caa17;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 1.2rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 0.5rem;
-}
-
-.bform-submit:hover {
-  background-color: #3e8e13;
-}
-
-.bform-disclaimer {
-  text-align: center;
-  font-size: 0.85rem;
-  color: #9ca3af;
-  margin-top: 0.5rem;
-}
-
-/* Contact Card Styles */
-.bform-contact-card {
-  background-color: #4caa17;
-  border-radius: 16px;
-  padding: 2.5rem;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 20px 40px rgba(76, 170, 23, 0.2);
-}
-
-.bform-contact-card h3 {
-  font-size: 1.6rem;
-  font-weight: 500;
-  color: #fff;
+.bform__head {
   margin-bottom: 2rem;
 }
 
-.bcc-phones {
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-  margin-bottom: 2.5rem;
+.bform__head h2 {
+  margin-bottom: 0.5rem;
 }
 
-.bcc-icon {
-  color: #fff;
-  margin-top: 0.2rem;
-}
-
-.bcc-numbers {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-}
-
-.bcc-label {
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.9);
-  margin-bottom: 0.2rem;
-}
-
-.bcc-num {
-  font-size: 1.4rem;
-  font-weight: 500;
-  color: #fff;
-}
-
-.bcc-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-bottom: 2.5rem;
-}
-
-.bcc-btn {
-  background-color: #fff;
-  color: #4caa17;
-  border: none;
-  border-radius: 8px;
-  padding: 1rem;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
+.bform__group-title {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 0.8rem;
-  transition: all 0.3s ease;
+  gap: 0.75rem;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--ink);
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid var(--line);
+  margin-top: 0.75rem;
+  margin-bottom: 0.25rem;
 }
 
-.bcc-btn:hover {
-  background-color: #f0fdf4;
-  transform: translateY(-2px);
+.bform__group-title span {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: var(--primary-soft);
+  color: var(--primary-800);
+  border: 1px solid var(--primary-border);
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--r-pill);
 }
 
-.bcc-divider {
-  height: 1px;
-  background-color: rgba(255, 255, 255, 0.3);
+.bform__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.bform__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.bform__disclaimer {
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.5;
+  margin-top: 0.25rem;
+}
+
+/* Sidebar Help Card */
+.bform__aside {
+  position: sticky;
+  top: calc(var(--nav-h) + 20px);
+}
+
+.bform__help {
+  background: linear-gradient(165deg, var(--forest-2) 0%, var(--forest) 100%);
+  color: #FFFFFF;
+  border-radius: var(--r-2xl);
+  padding: clamp(1.75rem, 3vw, 2.25rem);
+  box-shadow: var(--shadow-xl);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.bform__help::before {
+  content: '';
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  right: -90px;
+  top: -90px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(22, 163, 74, 0.3) 0%, rgba(0, 0, 0, 0) 70%);
+  pointer-events: none;
+}
+
+.bform__help-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(34, 197, 94, 0.14);
+  color: #86EFAC;
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--r-pill);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.bform__help h3 {
+  color: #FFFFFF;
+  font-size: 1.45rem;
+  font-weight: 700;
+  margin-bottom: 0.45rem;
+}
+
+.bform__help > p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.94rem;
+  line-height: 1.6;
   margin-bottom: 1.5rem;
 }
 
-.bcc-hours {
+.bform__phones {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 0.95rem 1.15rem;
+  border-radius: var(--r-lg);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.bform__phones-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(34, 197, 94, 0.2);
+  color: #4ADE80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.bform__phones div {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
 }
 
-.bcc-hours-label {
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.9);
-  margin-bottom: 0.2rem;
+.bform__phones span {
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.65);
 }
 
-.bcc-hours-time {
-  font-size: 1rem;
-  font-weight: 500;
-  color: #fff;
+.bform__phones a {
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: #FFFFFF;
 }
 
-@media (max-width: 900px) {
-  .book-form-grid {
-    grid-template-columns: 1fr;
-  }
+.bform__phones a:hover {
+  color: #4ADE80;
 }
 
-@media (max-width: 640px) {
-  .bform-row {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Notification Toast Styles */
-.bform-notification {
-  position: fixed;
-  top: 30px;
-  right: 30px;
-  background-color: #111827; /* Dark charcoal */
-  border-left: 5px solid #4caa17; /* Green highlight edge */
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
+.bform__help-actions {
   display: flex;
-  align-items: flex-start;
-  gap: 1.2rem;
-  z-index: 10000;
-  max-width: 450px;
-  width: calc(100% - 60px);
-  font-family: 'Inter', sans-serif;
-  text-align: left;
+  flex-direction: column;
+  gap: 0.75rem;
+  position: relative;
+  z-index: 2;
 }
 
-.notification-icon {
-  font-size: 2.2rem;
-  line-height: 1;
-}
-
-.notification-details {
-  flex: 1;
-}
-
-.notification-details h4 {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #fff;
-  margin-bottom: 0.4rem;
-}
-
-.notification-details p {
+.bform__hours {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
   font-size: 0.9rem;
-  color: #d1d5db;
-  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.85);
 }
 
-.notification-details strong {
-  color: #4caa17;
+.bform__hours-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #86EFAC;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
 }
 
-.notification-close {
-  background: none;
-  border: none;
-  color: #9ca3af;
-  font-size: 1.6rem;
-  font-weight: 300;
-  cursor: pointer;
-  padding: 0;
-  line-height: 1;
-  transition: color 0.2s;
+.bform__hours-emergency {
+  color: #FDE68A;
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-top: 0.35rem;
 }
 
-.notification-close:hover {
-  color: #fff;
+@media (max-width: 1024px) {
+  .bform__inner {
+    grid-template-columns: 1fr;
+  }
+  .bform__aside {
+    position: static;
+  }
 }
 
 @media (max-width: 640px) {
-  .bform-notification {
-    top: 20px;
-    right: 20px;
-    left: 20px;
-    width: auto;
+  .bform__row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .bform__main {
+    padding: 1.5rem;
   }
 }
