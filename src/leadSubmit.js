@@ -87,9 +87,7 @@ const writeQueue = (list) => {
   }
 };
 
-const postToSheet = async (payload) => {
-  if (!isSheetSyncConfigured()) return { ok: false, reason: 'sheet-not-configured' };
-
+const postSheetOnce = async (payload) => {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
   try {
@@ -111,6 +109,24 @@ const postToSheet = async (payload) => {
   } finally {
     clearTimeout(timer);
   }
+};
+
+/**
+ * An Apps Script web app that has been idle cold-starts, and the first
+ * request can fail outright with "Failed to fetch". One quick retry turns
+ * that into a success instead of a queued write the customer's next visit
+ * has to repair. Repeats are harmless: the script de-duplicates on
+ * Enquiry ID, so a retry of a request that did land writes nothing.
+ */
+const postToSheet = async (payload) => {
+  if (!isSheetSyncConfigured()) return { ok: false, reason: 'sheet-not-configured' };
+
+  const first = await postSheetOnce(payload);
+  if (first.ok) return first;
+  if (first.reason !== 'network' && first.reason !== 'timeout') return first;
+
+  await new Promise((r) => setTimeout(r, 1200));
+  return postSheetOnce(payload);
 };
 
 /**

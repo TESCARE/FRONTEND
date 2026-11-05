@@ -37,11 +37,19 @@ export const validateMobile = (value) => {
   const raw = stripPhone(value);
   if (!raw) return 'Please enter your mobile number.';
   if (/[^\d+]/.test(raw)) return 'Please enter digits only.';
-  const digits = raw.replace(/^\+?91|^0/, '');
+
+  // Decide validity FIRST. Working out a digit count up front used to strip
+  // a leading "91" from numbers that merely start with those digits —
+  // 9150044725 became 50044725 — so valid numbers were rejected.
+  if (MOBILE_RE.test(raw)) return '';
+
+  // Only now, for the error message, work out what is wrong. A 91/0 prefix
+  // is only a prefix when something is left over after removing it.
+  const bare = raw.replace(/^\+/, '');
+  const digits = bare.length > 10 ? bare.replace(/^(?:91|0)/, '') : bare;
   if (digits.length < 10) return 'Mobile number must be 10 digits.';
   if (digits.length > 10) return "That's more than 10 digits.";
-  if (!MOBILE_RE.test(raw)) return 'Enter a valid Indian mobile starting 6, 7, 8 or 9.';
-  return '';
+  return 'Enter a valid Indian mobile starting 6, 7, 8 or 9.';
 };
 
 export const validateEmail = (value) => {
