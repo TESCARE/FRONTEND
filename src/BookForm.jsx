@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Phone, MessageCircle, CheckCircle2, AlertTriangle, Loader2, Clock, CalendarCheck, ArrowRight, ShieldCheck, User, Mail, MapPin, Sparkles } from 'lucide-react';
+import { Phone, MessageCircle, CheckCircle2, AlertTriangle, AlertCircle, Loader2, Clock, CalendarCheck, ArrowRight, ShieldCheck, User, Mail, MapPin, Sparkles } from 'lucide-react';
 import Reveal from './components/Reveal.jsx';
 import submitLead from './leadSubmit.js';
+import {
+  validateName, validateMobile, validateEmail,
+  runValidation, focusField, normaliseMobile,
+} from './formValidation.js';
 import './BookForm.css';
 
 const SERVICE_LABELS = {
@@ -29,6 +33,14 @@ const BookForm = () => {
   });
   const [showNotification, setShowNotification] = useState(false);
   const [status, setStatus] = useState('idle'); // idle | sending | sent | error
+  const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
+
+  const RULES = {
+    fullName: validateName,
+    mobile: validateMobile,
+    email: validateEmail,
+  };
 
   // Pick up prefill from sessionStorage if user came from instant calculator or service card
   useEffect(() => {
@@ -56,16 +68,44 @@ const BookForm = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    // Clear an error as soon as the value becomes valid, so the message
+    // disappears while typing rather than only on the next blur.
+    if (errors[name] && RULES[name] && !RULES[name](value)) {
+      setErrors((prev) => ({ ...prev, [name]: '' }));
+    }
   };
+
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    if (!RULES[name]) return;
+    setTouched((prev) => ({ ...prev, [name]: true }));
+    setErrors((prev) => ({ ...prev, [name]: RULES[name](value) }));
+  };
+
+  const fieldProps = (name) => ({
+    onChange: handleChange,
+    onBlur: handleBlur,
+    'aria-invalid': errors[name] ? 'true' : undefined,
+    'aria-describedby': errors[name] ? `${name}-error` : undefined,
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (status === 'sending') return;
+
+    const { errors: found, firstInvalid } = runValidation(formData, RULES);
+    setErrors(found);
+    setTouched({ fullName: true, mobile: true, email: true });
+    if (firstInvalid) {
+      focusField(firstInvalid);
+      return;
+    }
+
     setStatus('sending');
 
     const result = await submitLead('Booking', {
       name: formData.fullName,
-      phone: formData.mobile,
+      phone: normaliseMobile(formData.mobile) || formData.mobile,
       email: formData.email,
       city: formData.city,
       service: getPrettyService(formData.serviceType),
@@ -135,14 +175,14 @@ const BookForm = () => {
             <p>Our senior entomology technician will inspect your space, assess the root cause, and provide a transparent customized solution.</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="bform__form">
+          <form onSubmit={handleSubmit} className="bform__form" noValidate>
             {/* Group 1: Contact Details */}
             <div className="bform__group-title">
               <span>Step 1</span> Personal &amp; Contact Details
             </div>
 
             <div className="bform__row">
-              <div className="field">
+              <div className={`field ${errors.fullName ? 'field--error' : ''}`}>
                 <label htmlFor="fullName">Full Name *</label>
                 <div className="field__control field__control--icon">
                   <User />
@@ -151,14 +191,20 @@ const BookForm = () => {
                     id="fullName"
                     name="fullName"
                     placeholder="Enter your full name"
+                    autoComplete="name"
                     required
                     value={formData.fullName}
-                    onChange={handleChange}
+                    {...fieldProps('fullName')}
                   />
                 </div>
+                {errors.fullName && (
+                  <span className="field__error" id="fullName-error" role="alert">
+                    <AlertCircle size={13} /> {errors.fullName}
+                  </span>
+                )}
               </div>
 
-              <div className="field">
+              <div className={`field ${errors.mobile ? 'field--error' : ''}`}>
                 <label htmlFor="mobile">Mobile Number *</label>
                 <div className="field__control field__control--icon">
                   <Phone />
@@ -166,17 +212,25 @@ const BookForm = () => {
                     type="tel"
                     id="mobile"
                     name="mobile"
-                    placeholder="+91 8754574229"
+                    placeholder="10-digit mobile number"
+                    inputMode="tel"
+                    autoComplete="tel"
+                    maxLength={16}
                     required
                     value={formData.mobile}
-                    onChange={handleChange}
+                    {...fieldProps('mobile')}
                   />
                 </div>
+                {errors.mobile && (
+                  <span className="field__error" id="mobile-error" role="alert">
+                    <AlertCircle size={13} /> {errors.mobile}
+                  </span>
+                )}
               </div>
             </div>
 
             <div className="bform__row">
-              <div className="field">
+              <div className={`field ${errors.email ? 'field--error' : ''}`}>
                 <label htmlFor="email">Email Address *</label>
                 <div className="field__control field__control--icon">
                   <Mail />
@@ -185,11 +239,18 @@ const BookForm = () => {
                     id="email"
                     name="email"
                     placeholder="your.email@example.com"
+                    inputMode="email"
+                    autoComplete="email"
                     required
                     value={formData.email}
-                    onChange={handleChange}
+                    {...fieldProps('email')}
                   />
                 </div>
+                {errors.email && (
+                  <span className="field__error" id="email-error" role="alert">
+                    <AlertCircle size={13} /> {errors.email}
+                  </span>
+                )}
               </div>
 
               <div className="field">

@@ -1215,3 +1215,47 @@ main {
     white-space: normal;
   }
 }
+
+/* ---- Field validation state (src/formValidation.js) ---- */
+
+.field--error input,
+.field--error select,
+.field--error textarea {
+  border-color: #DC2626;
+  background: #FEF6F6;
+}
+
+.field--error input:focus,
+.field--error select:focus,
+.field--error textarea:focus {
+  border-color: #DC2626;
+  box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.14);
+}
+
+.field--error .field__control > svg {
+  color: #DC2626;
+}
+
+.field__error {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.35rem;
+  margin-top: 0.4rem;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  font-weight: 500;
+  color: #B91C1C;
+}
+
+.field__error svg {
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+
+/* Dark form panels (the service pages' booking card) need a lighter red
+   to stay readable on the deep green background. */
+.hero-dark .field__error,
+.sbc .field__error,
+.booking .field__error {
+  color: #FCA5A5;
+}

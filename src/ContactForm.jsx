@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, CheckCircle2, AlertTriangle, Loader2, MessageSquare, Phone, Clock, ShieldCheck, MessageCircle, User, Mail, Sparkles } from 'lucide-react';
+import { Send, CheckCircle2, AlertTriangle, AlertCircle, Loader2, MessageSquare, Phone, Clock, ShieldCheck, MessageCircle, User, Mail, Sparkles } from 'lucide-react';
 import Reveal from './components/Reveal.jsx';
 import submitLead from './leadSubmit.js';
+import {
+  validateName, validateMobile, validateEmail,
+  runValidation, focusField, normaliseMobile,
+} from './formValidation.js';
 import './ContactForm.css';
 
 const SERVICE_LABELS = {
@@ -19,22 +23,53 @@ const ContactForm = () => {
   const [formData, setFormData] = useState({ name: '', phone: '', email: '', service: 'cockroach', message: '' });
   const [showNotification, setShowNotification] = useState(false);
   const [status, setStatus] = useState('idle'); // idle | sending | sent | error
+  const [errors, setErrors] = useState({});
+
+  const RULES = {
+    name: validateName,
+    phone: validateMobile,
+    email: validateEmail,
+  };
 
   const getPrettyService = (service) => SERVICE_LABELS[service] || service;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    if (errors[name] && RULES[name] && !RULES[name](value)) {
+      setErrors((prev) => ({ ...prev, [name]: '' }));
+    }
   };
+
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    if (!RULES[name]) return;
+    setErrors((prev) => ({ ...prev, [name]: RULES[name](value) }));
+  };
+
+  const fieldProps = (name) => ({
+    onChange: handleChange,
+    onBlur: handleBlur,
+    'aria-invalid': errors[name] ? 'true' : undefined,
+    'aria-describedby': errors[name] ? `${name}-error` : undefined,
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (status === 'sending') return;
+
+    const { errors: found, firstInvalid } = runValidation(formData, RULES);
+    setErrors(found);
+    if (firstInvalid) {
+      focusField(firstInvalid);
+      return;
+    }
+
     setStatus('sending');
 
     const result = await submitLead('Contact', {
       name: formData.name,
-      phone: formData.phone,
+      phone: normaliseMobile(formData.phone) || formData.phone,
       email: formData.email,
       service: getPrettyService(formData.service),
       message: formData.message,
@@ -144,9 +179,9 @@ const ContactForm = () => {
             <p>Fill out the form below and we'll confirm your slot quickly.</p>
           </div>
 
-          <form className="cform__form" onSubmit={handleSubmit}>
+          <form className="cform__form" onSubmit={handleSubmit} noValidate>
             <div className="cform__row">
-              <div className="field">
+              <div className={`field ${errors.name ? 'field--error' : ''}`}>
                 <label htmlFor="name">Full Name *</label>
                 <div className="field__control field__control--icon">
                   <User />
@@ -155,14 +190,20 @@ const ContactForm = () => {
                     id="name"
                     name="name"
                     placeholder="Enter your full name"
+                    autoComplete="name"
                     value={formData.name}
-                    onChange={handleChange}
                     required
+                    {...fieldProps('name')}
                   />
                 </div>
+                {errors.name && (
+                  <span className="field__error" id="name-error" role="alert">
+                    <AlertCircle size={13} /> {errors.name}
+                  </span>
+                )}
               </div>
 
-              <div className="field">
+              <div className={`field ${errors.phone ? 'field--error' : ''}`}>
                 <label htmlFor="phone">Mobile Number *</label>
                 <div className="field__control field__control--icon">
                   <Phone />
@@ -170,17 +211,25 @@ const ContactForm = () => {
                     type="tel"
                     id="phone"
                     name="phone"
-                    placeholder="+91 8754574229"
+                    placeholder="10-digit mobile number"
+                    inputMode="tel"
+                    autoComplete="tel"
+                    maxLength={16}
                     value={formData.phone}
-                    onChange={handleChange}
                     required
+                    {...fieldProps('phone')}
                   />
                 </div>
+                {errors.phone && (
+                  <span className="field__error" id="phone-error" role="alert">
+                    <AlertCircle size={13} /> {errors.phone}
+                  </span>
+                )}
               </div>
             </div>
 
             <div className="cform__row">
-              <div className="field">
+              <div className={`field ${errors.email ? 'field--error' : ''}`}>
                 <label htmlFor="email">Email Address *</label>
                 <div className="field__control field__control--icon">
                   <Mail />
@@ -189,11 +238,18 @@ const ContactForm = () => {
                     id="email"
                     name="email"
                     placeholder="your.email@example.com"
+                    inputMode="email"
+                    autoComplete="email"
                     value={formData.email}
-                    onChange={handleChange}
                     required
+                    {...fieldProps('email')}
                   />
                 </div>
+                {errors.email && (
+                  <span className="field__error" id="email-error" role="alert">
+                    <AlertCircle size={13} /> {errors.email}
+                  </span>
+                )}
               </div>
 
               <div className="field">
