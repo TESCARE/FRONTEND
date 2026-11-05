@@ -14,3 +14,11 @@ node-v20.11.1-darwin-arm64/
 node-v20.11.1-darwin-arm64.tar.gz
 
 .env
+
+# Source video masters — unreferenced since the heroes moved to images,
+# and 357MB of them in the repo pushed the Hostinger clone past its
+# 5-minute build limit. Keep them locally, out of git.
+*.mp4
+*.mov
+*.webm
+Video/
