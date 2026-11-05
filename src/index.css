@@ -1052,9 +1052,15 @@ main {
 .toast {
   position: fixed;
   top: calc(var(--nav-h) + 16px);
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(600px, calc(100% - 2rem));
+  /* Centred with auto margins, NOT translateX(-50%): this element is a
+     framer-motion div whose slide-in writes an inline `transform`, which
+     replaced the CSS translate and left the toast starting at the middle
+     of the screen and running off the right edge on a phone. */
+  left: 1rem;
+  right: 1rem;
+  margin-inline: auto;
+  width: auto;
+  max-width: 600px;
   z-index: 1100;
   display: flex;
   gap: 1.15rem;

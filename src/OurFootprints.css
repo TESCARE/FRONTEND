@@ -112,7 +112,9 @@
    it pushed the chip past the viewport. */
 .footprints__chip span {
   min-width: 0;
-  overflow-wrap: anywhere;
+  /* break-word, not anywhere: only split a word that cannot fit at all,
+     so "Thiruvananthapuram" no longer snaps mid-syllable. */
+  overflow-wrap: break-word;
 }
 
 .footprints__chip svg {
@@ -229,5 +231,19 @@
   .footprints__chip {
     padding: 0.55rem 0.75rem;
     font-size: 0.84rem;
+  }
+}
+
+
+/* Below ~520px two columns cannot hold the longer city names on one
+   line. One column fits every name and reads better than a ragged grid. */
+@media (max-width: 520px) {
+  .footprints__chips {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.5rem;
+  }
+  .footprints__chip {
+    padding: 0.62rem 1rem;
+    font-size: 0.88rem;
   }
 }

@@ -1,87 +1,149 @@
-# Tescare — where form enquiries go
+# Tescare — enquiry capture
 
-Both enquiry forms — the booking form (`#book`) and the contact form
-(`#contact`) — send to **tescareservice@gmail.com** through
-[Web3Forms](https://web3forms.com).
+Every enquiry goes to two places at once:
 
-Nothing needs installing or deploying. The access key is already in
-`src/leadSubmit.js`, so the forms work as soon as the site is live.
+1. **Email** — tescareservice@gmail.com, via Web3Forms. *Already working.*
+2. **Google Sheet** — "TESCARE SERVICES", via an Apps Script bound to it.
+   *Needs the one-time setup below.*
 
-## What arrives
+Both carry the same **Enquiry ID**, so the sheet can tell a notification
+email apart from a row it already holds. That is what stops duplicates.
 
-One email per submission:
+---
 
-```
-Subject: New Booking enquiry — Priya Ramachandran (9150044725)
-From:    Tescare Website
-Reply-To: the customer's own email address
-
-Form: Booking
-Name: Priya Ramachandran
-Mobile: 9150044725
-Email: priya@example.com
-City: chennai
-Service: Cockroach Control (Gel & Spray)
-Property: apartment
-Preferred date: 2026-11-12
-Time slot: morning
-Message: Kitchen infestation, ground floor flat.
-Submitted from: https://.../#book
-Received: 05/11/2026, 3:40:12 pm
-```
-
-Hitting **Reply** writes straight to the customer, because `Reply-To` is
-set to the address they entered.
-
-The subject line carries the name and number, so a lead is readable from
-a phone's lock screen without opening the mail.
-
-## Key facts
-
-- **Access key:** `f4940e07-4f4b-42b8-aafe-efc508dde653`
-- The key is a *public* client key. Web3Forms keys are designed to sit in
-  frontend JavaScript; they cannot be used to read past submissions.
-- The destination address is set on the Web3Forms account that owns the
-  key — **not** in this code. Changing the address is done at
-  web3forms.com, and nobody can redirect your mail by editing the site.
-- Free tier allows 250 submissions per month.
-
-## Changing the destination
-
-Log in at [web3forms.com](https://web3forms.com) with the account the key
-belongs to and change the inbox there. No code change needed.
-
-To point the site at a *different* Web3Forms account, put that account's
-key in a `.env` file at the project root:
+## How it fits together
 
 ```
-VITE_WEB3FORMS_KEY=your-other-key-here
+  Booking form  ─┐
+                 ├─→ Web3Forms ──→ inbox ──┐
+  Contact form  ─┘                          │  (5-min sweep)
+                 └─→ Apps Script ──→ SHEET ←┘
+                        (direct)
 ```
 
-and restart `npm run dev`. `.env` is gitignored.
+The direct post fills the sheet in about a second. The Gmail sweep is the
+safety net: anything the direct post missed — browser closed mid-submit,
+network dropped, script quota hit — is recovered from the notification
+email within five minutes. The sweep also picks up **genuine enquiry
+emails from real people**, which is how email enquiries reach the sheet.
 
-## Spam protection
+Three things therefore have to go wrong at once to lose an enquiry, and
+even then the customer is shown a warning with the phone number rather
+than a false confirmation.
 
-A `botcheck` honeypot field is sent empty on every submission. Web3Forms
-rejects anything that fills it in, which stops most bots without a
-CAPTCHA.
+## The sheet
 
-## If an enquiry fails
+Spreadsheet: **TESCARE SERVICES**
+`1wjPo3R18wcFA81F6Ul9j7URSwXraYEx3LrjiHlFzZuQ`
 
-The site never shows a false confirmation. If Web3Forms does not accept
-the submission — network drop, timeout, monthly quota reached, bad key —
-the customer sees an orange warning with the Tescare phone number and
-WhatsApp link instead of a success message, so the lead is not silently
-lost.
+Columns, already created:
 
-| What the customer sees | Likely cause |
-|---|---|
-| Green "Inspection Request Received" | Delivered |
-| Orange warning | Network, timeout, quota, or an invalid key |
+| Col | Header | Notes |
+|-----|--------|-------|
+| A | Enquiry ID | `TES-20261105-K3F9`, or `EML-…` for an email with no stamp |
+| B | Customer Name | |
+| C | Mobile Number | normalised to 10 digits |
+| D | Email Address | |
+| E | Service Requested | full label, e.g. "Cockroach Control (Gel & Spray)" |
+| F | Enquiry Message | |
+| G | Source Page | the exact URL submitted from |
+| H | Enquiry Date & Time | IST |
+| I | Enquiry Status | defaults to `New` — yours to edit |
+| J | Channel | `Website` or `Email` |
+| K | City | booking form only |
+| L | Property Type | booking form only |
+| M | Preferred Date | booking form only |
+| N | Time Slot | booking form only |
 
-## Also in this folder
+Columns I and anything you add to the right are yours. The script only
+writes the headers it knows and never touches your edits.
 
-`leads-apps-script.gs` — an optional Google Apps Script that logs each
-enquiry to a Google Sheet as well as emailing it. It is **not** wired up;
-the site uses Web3Forms only. Keep it if you later want a sortable lead
-sheet rather than an inbox.
+---
+
+## Setup — about 5 minutes, once
+
+### 1. Open the script editor
+
+In the TESCARE SERVICES spreadsheet: **Extensions → Apps Script**.
+
+### 2. Paste the code
+
+Delete what is in `Code.gs` and paste the whole of
+`docs/tescare-leads.gs` from this repository. Save (Ctrl+S).
+
+### 3. Start the Gmail sweep
+
+In the function dropdown pick **installTriggers**, then **Run**.
+
+Google asks for authorisation the first time: **Review permissions** →
+pick your account → **Advanced** → **Go to … (unsafe)** → **Allow**. The
+"unsafe" warning only means the script is unpublished — it is your own.
+
+It asks for Gmail read access because that is how email enquiries reach
+the sheet.
+
+### 4. Deploy as a web app
+
+**Deploy → New deployment → ⚙ → Web app**, then:
+
+- **Execute as:** `Me`
+- **Who has access:** `Anyone` ← must be plain "Anyone", not "Anyone with
+  a Google account", or submissions from visitors are rejected
+
+Click **Deploy** and copy the **Web app URL**:
+
+```
+https://script.google.com/macros/s/AKfycb…/exec
+```
+
+### 5. Give the URL to the site
+
+Create a `.env` file in the project root:
+
+```
+VITE_SHEET_ENDPOINT=https://script.google.com/macros/s/AKfycb…/exec
+```
+
+Restart `npm run dev`. For the live site, add the same variable in
+**Vercel → Settings → Environment Variables** and redeploy.
+
+(Or paste it into `PASTED_SHEET_ENDPOINT` at the top of
+`src/leadSubmit.js` — `.env` is tidier because the URL stays out of git.)
+
+### 6. Test
+
+Submit the booking form and the contact form with real details. Each
+should produce an email within seconds and a row in the sheet with
+Channel = `Website`.
+
+Then test recovery: submit with the sheet endpoint removed from `.env`.
+No row appears at first; within five minutes the Gmail sweep files it
+with Channel = `Email` and the same Enquiry ID.
+
+---
+
+## After editing the script
+
+Editing `Code.gs` does **not** update the live endpoint. Go to
+**Deploy → Manage deployments → ✏️ → Version: New version → Deploy**.
+The URL stays the same.
+
+## Security
+
+- No credentials in frontend code. The Web3Forms access key is a public
+  client key by design; the Apps Script URL is write-only and cannot read
+  the sheet.
+- The script runs under your own Google authorisation, so no service
+  account or GCP project is needed, and nothing has standing access to
+  the spreadsheet except you.
+- `SHARED_TOKEN` in both files must match. It rejects casual junk posts
+  to the endpoint. It is visible in the bundle, so it is a speed bump,
+  not a secret — change it in both places if you ever see spam rows.
+
+## Limits
+
+- Web3Forms free tier: 250 submissions/month.
+- Apps Script: 20,000 Gmail reads/day, 90 min total runtime/day. A
+  5-minute sweep uses a tiny fraction of that.
+- The sweep looks back 7 days (`MAIL_QUERY`). Enquiry emails older than
+  that are not backfilled; widen it once if you want history imported.
