@@ -41,7 +41,7 @@ const ContactHours = () => (
         <Reveal className="card card--hover chours__tile" delay={0.05}>
           <span className="icon-box"><Phone /></span>
           <h3>Direct Call Lines</h3>
-          <a href="tel:+918754574229">+91 87545 74229</a>
+          <a href="tel:+919003328229">+91 90033 28229</a>
           <a href="tel:+919150044725">+91 91500 44725</a>
           <p>Customer support &amp; booking</p>
         </Reveal>

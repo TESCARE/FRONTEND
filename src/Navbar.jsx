@@ -108,11 +108,11 @@ const Navbar = () => {
           </nav>
 
           <div className="nav__actions">
-            <a href="tel:+918754574229" className="nav__phone" aria-label="Call Tescare helpline">
+            <a href="tel:+919003328229" className="nav__phone" aria-label="Call Tescare helpline">
               <span className="nav__phone-icon"><Phone /></span>
               <div className="nav__phone-text">
                 <span className="nav__phone-sub">24/7 Helpline</span>
-                <strong>+91 87545 74229</strong>
+                <strong>+91 90033 28229</strong>
               </div>
             </a>
 
@@ -207,8 +207,8 @@ const Navbar = () => {
                   Book Free Inspection
                 </button>
                 <div className="nav__m-contact-grid">
-                  <a href="tel:+918754574229" className="btn btn--white btn--block">
-                    <Phone size={17} /> +91 87545 74229
+                  <a href="tel:+919003328229" className="btn btn--white btn--block">
+                    <Phone size={17} /> +91 90033 28229
                   </a>
                   <a
                     href="https://wa.me/919150044725"

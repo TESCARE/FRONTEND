@@ -58,7 +58,7 @@ const LegalLayout = ({
           </div>
           <div className="legal__contact-item">
             <span>Phone</span>
-            <a href="tel:+918754574229">+91 87545 74229</a>
+            <a href="tel:+919003328229">+91 90033 28229</a>
           </div>
           <div className="legal__contact-item">
             <span>Office</span>

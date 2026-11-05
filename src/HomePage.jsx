@@ -53,11 +53,11 @@ const HomeHero = () => {
               <ArrowRight />
             </button>
             <a
-              href="tel:+918754574229"
+              href="tel:+919003328229"
               className="btn btn--outline-light btn--lg"
             >
               <Phone />
-              <span>+91 87545 74229</span>
+              <span>+91 90033 28229</span>
             </a>
           </motion.div>
         </div>

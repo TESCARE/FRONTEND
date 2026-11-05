@@ -31,7 +31,7 @@ const PageLayout = ({ children, className = '', footerCta = true }) => {
           <span className="float-btn__text">WhatsApp</span>
         </a>
         <a
-          href="tel:+918754574229"
+          href="tel:+919003328229"
           className="float-btn float-btn--call"
           aria-label="Call Tescare helpline"
         >

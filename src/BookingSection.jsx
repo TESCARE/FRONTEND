@@ -4,6 +4,7 @@ import Reveal from './components/Reveal.jsx';
 import SectionHead from './components/SectionHead.jsx';
 import './BookingSection.css';
 import navigate from './navigate.js';
+import { todayLocal, maxBookingDate } from './formValidation.js';
 
 const PEST_LIST = [
   { value: 'cockroach', label: 'Cockroach Control', mult: 1.0 },
@@ -182,7 +183,8 @@ const BookingSection = () => {
                   type="date"
                   value={bookingDate}
                   onChange={(e) => setBookingDate(e.target.value)}
-                  min={new Date().toISOString().split('T')[0]}
+                  min={todayLocal()}
+                  max={maxBookingDate()}
                 />
               </div>
             </div>
@@ -218,7 +220,7 @@ const BookingSection = () => {
                 Book This Service <ArrowRight />
               </button>
               <a
-                href="tel:+918754574229"
+                href="tel:+919003328229"
                 className="btn btn--outline-light btn--sq btn--block"
               >
                 <Phone size={17} /> Talk to Pest Specialist

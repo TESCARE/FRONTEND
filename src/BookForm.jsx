@@ -4,8 +4,9 @@ import { Phone, MessageCircle, CheckCircle2, AlertTriangle, AlertCircle, Loader2
 import Reveal from './components/Reveal.jsx';
 import submitLead from './leadSubmit.js';
 import {
-  validateName, validateMobile, validateEmail,
+  validateName, validateMobile, validateEmail, validateDate, validateTimeSlot,
   runValidation, focusField, normaliseMobile,
+  todayLocal, maxBookingDate, earliestBookingDate, availableSlots, TIME_SLOTS,
 } from './formValidation.js';
 import './BookForm.css';
 
@@ -40,7 +41,25 @@ const BookForm = () => {
     fullName: validateName,
     mobile: validateMobile,
     email: validateEmail,
+    date: validateDate,
+    timeSlot: (v) => validateTimeSlot(v, formData.date),
   };
+
+  // Slots still open for the chosen date — all of them for a future date,
+  // only the ones that have not started yet for today.
+  const openSlots = availableSlots(formData.date);
+
+  // If the visitor picks today after the morning has gone, the currently
+  // selected slot can become invalid; move them to the first open one
+  // rather than leaving an impossible choice sitting in the field.
+  useEffect(() => {
+    if (!formData.date) return;
+    const open = availableSlots(formData.date);
+    if (open.length && !open.some((s) => s.value === formData.timeSlot)) {
+      setFormData((prev) => ({ ...prev, timeSlot: open[0].value }));
+      setErrors((prev) => ({ ...prev, timeSlot: '' }));
+    }
+  }, [formData.date]);
 
   // Pick up prefill from sessionStorage if user came from instant calculator or service card
   useEffect(() => {
@@ -141,7 +160,7 @@ const BookForm = () => {
                 <h4>We couldn&rsquo;t send your request</h4>
                 <p>
                   Something went wrong on our end, so your details were not received. Please call us on{' '}
-                  <a href="tel:+918754574229"><strong>+91 87545 74229</strong></a> or{' '}
+                  <a href="tel:+919003328229"><strong>+91 90033 28229</strong></a> or{' '}
                   <a href="https://wa.me/919150044725" target="_blank" rel="noreferrer"><strong>message us on WhatsApp</strong></a>{' '}
                   and we will book your inspection right away.
                 </p>
@@ -324,7 +343,7 @@ const BookForm = () => {
             </div>
 
             <div className="bform__row">
-              <div className="field">
+              <div className={`field ${errors.date ? 'field--error' : ''}`}>
                 <label htmlFor="date">Preferred Inspection Date *</label>
                 <div className="field__control">
                   <input
@@ -333,13 +352,19 @@ const BookForm = () => {
                     name="date"
                     required
                     value={formData.date}
-                    onChange={handleChange}
-                    min={new Date().toISOString().split('T')[0]}
+                    {...fieldProps('date')}
+                    min={earliestBookingDate()}
+                    max={maxBookingDate()}
                   />
                 </div>
+                {errors.date && (
+                  <span className="field__error" id="date-error" role="alert">
+                    <AlertCircle size={13} /> {errors.date}
+                  </span>
+                )}
               </div>
 
-              <div className="field">
+              <div className={`field ${errors.timeSlot ? 'field--error' : ''}`}>
                 <label htmlFor="timeSlot">Preferred Time Slot *</label>
                 <div className="field__control">
                   <select
@@ -347,14 +372,28 @@ const BookForm = () => {
                     name="timeSlot"
                     required
                     value={formData.timeSlot}
-                    onChange={handleChange}
+                    {...fieldProps('timeSlot')}
                   >
-                    <option value="morning">Morning (9:00 AM - 12:00 PM)</option>
-                    <option value="afternoon">Afternoon (12:00 PM - 4:00 PM)</option>
-                    <option value="evening">Evening (4:00 PM - 7:30 PM)</option>
-                    <option value="anytime">Anytime / Earliest Available</option>
+                    {TIME_SLOTS.map((slot) => {
+                      const closed = !openSlots.some((o) => o.value === slot.value);
+                      return (
+                        <option key={slot.value} value={slot.value} disabled={closed}>
+                          {slot.label}{closed ? ' — already started' : ''}
+                        </option>
+                      );
+                    })}
                   </select>
                 </div>
+                {errors.timeSlot && (
+                  <span className="field__error" id="timeSlot-error" role="alert">
+                    <AlertCircle size={13} /> {errors.timeSlot}
+                  </span>
+                )}
+                {!errors.timeSlot && openSlots.length === 0 && (
+                  <span className="field__hint">
+                    Today&rsquo;s slots have all started — please choose tomorrow or later.
+                  </span>
+                )}
               </div>
             </div>
 
@@ -406,13 +445,13 @@ const BookForm = () => {
               <div className="bform__phones-icon"><Phone size={22} /></div>
               <div>
                 <span>Toll-Free &amp; Helpline</span>
-                <a href="tel:+918754574229">+91 87545 74229</a>
+                <a href="tel:+919003328229">+91 90033 28229</a>
                 <span>Direct Dispatch Support</span>
               </div>
             </div>
 
             <div className="bform__help-actions">
-              <a href="tel:+918754574229" className="btn btn--white btn--sq btn--block">
+              <a href="tel:+919003328229" className="btn btn--white btn--sq btn--block">
                 <Phone size={17} /> Call Technician Now
               </a>
               <a

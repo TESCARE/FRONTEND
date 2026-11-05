@@ -37,7 +37,7 @@ const ServiceBookingCard = ({ defaultPest = 'cockroach' }) => {
   };
 
   const handleTalkToAgent = () => {
-    window.location.href = 'tel:+918754574229';
+    window.location.href = 'tel:+919003328229';
   };
 
   return (

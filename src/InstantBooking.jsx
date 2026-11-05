@@ -5,6 +5,7 @@ import SectionHead from './components/SectionHead.jsx';
 import foggingImg from './assets/fogging-worker.png';
 import './InstantBooking.css';
 import navigate from './navigate.js';
+import { todayLocal, maxBookingDate } from './formValidation.js';
 
 const InstantBooking = () => {
   return (
@@ -97,7 +98,7 @@ const InstantBooking = () => {
               <div className="field">
                 <label>Preferred Visit Date</label>
                 <div className="field__control">
-                  <input type="date" min={new Date().toISOString().split('T')[0]} />
+                  <input type="date" min={todayLocal()} max={maxBookingDate()} />
                 </div>
               </div>
             </div>
@@ -112,7 +113,7 @@ const InstantBooking = () => {
                 <ArrowRight />
               </button>
               <a
-                href="tel:+918754574229"
+                href="tel:+919003328229"
                 className="btn btn--outline btn--sq btn--lg"
               >
                 <Phone size={17} /> Talk to Specialist
@@ -130,8 +131,8 @@ const InstantBooking = () => {
 
         <Reveal className="ib__help" delay={0.15}>
           <span>Need custom enterprise pest proofing or large residential complex quote?</span>
-          <a href="tel:+918754574229" className="ib__help-phone">
-            <Phone size={16} /> Call +91 87545 74229
+          <a href="tel:+919003328229" className="ib__help-phone">
+            <Phone size={16} /> Call +91 90033 28229
           </a>
         </Reveal>
       </div>

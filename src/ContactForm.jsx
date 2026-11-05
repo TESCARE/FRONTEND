@@ -98,7 +98,7 @@ const ContactForm = () => {
                 <h4>We couldn&rsquo;t send your enquiry</h4>
                 <p>
                   Something went wrong on our end, so your details were not received. Please call us on{' '}
-                  <a href="tel:+918754574229"><strong>+91 87545 74229</strong></a> or{' '}
+                  <a href="tel:+919003328229"><strong>+91 90033 28229</strong></a> or{' '}
                   <a href="https://wa.me/919150044725" target="_blank" rel="noreferrer"><strong>message us on WhatsApp</strong></a>{' '}
                   so we can help you straight away.
                 </p>
@@ -151,7 +151,7 @@ const ContactForm = () => {
               <span className="icon-box"><Phone /></span>
               <div>
                 <strong>Central Dispatch Helpline</strong>
-                <a href="tel:+918754574229">+91 87545 74229</a>
+                <a href="tel:+919003328229">+91 90033 28229</a>
               </div>
             </li>
           </ul>

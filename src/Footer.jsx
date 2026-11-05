@@ -52,11 +52,11 @@ const Footer = ({ cta = true }) => {
                 <ArrowRight />
               </button>
               <a
-                href="tel:+918754574229"
+                href="tel:+919003328229"
                 className="btn btn--outline-light btn--lg"
               >
                 <Phone size={17} />
-                <span>+91 87545 74229</span>
+                <span>+91 90033 28229</span>
               </a>
             </div>
           </div>
@@ -118,10 +118,10 @@ const Footer = ({ cta = true }) => {
           {/* Contact Details */}
           <div className="footer__col footer__contact">
             <h4>Emergency &amp; Support</h4>
-            <a href="tel:+918754574229" className="footer__ci">
+            <a href="tel:+919003328229" className="footer__ci">
               <Phone />
               <div>
-                <strong>+91 87545 74229</strong>
+                <strong>+91 90033 28229</strong>
                 <span>Also on +91 91500 44725</span>
               </div>
             </a>
