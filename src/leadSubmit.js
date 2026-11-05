@@ -1,27 +1,45 @@
 /**
- * leadSubmit — sends an enquiry to the Tescare lead pipeline.
+ * leadSubmit — sends an enquiry from any Tescare form to the inbox.
  *
- * The endpoint is a Google Apps Script web app bound to the Tescare
- * "Leads" spreadsheet. On each POST it appends a row AND emails the
- * enquiry to CONTACT_EMAIL, so a lead is never held in only one place.
+ * Delivery runs through Web3Forms. The access key below is the public
+ * client key (Web3Forms keys are designed to sit in frontend code); the
+ * destination address is fixed on the Web3Forms account that owns the
+ * key, so the address cannot be changed by tampering with this file.
  *
- * Setup lives in docs/LEADS_SETUP.md. Until LEADS_ENDPOINT is filled in,
- * submitLead() resolves with { ok: false, reason: 'not-configured' } and
- * the forms show their "call us instead" fallback rather than a false
- * success message.
+ * Destination: tescareservice@gmail.com
+ *
+ * submitLead resolves { ok: true } ONLY when Web3Forms confirms it
+ * accepted the submission. Every other outcome resolves ok: false, so a
+ * form never tells a customer their enquiry went through when it did
+ * not — see the error toast in BookForm / ContactForm.
  */
 
-// Paste the Apps Script web app URL between the quotes (docs/LEADS_SETUP.md
-// step 5). Setting VITE_LEADS_ENDPOINT in .env overrides it, which is the
-// tidier option for the live build.
-const PASTED_ENDPOINT = '';
+const ENDPOINT = 'https://api.web3forms.com/submit';
 
-export const LEADS_ENDPOINT = import.meta.env.VITE_LEADS_ENDPOINT || PASTED_ENDPOINT;
+export const ACCESS_KEY =
+  import.meta.env.VITE_WEB3FORMS_KEY || 'f4940e07-4f4b-42b8-aafe-efc508dde653';
 
-export const isLeadPipelineConfigured = () => /^https:\/\/\S+$/.test(LEADS_ENDPOINT.trim());
+export const DESTINATION_EMAIL = 'tescareservice@gmail.com';
+
+export const isLeadPipelineConfigured = () =>
+  /^[0-9a-f-]{36}$/i.test((ACCESS_KEY || '').trim());
+
+/** Human-readable labels, so the email body reads as prose not as keys. */
+const LABELS = {
+  name: 'Name',
+  phone: 'Mobile',
+  email: 'Email',
+  city: 'City',
+  service: 'Service',
+  propertyType: 'Property',
+  preferredDate: 'Preferred date',
+  timeSlot: 'Time slot',
+  message: 'Message',
+  pageUrl: 'Submitted from',
+};
 
 /**
- * @param {string} formName  Which form this came from, e.g. 'Booking' or 'Contact'
+ * @param {string} formName  'Booking' | 'Contact'
  * @param {object} fields    Flat key/value map of the submitted fields
  * @returns {Promise<{ok: boolean, reason?: string}>}
  */
@@ -30,38 +48,44 @@ export const submitLead = async (formName, fields) => {
     return { ok: false, reason: 'not-configured' };
   }
 
+  const ordered = {};
+  for (const key of Object.keys(LABELS)) {
+    if (fields[key]) ordered[LABELS[key]] = fields[key];
+  }
+
   const payload = {
-    form: formName,
-    submittedAt: new Date().toISOString(),
-    pageUrl: window.location.href,
-    ...fields,
+    access_key: ACCESS_KEY,
+    subject: `New ${formName} enquiry — ${fields.name || 'Website'}${fields.phone ? ` (${fields.phone})` : ''}`,
+    from_name: 'Tescare Website',
+    // Replying to the notification mails the customer directly.
+    replyto: fields.email || undefined,
+    botcheck: '',
+    'Form': formName,
+    ...ordered,
+    'Submitted from': window.location.href,
+    'Received': new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
   };
 
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 15000);
 
   try {
-    const res = await fetch(LEADS_ENDPOINT, {
+    const res = await fetch(ENDPOINT, {
       method: 'POST',
-      // text/plain is a CORS-safe content type, so the browser sends no
-      // preflight — Apps Script cannot answer an OPTIONS request.
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify(payload),
-      redirect: 'follow',
       signal: controller.signal,
     });
 
-    if (!res.ok) return { ok: false, reason: `http-${res.status}` };
-
-    const text = await res.text();
+    let data = null;
     try {
-      const data = JSON.parse(text);
-      return data && data.ok ? { ok: true } : { ok: false, reason: (data && data.error) || 'rejected' };
+      data = await res.json();
     } catch {
-      // Endpoint answered but not with JSON — treat as a failure rather
-      // than telling the customer their enquiry went through.
       return { ok: false, reason: 'bad-response' };
     }
+
+    if (res.ok && data && data.success) return { ok: true };
+    return { ok: false, reason: (data && data.message) || `http-${res.status}` };
   } catch (err) {
     return { ok: false, reason: err.name === 'AbortError' ? 'timeout' : 'network' };
   } finally {

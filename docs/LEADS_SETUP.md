@@ -1,105 +1,87 @@
-# Tescare — form lead setup
+# Tescare — where form enquiries go
 
-Every booking and contact enquiry needs to land somewhere you can see.
-This sets up one Google Apps Script that does two things on each
-submission: appends a row to a Google Sheet, and emails the enquiry to
-tescareservice@gmail.com.
+Both enquiry forms — the booking form (`#book`) and the contact form
+(`#contact`) — send to **tescareservice@gmail.com** through
+[Web3Forms](https://web3forms.com).
 
-No third-party service, no monthly cost, no API key in the public
-JavaScript bundle. You own all the data.
+Nothing needs installing or deploying. The access key is already in
+`src/leadSubmit.js`, so the forms work as soon as the site is live.
 
-**Time needed: about 10 minutes, once.**
+## What arrives
 
----
-
-## 1. Create the spreadsheet
-
-1. Go to <https://sheets.google.com> and create a blank spreadsheet.
-2. Rename it **Tescare Leads**.
-
-Do not add any headers — the script creates them on the first enquiry.
-
-## 2. Open Apps Script
-
-In that spreadsheet: **Extensions → Apps Script**.
-
-## 3. Paste the code
-
-Delete whatever is in `Code.gs`, then paste the entire contents of
-`docs/leads-apps-script.gs` from this repository. Save (Ctrl+S).
-
-## 4. Deploy it as a web app
-
-1. Click **Deploy → New deployment**.
-2. Click the gear icon next to "Select type" and choose **Web app**.
-3. Fill in:
-   - **Description:** `Tescare lead capture`
-   - **Execute as:** `Me (your@gmail.com)`
-   - **Who has access:** `Anyone`  ← this must be *Anyone*, not
-     "Anyone with Google account", or submissions from visitors will be
-     rejected.
-4. Click **Deploy**.
-5. Google asks you to authorise it. Click **Authorize access**, pick your
-   account, then **Advanced → Go to Tescare lead capture (unsafe) →
-   Allow**. The "unsafe" warning is just Google saying the script is
-   unpublished — it is your own script.
-
-Copy the **Web app URL**. It looks like:
+One email per submission:
 
 ```
-https://script.google.com/macros/s/AKfycbx..................../exec
+Subject: New Booking enquiry — Priya Ramachandran (9150044725)
+From:    Tescare Website
+Reply-To: the customer's own email address
+
+Form: Booking
+Name: Priya Ramachandran
+Mobile: 9150044725
+Email: priya@example.com
+City: chennai
+Service: Cockroach Control (Gel & Spray)
+Property: apartment
+Preferred date: 2026-11-12
+Time slot: morning
+Message: Kitchen infestation, ground floor flat.
+Submitted from: https://.../#book
+Received: 05/11/2026, 3:40:12 pm
 ```
 
-## 5. Put the URL into the website
+Hitting **Reply** writes straight to the customer, because `Reply-To` is
+set to the address they entered.
 
-Create a file named `.env` in the project root (next to `package.json`)
-containing one line:
+The subject line carries the name and number, so a lead is readable from
+a phone's lock screen without opening the mail.
+
+## Key facts
+
+- **Access key:** `f4940e07-4f4b-42b8-aafe-efc508dde653`
+- The key is a *public* client key. Web3Forms keys are designed to sit in
+  frontend JavaScript; they cannot be used to read past submissions.
+- The destination address is set on the Web3Forms account that owns the
+  key — **not** in this code. Changing the address is done at
+  web3forms.com, and nobody can redirect your mail by editing the site.
+- Free tier allows 250 submissions per month.
+
+## Changing the destination
+
+Log in at [web3forms.com](https://web3forms.com) with the account the key
+belongs to and change the inbox there. No code change needed.
+
+To point the site at a *different* Web3Forms account, put that account's
+key in a `.env` file at the project root:
 
 ```
-VITE_LEADS_ENDPOINT=https://script.google.com/macros/s/AKfyc..../exec
+VITE_WEB3FORMS_KEY=your-other-key-here
 ```
 
-Then restart the dev server (`npm run dev`) so Vite picks it up.
+and restart `npm run dev`. `.env` is gitignored.
 
-Alternatively, paste the URL into `PASTED_ENDPOINT` at the top of
-`src/leadSubmit.js` — the `.env` route is tidier because the URL stays
-out of the committed code.
+## Spam protection
 
-## 6. Test it
+A `botcheck` honeypot field is sent empty on every submission. Web3Forms
+rejects anything that fills it in, which stops most bots without a
+CAPTCHA.
 
-Fill in the booking form on the site with your own name and number and
-submit. Within a few seconds you should get:
+## If an enquiry fails
 
-- a new row in the **Leads** tab of the spreadsheet, and
-- an email titled `New Booking enquiry — <name> (<phone>)`.
+The site never shows a false confirmation. If Web3Forms does not accept
+the submission — network drop, timeout, monthly quota reached, bad key —
+the customer sees an orange warning with the Tescare phone number and
+WhatsApp link instead of a success message, so the lead is not silently
+lost.
 
----
+| What the customer sees | Likely cause |
+|---|---|
+| Green "Inspection Request Received" | Delivered |
+| Orange warning | Network, timeout, quota, or an invalid key |
 
-## If something goes wrong
+## Also in this folder
 
-The site never shows a false confirmation. If the enquiry does not
-reach the script, the visitor sees an orange warning with your phone
-number and WhatsApp link instead of a success message — so a lead is
-never silently lost.
-
-| What you see | Cause | Fix |
-|---|---|---|
-| Warning toast every time | `VITE_LEADS_ENDPOINT` not set, or dev server not restarted | Redo step 5, restart `npm run dev` |
-| Warning toast, URL is set | Deployment access is not `Anyone` | Deploy → Manage deployments → edit → set **Who has access** to `Anyone` |
-| Row appears but no email | Gmail daily quota, or it went to spam | Check spam; Apps Script free quota is 100 emails/day |
-| Nothing at all | Script not saved before deploying | Save `Code.gs`, then **Deploy → Manage deployments → edit → New version** |
-
-## After you change the script
-
-Editing `Code.gs` does **not** update the live endpoint. You must go to
-**Deploy → Manage deployments → ✏️ edit → Version: New version → Deploy**.
-The URL stays the same.
-
-## Where the data goes
-
-- **Spreadsheet** — your permanent lead record. Sort, filter, add an
-  "Assigned to" or "Status" column to the right; the script only writes
-  columns A–L and will not disturb anything you add after them.
-- **Email** — the instant ping so you can call back quickly. The subject
-  carries the name and phone number so it is readable from a phone's
-  lock screen without opening the mail.
+`leads-apps-script.gs` — an optional Google Apps Script that logs each
+enquiry to a Google Sheet as well as emailing it. It is **not** wired up;
+the site uses Web3Forms only. Keep it if you later want a sortable lead
+sheet rather than an inbox.
