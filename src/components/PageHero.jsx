@@ -7,7 +7,7 @@ import './PageHero.css';
  * PageHero — compact dark hero used by About / Book / Contact / Offers.
  * props: eyebrow, icon, title (node), text, image, benefits[], actions (node), align ('center'|'left')
  */
-const PageHero = ({ eyebrow, icon: Icon, title, text, image, benefits = [], actions, align = 'center', compact = false }) => {
+const PageHero = ({ eyebrow, icon: Icon, title, text, image, imageMobile, imageAlt = '', benefits = [], actions, align = 'center', compact = false }) => {
   const { scrollY } = useScroll();
   const yBg = useTransform(scrollY, [0, 700], [0, 60]);
   const yText = useTransform(scrollY, [0, 600], [0, -35]);
@@ -17,7 +17,13 @@ const PageHero = ({ eyebrow, icon: Icon, title, text, image, benefits = [], acti
     <section className={`hero-dark page-hero ${compact ? 'page-hero--compact' : ''} page-hero--${align}`}>
       {image && (
         <motion.div className="hero-media page-hero__media" style={{ y: yBg }}>
-          <img src={image} alt="" className="page-hero__img" fetchpriority="high" />
+          {/* A phone gets a portrait crop at a phone-sized width: the wide
+              desktop frame had to zoom ~2.7x to cover a tall narrow box,
+              and the full-size file is far more than a phone needs. */}
+          <picture>
+            {imageMobile && <source media="(max-width: 768px)" srcSet={imageMobile} />}
+            <img src={image} alt={imageAlt} className="page-hero__img" fetchpriority="high" />
+          </picture>
         </motion.div>
       )}
       <div className="hero-overlay page-hero__overlay" />
